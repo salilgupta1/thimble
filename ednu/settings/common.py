@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ednu.apps.landingpage'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -89,5 +90,6 @@ STATIC_ROOT='staticfiles'
 STATICFILES_DIRS= (
     os.path.join(BASE_DIR, "static"),
 )
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
