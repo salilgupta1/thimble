@@ -21,7 +21,7 @@ DATABASES['default'] = dj_database_url.config()
 
 INSTALLED_APPS = INSTALLED_APPS + (
 #     'lockdown',
-    'storages'
+    'storages',
 )
 
 
