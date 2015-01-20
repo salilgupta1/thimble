@@ -30,4 +30,4 @@ STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 # LOCKDOWN_PASSWORDS = (os.environ['STAGE_PASSWORD'],)
 # LOCKDOWN_FORM = 'lockdown.forms.LockdownForm'
 
-STATIC_URL = 'http://%s.s3.amazonaws.com/' % os.environ['AWS_STATIC_FILES']
+STATIC_URL = 'http://%s.s3.amazonaws.com/' % os.environ['AWS_STORAGE_BUCKET_NAME']
