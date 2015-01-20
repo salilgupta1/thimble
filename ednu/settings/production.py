@@ -21,8 +21,8 @@ DATABASES['default'] = dj_database_url.config()
 
 INSTALLED_APPS = INSTALLED_APPS + (
 #     'lockdown',
-    'storages',
-# )
+    'storages'
+)
 
 
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
