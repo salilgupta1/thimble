@@ -14,6 +14,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
 
 import dj_database_url
 DATABASES['default'] = dj_database_url.config()
@@ -30,4 +31,4 @@ STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 # LOCKDOWN_PASSWORDS = (os.environ['STAGE_PASSWORD'],)
 # LOCKDOWN_FORM = 'lockdown.forms.LockdownForm'
 
-STATIC_URL = 'http://%s.s3.amazonaws.com/' % os.environ['AWS_STORAGE_BUCKET_NAME']
+STATIC_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
