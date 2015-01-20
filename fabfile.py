@@ -1,4 +1,4 @@
-from fabric import local
+from fabric.api import local
 
 def deploy():
 	local('heroku maintenance:on')
