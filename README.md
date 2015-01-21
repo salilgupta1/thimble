@@ -1,6 +1,6 @@
 <b>Thimble</b> - An online studio for aspiring indie fashion designers to brand themselves and curate their outfits.
 
-[thimbleapp.herokuapp.com](www.thimbleapp.herokuapp.com) 
+[thimbleapp.herokuapp.com](http://thimbleapp.herokuapp.com) 
 
 <b>Dream Team: </b>
 
