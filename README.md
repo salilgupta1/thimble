@@ -1,10 +1,12 @@
-Thimble - An online studio for aspiring indie fashion designers to brand themselves and curate their outfits.
+<b>Thimble</b> - An online studio for aspiring indie fashion designers to brand themselves and curate their outfits.
 
-Dream Team: 
+[thimbleapp.herokuapp.com] (www.thimbleapp.herokuapp.com) 
 
-Nihar Bobba (Business)
-Clayton Gentry (Business)
-Salil Gupta (Developer)
-Ryan Madden (Developer)
-Henry Spindell (Developer)
+<b>Dream Team: </b>
+
+Nihar Bobba (Business)<br>
+Clayton Gentry (Business)<br>
+Salil Gupta (Developer)<br>
+Ryan Madden (Developer)<br>
+Henry Spindell (Developer)<br>
 Chacko Poothicote (Business)
