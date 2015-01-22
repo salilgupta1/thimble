@@ -11,7 +11,7 @@ def landingpage(request):
 		chimp = chimpy.Connection(os.environ['MAILCHIMP_API_KEY'])
 
 		try:
-			chimp.list_subscribe(os.environ['MAILCHIMP_LIST_ID'], email, {'FIRST': 'unit', 'LAST': 'tests'}, double_optin=False)
+			chimp.list_subscribe(os.environ['MAILCHIMP_LIST_ID'], email, {'FIRST': 'unit', 'LAST': 'tests'}, double_optin=False, send_welcome=True)
 		except:
 			context['error'] = "We're sorry, it seems there was an error. This may be because you are already signed up."
 		else:

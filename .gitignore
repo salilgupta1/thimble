@@ -60,3 +60,7 @@ docs/_build/
 #Project specific
 include/
 staticfiles/
+
+
+#Personal
+start.sh
