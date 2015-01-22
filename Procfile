@@ -1,1 +1,1 @@
-web: gunicorn ednu.wsgi 
+web: gunicorn thimble.wsgi 

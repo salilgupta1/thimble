@@ -3,9 +3,9 @@ from django.contrib import admin
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'ednu.views.home', name='home'),
+    # url(r'^$', 'thimble.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^',include('ednu.apps.landingpage.urls', namespace='landingpage')),
+    url(r'^',include('thimble.apps.landingpage.urls', namespace='landingpage')),
 )
