@@ -4,6 +4,6 @@ from django.core.context_processors import csrf
 def contests(request):
 	return render(request, 'contests/<template_name>',{})
 
-def shirts(requests):
+def shirts(request):
 	return render(request,'contests/<template_name>',{})
 
