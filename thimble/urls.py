@@ -7,6 +7,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^',include('thimble.apps.landingpage.urls', namespace='landingpage')),
-    url(r'^',include('thimble.apps.contests.urls', namespace='contests')),
+    # landing page
+    url(r'^', include('thimble.apps.landingpage.urls', namespace='landingpage')),
+    # contests
+    url(r'^mvp/', include('thimble.apps.contests.urls', namespace='contests')),
 )
