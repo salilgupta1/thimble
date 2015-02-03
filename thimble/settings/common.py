@@ -37,7 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'thimble.apps.landingpage'
+    'thimble.apps.landingpage',
+    'thimble.apps.contests'
 )
 
 MIDDLEWARE_CLASSES = (
