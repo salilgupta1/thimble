@@ -8,4 +8,5 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^',include('thimble.apps.landingpage.urls', namespace='landingpage')),
+    url(r'^',include('thimble.apps.contests.urls', namespace='contests')),
 )
