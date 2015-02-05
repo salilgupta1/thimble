@@ -63,7 +63,7 @@ hr.star-light {
 
 hr.star-light:after {
     color: #fff;
-    background-color: #18bc9c;
+    background-color: #2C3E50;
 }
 
 hr.star-primary {
@@ -83,6 +83,11 @@ header {
     text-align: center;
     color: #fff;
     background: #18bc9c;
+    background-image: url("../img/overlay.png"), url("../img/bg-magazine.png");
+    background-position: left top, center center;
+    background-repeat: repeat, no-repeat;
+    background-size: auto auto, cover;
+
 }
 
 header .container {
@@ -182,6 +187,11 @@ section h2 {
 section.success {
     color: #fff;
     background: #18bc9c;
+    background-image: url("../img/overlaay.png"), url("../img/bg-wood.jpg");
+    background-position: left top, top center;
+    background-repeat: repeat, no-repeat;
+    background-size: auto auto, cover;
+    background-attachment: fixed, fixed;
 }
 
 @media(max-width:767px) {
@@ -211,7 +221,7 @@ section.success {
     width: 100%;
     height: 100%;
     opacity: 0;
-    background: rgba(24,188,156,.9);
+    background: #2C3E50;
     -webkit-transition: all ease .5s;
     -moz-transition: all ease .5s;
     transition: all ease .5s;
@@ -274,6 +284,15 @@ section.success {
     margin-bottom: 0;
     padding-bottom: .5em;
     border-bottom: 1px solid #eee;
+}
+
+@media(min-width:767px) {
+    .floating-label-form-group {
+        width: 80%;
+        margin-right: auto;
+        margin-left: auto;
+        float: none;
+    }
 }
 
 .floating-label-form-group input,
@@ -356,6 +375,11 @@ footer .footer-below {
     text-align: center;
     font-size: 20px;
     line-height: 45px;
+}
+
+.btn-success {
+    background-color: #2C3E50;
+    border-color: #2C3E50;
 }
 
 .btn:focus,
