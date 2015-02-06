@@ -1,0 +1,27 @@
+.navbar-inverse {
+	background-color: #2C3E50;
+}
+
+.navbar li:hover {
+	background-color: white;
+}
+
+.navbar-brand:hover {
+	background-color: white !important;
+}
+
+.contest-col {
+	text-align: center;
+}
+
+.thumb-container {
+	max-width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.thumb-container img {
+	max-width: 100%;
+}
