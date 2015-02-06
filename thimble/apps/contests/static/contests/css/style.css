@@ -12,16 +12,88 @@
 
 .contest-col {
 	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .thumb-container {
 	max-width: 100%;
-	padding-top: 10px;
-	padding-bottom: 10px;
 	margin-left: auto;
 	margin-right: auto;
 }
 
 .thumb-container img {
 	max-width: 100%;
+}
+
+.vote-container {
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+.vote-container img {
+	max-width: 100%;
+	border-radius: 6px 6px 0px 0px;
+}
+
+.vote-box {
+	width: 33.33333%;
+	height: 40px;
+	float: left;
+	text-align: center;
+	cursor: pointer;
+}
+
+.vote-yes {
+	background-color: #26a65b;
+	border-radius: 0px 0px 0px 6px;
+}
+
+.info {
+	background-color: #81cfe0;
+}
+
+.vote-no {
+	background-color: #ef4836;
+	border-radius: 0px 0px 6px 0px;
+}
+
+.modal-img-wrapper {
+
+}
+
+.modal-img-wrapper img{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.modal-footer {
+	text-align: center;
+}
+
+.footer {
+	display: none;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	/* Set the fixed height of the footer here */
+	height: 60px;
+	background-color: #dadfe1;
+}
+
+.done {
+	width: 60px;
+	height: 100%;
+	text-align: center;
+	background-color: #87d37c;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.done img {
+	padding: 5px;
+	max-width: 60px;
+	max-height: 60px;
 }

@@ -5,7 +5,7 @@ def contests(request):
 	return render(request, 'contests/contests.html',{})
 
 def shirts(request):
-	return render(request,'contests/<template_name>',{})
+	return render(request,'contests/vote.html',{})
 
 def results(request):
-	return render(request,'contests/<template_name>',{})
+	return render(request,'contests/results.html',{})
