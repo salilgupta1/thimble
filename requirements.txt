@@ -1,0 +1,2 @@
+# this is for heroku when developing use requirements/development.txt
+-r requirements/production.txt

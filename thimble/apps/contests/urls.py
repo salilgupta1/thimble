@@ -1,0 +1,6 @@
+from django.conf.urls import patterns, include, url
+from thimble.apps.contests.views import views
+urlpatterns = patterns('',
+	url(r'^$', views.contests, name='contests_page'),
+	url(r'^shirts/$', views.shirts, name='shirts_contest'),
+)
