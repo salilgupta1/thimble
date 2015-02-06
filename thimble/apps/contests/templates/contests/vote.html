@@ -19,6 +19,7 @@
   <style>
   body {
     padding-top: 60px;  
+    padding-bottom: 60px;
   }
   </style>
 
@@ -58,7 +59,7 @@
         <div class="row">
           <div class="col-md-4 col-sm-6 col-xs-12 contest-col">
             <div class="vote-container">
-              <img src="http://placemi.com/400x400" alt="..." class="img-responsive">
+              <img src="{%static 'contests/imgs/top1.png'%}" alt="..." class="img-responsive">
               <div class="vote-box vote-yes">
                 <h6>Yes!</h6>
               </div>
@@ -72,7 +73,7 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12 contest-col">
             <div class="vote-container">
-              <img src="http://placemi.com/400x400" alt="..." class="img-responsive">
+              <img src="{%static 'contests/imgs/top2.png'%}" alt="..." class="img-responsive">
               <div class="vote-box vote-yes">
                 <h6>Yes!</h6>
               </div>
@@ -86,7 +87,7 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12 contest-col">
             <div class="vote-container">
-              <img src="http://placemi.com/400x400" alt="..." class="img-responsive">
+              <img src="{%static 'contests/imgs/top3.png'%}" alt="..." class="img-responsive">
               <div class="vote-box vote-yes">
                 <h6>Yes!</h6>
               </div>
@@ -100,7 +101,7 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12 contest-col">
             <div class="vote-container">
-              <img src="http://placemi.com/400x400" alt="..." class="img-responsive">
+              <img src="{%static 'contests/imgs/top4.png'%}" alt="..." class="img-responsive">
               <div class="vote-box vote-yes">
                 <h6>Yes!</h6>
               </div>
@@ -114,7 +115,7 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12 contest-col">
             <div class="vote-container">
-              <img src="http://placemi.com/400x400" alt="..." class="img-responsive">
+              <img src="{%static 'contests/imgs/top5.png'%}" alt="..." class="img-responsive">
               <div class="vote-box vote-yes">
                 <h6>Yes!</h6>
               </div>
@@ -128,7 +129,7 @@
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12 contest-col">
             <div class="vote-container">
-              <img src="http://placemi.com/400x400" alt="..." class="img-responsive">
+              <img src="{%static 'contests/imgs/top6.png'%}" alt="..." class="img-responsive">
               <div class="vote-box vote-yes">
                 <h6>Yes!</h6>
               </div>
@@ -178,7 +179,9 @@
       </div><!-- /.modal -->
       <footer class="footer">
         <div class="done">
-          <img src="{%static 'contests/imgs/check-mark.png'%}" class="">
+          <a href="{% url 'contests:results_page' %}">
+            <img src="{%static 'contests/imgs/check-mark.png'%}" class="">
+          </a>
         </div>
       </footer>
 

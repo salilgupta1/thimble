@@ -35,6 +35,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 6px 6px 0px 0px;
+	border: 1px solid #BDC3C7;
 }
 
 .vote-container img {
