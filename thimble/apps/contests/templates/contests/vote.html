@@ -178,11 +178,13 @@
         </div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
       <footer class="footer">
-        <div class="done">
-          <a href="{% url 'contests:results_page' %}">
-            <img src="{%static 'contests/imgs/check-mark.png'%}" class="">
-          </a>
-        </div>
+        <a href="{% url 'contests:results_page' %}">
+          <div class="done">
+
+            <p>Finish!</p>
+
+          </div>
+        </a>
       </footer>
 
 
