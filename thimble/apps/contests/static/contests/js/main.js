@@ -29,4 +29,10 @@ $(document).ready(function()
 		$("#modal-img").attr("src", currImg.attr('src'));
 		$('.modal').modal('show');
 	});
+
+	$('.shop-container').click(function() {
+		var currImg = $(this).children('img');
+		$("#modal-img").attr("src", currImg.attr('src'));
+		$('.modal').modal('show');
+	});
 });

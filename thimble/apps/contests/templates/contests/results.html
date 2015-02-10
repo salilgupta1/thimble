@@ -48,6 +48,7 @@
             <ul class="nav navbar-nav navbar-right">
               <li><a href="{% url 'contests:contests_page' %}">Contests</a></li>
               <li><a href="{% url 'contests:results_page' %}">Profile</a></li>
+              <li><a href="{% url 'contests:shop_page' %}">Shop</a></li>
             </ul>
           </div><!--/.navbar-collapse -->
         </div>
@@ -56,9 +57,9 @@
       <div class="container">
         <!-- Example row of columns -->
         <div class="row">
-          <div class="col-sm-8 col-xs-12 stats-col">
+          <div class="col-sm-6 col-xs-12 stats-col">
             <div class="wrapper">
-              <h2 id="results">Your Results</h2>
+              <h2 id="results">Style Profile</h2>
               <br>
               <p>Based on your style preferences we've calculated your style profile:</p>
             </div>
@@ -102,8 +103,16 @@
               <h4 class="stats-label">Complex</h4>
             </div>
           </div>
-          <div class="col-sm-4 col-xs-12 recommend-col">
-            <h4>Suggested styles:</h4>
+          <div class="col-sm-6 col-xs-12 recommend-col">
+            <h2>Shop Designs</h2>
+            <a href="{% url 'contests:shop_page' %}">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Shop!</button>
+            <br>
+            <br>            
+          </a>
+          <p>Click here to shop a variety of limited edition pieces from our independent fashion designers! You'll find winners of past week's contests as well as pieces selected just for you based on your style preferences.</p>
+          <br>
+          <h4>Suggested Pieces</h4>
             <div class="recommend-container">
               <img src="{%static 'contests/imgs/suggest1.png'%}" alt="..." class="img-responsive img-rounded">
             </div>

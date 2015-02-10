@@ -9,3 +9,6 @@ def shirts(request):
 
 def results(request):
 	return render(request,'contests/results.html',{})
+
+def shop(request):
+	return render(request,'contests/shop.html',{})
