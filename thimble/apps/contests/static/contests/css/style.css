@@ -1,5 +1,9 @@
 /* UNIVERSAL */
 
+.navbar a:visited {
+	color: white;
+}
+
 .navbar-inverse {
 	background-color: #2C3E50;
 }
