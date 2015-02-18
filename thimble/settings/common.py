@@ -38,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'thimble.apps.landingpage',
-    'thimble.apps.Users'
+    'thimble.apps.Users',
+    'thimble.apps.Portfolios',
 )
 
 MIDDLEWARE_CLASSES = (
