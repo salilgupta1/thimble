@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'thimble.apps.landingpage',
     'thimble.apps.contests',
+    'thimble.apps.Portfolios'
 )
 
 MIDDLEWARE_CLASSES = (
