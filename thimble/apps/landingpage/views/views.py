@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.core.context_processors import csrf
 import os
 import chimpy
-
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 def landingpage(request):
 	context = {}
@@ -18,3 +20,8 @@ def landingpage(request):
 			context['success'] = "Thank you for your interest in Thimble!"
 
 	return render(request, "landingpage/index.html",context)
+
+
+def cloudinarytest(request):
+	context = {}
+	return render(request, "landingpage/cloudinarytest.html",context)
