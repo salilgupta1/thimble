@@ -10,5 +10,5 @@ urlpatterns = patterns('',
     # landing page
     url(r'^', include('thimble.apps.landingpage.urls', namespace='landingpage')),
     # contests
-    url(r'^mvp/', include('thimble.apps.contests.urls', namespace='contests')),
+#    url(r'^mvp/', include('thimble.apps.contests.urls', namespace='contests')),
 )
