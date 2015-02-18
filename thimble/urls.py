@@ -12,4 +12,7 @@ urlpatterns = patterns('',
 
     # Users app
     url(r'^users/',include('thimble.apps.Users.urls', namespace="Users")),
+
+    # Portfolios app
+    url(r'^portfolios/',include('thimble.apps.Portfolios.urls', namespace="Portfolios"))
 )
