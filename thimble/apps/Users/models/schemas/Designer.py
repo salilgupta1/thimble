@@ -1,11 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from thimble.apps.Users.models.managers.DesignerManager import DesignerManager
 
 class Designer(models.Model):
 	user = models.OneToOneField(User)
 
 	# Designer specific fields
-
 	designer_id = models.AutoField(primary_key=True)
 	text_bio = models.TextField()
 
@@ -30,6 +30,8 @@ class Designer(models.Model):
 	# not required
 	location = 	models.CharField(max_length=200,blank=True)
 
+	# connect the manager
+	objects = DesignerManager()
 
 	class Meta:
 	    app_label='Users'
