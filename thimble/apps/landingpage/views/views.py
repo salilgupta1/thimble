@@ -20,8 +20,3 @@ def landingpage(request):
 			context['success'] = "Thank you for your interest in Thimble!"
 
 	return render(request, "landingpage/index.html",context)
-
-
-def cloudinarytest(request):
-	context = {}
-	return render(request, "landingpage/cloudinarytest.html",context)
