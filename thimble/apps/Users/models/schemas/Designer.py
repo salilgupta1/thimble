@@ -10,7 +10,7 @@ class Designer(models.Model):
 	text_bio = models.TextField()
 
 	# not required
-	prof_pic = models.URLField(blank=True)
+	prof_pic = models.CharField(max_length=255,blank=True)
 	
 	MALE = "M"
 	FEMALE = "F"
@@ -22,13 +22,17 @@ class Designer(models.Model):
 	        (PNT,"Prefer not to Disclose"),
 	        (OTHER,"Other"))
 
-	gender = models.CharField(max_length=2,choices = GENDER,default=MALE)
+	# not required
+	gender = models.CharField(max_length=2, choices=GENDER, default=MALE, blank=True, null=False)
 
 	# not required
 	age = models.PositiveSmallIntegerField(blank=True, null=True)
 
 	# not required
-	location = 	models.CharField(max_length=200,blank=True)
+	location = 	models.CharField(max_length=200, blank=True)
+
+	subdomain = models.SlugField(unique=True)
+	template_theme = models.CharField(max_length=30)
 
 	# connect the manager
 	objects = DesignerManager()

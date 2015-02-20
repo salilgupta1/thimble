@@ -10,7 +10,7 @@ class Entry(models.Model):
 	entry_id = models.AutoField(primary_key = True)
 	context = models.TextField(blank = True)
 	date = models.DateField(blank=True)
-	bucket_link = models.CharField(max_length=255)
+	bucket_link = models.CharField(max_length=255, null=False)
 	
 	# connect the manager
 	objects = EntryManager()
