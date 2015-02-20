@@ -3,13 +3,13 @@ from thimble.apps.Portfolios.models.managers.DesignStoryManager import DesignSto
 
 
 class DesignStory(models.Model):
-	portfolio = models.ForeignKey('Portfolios.Portfolio')
+	designer = models.ForeignKey('Users.Designer')
 	
 	# design story specific fields
 	design_story_id = models.AutoField(primary_key=True)
-	name = models.CharField(max_length=30, unique=True)
-	description = models.TextField()
-	cover_photo = models.CharField(max_length=255)
+	name = models.CharField(max_length=30)
+	description = models.TextField(null=False)
+	cover_photo = models.CharField(max_length=255, null=False)
 	date_created = models.DateField(auto_now_add=True)
 
 	# connect the manager
@@ -17,3 +17,4 @@ class DesignStory(models.Model):
 
 	class Meta:
 	    app_label='Portfolios'
+	    unique_together = ("designer","name")
