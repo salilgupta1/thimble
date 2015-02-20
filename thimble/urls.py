@@ -16,3 +16,6 @@ urlpatterns = patterns('',
     # Portfolios app
     url(r'^portfolios/',include('thimble.apps.Portfolios.urls', namespace="Portfolios"))
 )
+
+handler404 = 'thimble.views.handler404'
+handler500 = 'thimble.views.handler500'
