@@ -41,7 +41,7 @@
 
 <body id="page-top" class="index">
 
-    <form action="{% url Portfolios.views.direct_upload_complete %}" method="post">
+    <form action="{% url 'Portfolios:views.direct_upload_complete' %}" method="post">
       {% csrf_token %}
       {{ direct_form }}
       {# altenatively, use: {% cloudinary_direct_upload_field "image", request=request %} #}

@@ -48,7 +48,7 @@ def upload_prompt(request, subdomain):
   
 
 @csrf_exempt
-def direct_upload_complete(request):
+def direct_upload_complete(request, subdomain):
   form = PhotoDirectForm(request.POST)
   if form.is_valid():
     form.save()

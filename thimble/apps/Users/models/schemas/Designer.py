@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from thimble.apps.Users.models.managers.DesignerManager import DesignerManager
+from cloudinary.models import CloudinaryField
 
 class Designer(models.Model):
 	user = models.OneToOneField(User)
@@ -10,7 +11,7 @@ class Designer(models.Model):
 	text_bio = models.TextField()
 
 	# not required
-	prof_pic = models.CharField(max_length=255,blank=True)
+	prof_pic = CloudinaryField('image')
 	
 	MALE = "M"
 	FEMALE = "F"

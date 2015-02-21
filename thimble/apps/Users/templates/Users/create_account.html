@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load cloudinary %}
+{% cloudinary_includes %}
+{% cloudinary_js_config %}
+
+{% block css %}
+{% endblock %}
+
+
+{% block content %}
+<form role='form' action="{%url 'Users:create_account' %}" method='POST'>
+    {%csrf_token%}
+    {% for field in reg_form %}
+        <div class = 'form-group'>
+            <div>{{field.errors|striptags}}</div>
+            {{field.label_tag}}
+            {{field}}
+        </div>
+    {% endfor %}
+    {%for field in form%}
+        <div class = 'form-group'>
+            <div>{{field.errors|striptags}}</div>
+            {{field.label_tag}}
+            {{field}}
+        </div>
+    {%endfor%}
+    <button type = 'submit' class = 'btn btn-primary'>Register</button>
+</form>
+
+{% endblock %}
+
+
+{% block scripts %}
+{% endblock %}
