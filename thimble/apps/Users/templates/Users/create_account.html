@@ -9,6 +9,7 @@
 
 
 {% block content %}
+{%if form.non_field_errors%} <p class='error'> {{form.non_field_errors}} </p> {% endif %}
 <form role='form' action="{%url 'Users:create_account' %}" method='POST'>
     {%csrf_token%}
     {% for field in reg_form %}

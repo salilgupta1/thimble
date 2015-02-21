@@ -11,7 +11,7 @@ class Designer(models.Model):
 	text_bio = models.TextField()
 
 	# not required
-	prof_pic = CloudinaryField('image')
+	prof_pic = CloudinaryField('image', null=True, blank=True)
 	
 	MALE = "M"
 	FEMALE = "F"

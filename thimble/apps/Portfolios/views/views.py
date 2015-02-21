@@ -8,8 +8,8 @@ from django import forms
 from django.http import HttpResponse
 
 from cloudinary.forms import cl_init_js_callbacks      
-from thimble.apps.Portfolios.models.schemas.Photo import Photo
-from thimble.apps.Portfolios.forms import PhotoDirectForm
+#from thimble.apps.Portfolios.models.schemas.Photo import Photo
+#from thimble.apps.Portfolios.forms import PhotoDirectForm
 import json      
 from django import forms
 from django.http import HttpResponse
@@ -36,14 +36,14 @@ def edit_portfolio(request, subdomain):
 	pass
 
 
-def image_upload(request, subdomain):
-	return render(request, "Portfolios/image_upload.html", {})
+# def image_upload(request, subdomain):
+# 	return render(request, "Portfolios/image_upload.html", {})
 
 
-def upload_prompt(request, subdomain):
-  context = dict(direct_form = PhotoDirectForm())
-  cl_init_js_callbacks(context['direct_form'], request)
-  return render(request, 'Portfolios/upload_prompt.html', context)
+# def upload_prompt(request, subdomain):
+#   context = dict(direct_form = PhotoDirectForm())
+#   cl_init_js_callbacks(context['direct_form'], request)
+#   return render(request, 'Portfolios/upload_prompt.html', context)
 
   
 

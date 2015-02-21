@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 
 from thimble.apps.Users.forms.registration_forms import *
@@ -13,11 +14,12 @@ def create_account(request):
 			new_designer = DesignerForm.save(commit=False)
 			new_designer.user = new_user
 			new_designer.save()		
-		return render(request, "landingpage/index.html", {})
+			return HttpResponseRedirect(reverse('landingpage:landingpage'))
 	else:	
 		userForm = RegistrationForm()
 		DesignerForm = DesignerRegistrationForm()
-		context = {}
-		context["reg_form"] = userForm
-		context["form"] = DesignerForm
-		return render(request, "Users/create_account.html", context)
+	context = {}
+	context["reg_form"] = userForm
+	context["form"] = DesignerRegistrationForm
+	print 'yolo'
+	return render(request, "Users/create_account.html", context)

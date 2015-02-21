@@ -5,11 +5,11 @@ from thimble.apps.Users.models.schemas.Designer import Designer
 from django.contrib.auth.models import User
 
 class DesignerRegistrationForm(forms.ModelForm):
-  image = CloudinaryJsFileField()
+  prof_pic = CloudinaryJsFileField(required=False)
 
   class Meta:
       model = Designer
-      fields = ("subdomain","template_theme",)
+      fields = ("subdomain","template_theme","prof_pic")
 
   def __init__(self, *args, **kwargs):
   	super(DesignerRegistrationForm, self).__init__(*args, **kwargs)
