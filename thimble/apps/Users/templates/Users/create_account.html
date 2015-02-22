@@ -9,25 +9,30 @@
 
 
 {% block content %}
-{%if form.non_field_errors%} <p class='error'> {{form.non_field_errors}} </p> {% endif %}
-<form role='form' action="{%url 'Users:create_account' %}" method='POST'>
+{%if form.non_field_errors%}
+<p class='error'> {{form.non_field_errors}} </p>
+{% endif %}
+<form action="{%url 'Users:direct_upload_complete' %}" method='POST' enctype="multipart/form-data">
     {%csrf_token%}
-    {% for field in reg_form %}
+    {{ direct_form }}
+<!--     {% for field in user_form %}
         <div class = 'form-group'>
             <div>{{field.errors|striptags}}</div>
             {{field.label_tag}}
             {{field}}
         </div>
     {% endfor %}
-    {%for field in form%}
+    {%for field in designer_form%}
         <div class = 'form-group'>
             <div>{{field.errors|striptags}}</div>
             {{field.label_tag}}
             {{field}}
         </div>
-    {%endfor%}
-    <button type = 'submit' class = 'btn btn-primary'>Register</button>
+    {%endfor%} -->
+    
+<!--     <button type = 'submit' class = 'btn btn-primary'>Register</button>-->
 </form>
+
 
 {% endblock %}
 
