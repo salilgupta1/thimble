@@ -4,7 +4,7 @@ import os
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.thimbleapp.herokuapp.com']
 
 ADMINS = (
     ('Salil Gupta', 'salil.gupta323@gmail.com'),
@@ -21,14 +21,9 @@ DATABASES['default'] = dj_database_url.config()
 
 
 INSTALLED_APPS = INSTALLED_APPS + (
-#     'lockdown',
     'storages',
 )
 
-
+# static files (i.e. js, css ) served from AWS S3 Bucket
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-# MIDDLEWARE_CLASSES += ('lockdown.middleware.LockdownMiddleware', 'raygun_dot_io.middleware.RaygunDotIOMiddleware')
-# LOCKDOWN_PASSWORDS = (os.environ['STAGE_PASSWORD'],)
-# LOCKDOWN_FORM = 'lockdown.forms.LockdownForm'
-
 STATIC_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
