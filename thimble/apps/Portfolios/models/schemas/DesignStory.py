@@ -3,7 +3,7 @@ from thimble.apps.Portfolios.models.managers.DesignStoryManager import DesignSto
 
 
 class DesignStory(models.Model):
-	designer = models.ForeignKey('Users.Designer')
+	subdomain = models.ForeignKey('Users.Designer',to_field='subdomain')
 	
 	# design story specific fields
 	design_story_id = models.AutoField(primary_key=True)
@@ -17,4 +17,4 @@ class DesignStory(models.Model):
 
 	class Meta:
 	    app_label='Portfolios'
-	    unique_together = ("designer","name")
+	    unique_together = ("subdomain","name")

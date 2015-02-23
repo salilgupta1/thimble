@@ -6,8 +6,9 @@ class DesignerManager(models.Manager):
 
 	def get_portfolio_data(self, subdomain):
 		try:
-			return self.get(subdomain=subdomain).values('designer_id','template_theme')
-		except self.model.DoesNotExist:
-			return None
+			row = self.filter(subdomain=subdomain)
+			if len(row) == 0:
+				return None
+			return row[0]
 		except:
 			raise
