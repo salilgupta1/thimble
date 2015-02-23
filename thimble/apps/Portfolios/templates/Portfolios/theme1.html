@@ -1,0 +1,37 @@
+{%extends 'Portfolios/base_portfolio.html' %}
+{%load staticfiles%}
+{%block portfolio_css%}
+	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/theme1.css'%}"/>
+{%endblock%}
+
+{%block portfolio_header%}
+	<div id="prof-pic-wrapper">
+		<img src="{%static 'Users/img/user-default.png'%}" class="img-responsive img-circle">
+	</div>
+	<div id="name-wrapper">
+		<h2>{{portfolio_data.user.first_name}} {{portfolio_data.user.last_name}}</h2>
+	</div>
+	<div id="info-wrapper">
+		<p class="lead">{{portfolio_data.location}}</p>
+	</div>
+	<div id="bio-wraper">
+		<p class="lead">{{portfolio_data.text_bio}}</p>
+	</div>
+	<hr>
+{%endblock%}
+
+{%block portfolio_content%}
+	<div class="row">
+		{% if design_stories%}
+			{%for story in design_stories%}
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+					<a href="{% url 'Portfolios:render_design_story' subdomain story.design_story_id %}"><img src="http://placemi.com/800x600" class="img-responsive"></a>
+				</div>
+			{%endfor%}
+		{%else%}
+			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+				<p>Add a Design Story! (Link to create design story</p>
+			</div>
+		{%endif%}
+	</div>
+{%endblock%}

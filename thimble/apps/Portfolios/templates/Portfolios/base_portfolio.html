@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{%load staticfiles%}
+{%block app_css%}
+	<link rel='stylesheet' type='text/css' href = "{%static "Portfolios/css/main.css"%}"/>
+	{%block portfolio_css%}
+	{%endblock%}
+{%endblock%}
+
+{%block content%}
+	<div id='portfolio-header'>
+		{%block portfolio_header%}{%endblock%}
+	</div>
+	<div id='portfolio-content'>
+		{%block portfolio_content%}
+
+		{%endblock%}
+	</div>
+		{%block scripts%}
+			{%block portfolio_scripts%}{%endblock%}
+		{%endblock%}
+{%endblock%}
