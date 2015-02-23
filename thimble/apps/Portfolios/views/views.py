@@ -1,59 +1,51 @@
 from django.shortcuts import render
 from django.http import Http404
+
+from thimble.apps.Portfolios.models.schemas.Entry import Entry
 from thimble.apps.Portfolios.models.schemas.DesignStory import DesignStory
 from thimble.apps.Users.models.schemas.Designer import Designer
 
-# Cloudinary stuff
-from django import forms
-from django.http import HttpResponse
-
-from cloudinary.forms import cl_init_js_callbacks      
-#from thimble.apps.Portfolios.models.schemas.Photo import Photo
-#from thimble.apps.Portfolios.forms import PhotoDirectForm
-import json      
-from django import forms
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt      
-
+# figure out how to clear session in an appropriate manner (Salil Gupta)
 
 def render_portfolio(request, subdomain):
-	portfolio_data = Designer.objects.get_portfolio_data(subdomain)
+	# get portfolio data
+	portfolio_data = Designer.objects.get_portfolio_data(subdomain=subdomain)
 
+	# if portfolio isn't real then raise error
 	if portfolio_data == None:
 		raise Http404
 
-	design_stories = DesignStory.objects.get_design_stories(designer_id=portfolio_data[0])
+	context = {"subdomain":subdomain,"portfolio_data":portfolio_data}
 
-	if design_stories == None:
-		context = {}
-	else:
-		context = {"design_stories":design_stories}
+	# get design_stories related to portfolio
+	design_stories = DesignStory.objects.get_design_stories(subdomain=subdomain)
 
-	# load whatever theme the portfolio is .. 
-	return render(request, "Portfolios/%s.html" % portfolio_data[1], context)
+	if design_stories != None:
+		context['design_stories'] = design_stories
+
+	# save meta data for later
+	request.session['designer_name'] = portfolio_data.user.first_name +" "+ portfolio_data.user.last_name
+
+	return render(request, "Portfolios/theme1.html", context)
+
+
+def render_design_story(request,subdomain,story_id):
+
+	# get details of the specific design story
+	design_story = DesignStory.objects.get_design_story(subdomain=subdomain, design_story_id=story_id)
+
+	if design_story == None:
+		raise Http404
+
+	context = {"design_story": design_story}
+
+	# get entries associated with story
+	entries = Entry.objects.get_entries(story_id=story_id)
+
+	if entries !=None:
+		context['entries'] = entries
+
+	return render(request, "Portfolios/story.html", context)
 
 def edit_portfolio(request, subdomain):
 	pass
-
-
-# def image_upload(request, subdomain):
-# 	return render(request, "Portfolios/image_upload.html", {})
-
-
-# def upload_prompt(request, subdomain):
-#   context = dict(direct_form = PhotoDirectForm())
-#   cl_init_js_callbacks(context['direct_form'], request)
-#   return render(request, 'Portfolios/upload_prompt.html', context)
-
-  
-
-@csrf_exempt
-def direct_upload_complete(request, subdomain):
-  form = PhotoDirectForm(request.POST)
-  if form.is_valid():
-    form.save()
-    ret = dict(photo_id = form.instance.id)
-  else:
-    ret = dict(errors = form.errors)
-    
-  return HttpResponse(json.dumps(ret), content_type='application/json')
