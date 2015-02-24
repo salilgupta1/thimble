@@ -1,5 +1,6 @@
 {%extends 'Portfolios/base_portfolio.html' %}
 {%load staticfiles%}
+{% load cloudinary %}
 
 {%block portfolio_css%}
 	<link rel='stylesheet' type='text/css' href ="{%static "Portfolios/css/story.css"%}"/>
@@ -10,7 +11,7 @@
 		<h2>{{design_story.name}}</h2>
 	</div>
 	<div id="by-wrapper">
-		<img src="{%static 'Users/img/user-default.png'%}" class="img-responsive img-circle">
+		<img src="{%cloudinary_url request.session.prof_pic width='200' height='200'%}" class="img-responsive img-circle">
 		<p class="lead">By <a href="">{{ request.session.designer_name }}</a></p>
 	</div>
 	<div id="desc-wrapper">

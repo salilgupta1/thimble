@@ -1,5 +1,6 @@
 {%extends 'Portfolios/base_portfolio.html' %}
 {%load staticfiles%}
+{% load cloudinary %}
 
 {%block portfolio_css%}
 	<link rel='stylesheet' type='text/css' href ="{%static "Portfolios/css/theme2.css"%}"/>
@@ -7,7 +8,7 @@
 
 {%block portfolio_header%}
 	<div id="prof-pic-wrapper">
-		<img src="{%static 'Users/img/user-default.png'%}" class="img-responsive img-circle">
+		{% cloudinary portfolio_data.prof_pic class='img-responsive img-circle'%}
 	</div>
 	<div id="name-wrapper">
 		<h2>{{portfolio_data.user.first_name}} {{portfolio_data.user.last_name}}</h2>
