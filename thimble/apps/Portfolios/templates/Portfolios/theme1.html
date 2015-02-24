@@ -14,10 +14,10 @@
 		<h2>{{portfolio_data.user.first_name}} {{portfolio_data.user.last_name}}</h2>
 	</div>
 	<div id="info-wrapper">
-		<p class="lead">{{portfolio_data.location}}</p>
+		<p class="lead">{%if portfolio_data.location%}{{portfolio_data.location}}{%else%}Location{%endif%}</p>
 	</div>
 	<div id="bio-wraper">
-		<p class="lead">{{portfolio_data.text_bio}}</p>
+		<p class="lead">{%if portfolio_data.text_bio%}{{portfolio_data.text_bio}}{%else%}Designer Bio{%endif%}</p>
 	</div>
 	<hr>
 {%endblock%}
