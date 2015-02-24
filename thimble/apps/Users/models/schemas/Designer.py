@@ -10,8 +10,8 @@ class Designer(models.Model):
 	designer_id = models.AutoField(primary_key=True)
 	text_bio = models.TextField()
 
-	# not required
-	prof_pic = CloudinaryField('image', null=True, blank=True)
+	# Points to a Cloudinary image -- required
+	prof_pic = CloudinaryField('image')
 	
 	MALE = "M"
 	FEMALE = "F"
