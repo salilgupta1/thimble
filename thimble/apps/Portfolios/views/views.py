@@ -16,7 +16,6 @@ def render_portfolio(request, subdomain):
 		raise Http404
 
 	context = {"subdomain":subdomain,"portfolio_data":portfolio_data}
-	print portfolio_data.prof_pic
 	# get design_stories related to portfolio
 	design_stories = DesignStory.objects.get_design_stories(subdomain=subdomain)
 
@@ -34,7 +33,7 @@ def render_design_story(request,subdomain,story_id):
 
 	# get details of the specific design story
 	design_story = DesignStory.objects.get_design_story(subdomain=subdomain, design_story_id=story_id)
-	print request.session['designer_name']
+	
 	if design_story == None:
 		raise Http404
 
