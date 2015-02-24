@@ -6,6 +6,7 @@
 {%block cloudinary%}
     {% cloudinary_includes %}
     {% cloudinary_js_config %}
+
     <script>
         $(function () {
             $('#direct_upload input[type="file"]').fileupload({
@@ -19,34 +20,35 @@
             });
         });
     </script>
+    
 {% endblock %}
 
 {% block content %}
-<div id='direct_upload'>
-    <form action="{%url 'Users:create_account' %}" method='POST' enctype="multipart/form-data">
-        {%csrf_token%}
-        {% for field in user_form %}
-            <div class = 'form-group'>
-                <div>{{field.errors|striptags}}</div>
-                {{field.label_tag}}
-                {{field}}
-            </div>
-        {% endfor %}
-        {%for field in designer_form%}
-            <div class = 'form-group'>
-                <div>{{field.errors|striptags}}</div>
-                {{field.label_tag}}
-                {{field}}
-            </div>
-        {%endfor%} 
-        <button type = 'submit' class = 'btn btn-primary'>Register</button>
-    </form>
-</div>
-<div class='status'>
-    <h2>Status</h2>
-    <div class='status_value'>
-        {{error}}
+    <div id='direct_upload'>
+        <form action="{%url 'Users:create_account' %}" method='POST' enctype="multipart/form-data">
+            {%csrf_token%}
+            {% for field in user_form %}
+                <div class = 'form-group'>
+                    <div>{{field.errors|striptags}}</div>
+                    {{field.label_tag}}
+                    {{field}}
+                </div>
+            {% endfor %}
+            {%for field in designer_form%}
+                <div class = 'form-group'>
+                    <div>{{field.errors|striptags}}</div>
+                    {{field.label_tag}}
+                    {{field}}
+                </div>
+            {%endfor%} 
+            <button type = 'submit' class = 'btn btn-primary'>Register</button>
+        </form>
     </div>
-</div>
+    <div class='status'>
+        <h2>Status</h2>
+        <div class='status_value'>
+            {{error}}
+        </div>
+    </div>
 
 {% endblock %}
