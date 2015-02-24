@@ -7,6 +7,3 @@ urlpatterns = patterns('',
 	url(r'^edit/$', views.edit_portfolio, name='edit_portfolio'),
 	url(r'^story/(?P<story_id>[0-9]+)/$', views.render_design_story, name='render_design_story'),
 )
-
-#(?P<story_id>[0-9]+)/
-#{% url 'Portfolios:render_design_story' %}
