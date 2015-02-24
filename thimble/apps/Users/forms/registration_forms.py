@@ -1,22 +1,15 @@
 from django import forms      
 from django.contrib.auth.forms import UserCreationForm
-from cloudinary.forms import CloudinaryJsFileField      
-from thimble.apps.Users.models.schemas.Designer import *
 from django.contrib.auth.models import User
 
-
-class PhotoForm(forms.ModelForm):
-  class Meta:
-    model = Photo
-
-class PhotoDirectForm(PhotoForm):
-  image = CloudinaryJsFileField(options={'folder':'test','public_id':'bird'})
+from cloudinary.forms import CloudinaryJsFileField 
+from thimble.apps.Users.models.schemas.Designer import Designer
 
 
 class DesignerRegistrationForm(forms.ModelForm):
 
   # pass the folder and public_id attribute in upon upload
-  prof_pic = CloudinaryJsFileField(required=False, options={'folder':'test', 'public_id':'test_id'})
+  prof_pic = CloudinaryJsFileField()
 
   class Meta:
       model = Designer

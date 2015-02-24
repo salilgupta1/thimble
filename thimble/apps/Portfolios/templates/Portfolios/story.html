@@ -1,0 +1,52 @@
+{%extends 'Portfolios/base_portfolio.html' %}
+{%load staticfiles%}
+
+{%block portfolio_css%}
+	<link rel='stylesheet' type='text/css' href ="{%static "Portfolios/css/story.css"%}"/>
+{%endblock%}
+
+{%block portfolio_header%}
+	<div id="name-wrapper">
+		<h2>{{design_story.name}}</h2>
+	</div>
+	<div id="by-wrapper">
+		<img src="{%static 'Users/img/user-default.png'%}" class="img-responsive img-circle">
+		<p class="lead">By <a href="">{{ request.session.designer_name }}</a></p>
+	</div>
+	<div id="desc-wrapper">
+		<h3>About this piece</h3>
+		<p class="lead">{{design_story.description}}</p>
+	</div>
+	</div>
+{%endblock%}
+
+
+{%block portfolio_content%}
+	<div id="chapter-list">
+		{%for chapter in entries%}
+			<div id="date-wrapper">
+				<!-- TODO get date of entry -->
+				<p class="lead text-center">{{chapter.date}}</p>
+			</div>
+			<div class="row">
+				<div class="col-xs-12 cover-img">
+					<!-- TODO get cover image -->
+					<img src="http://placemi.com/800x600" class="img-responsive">
+				</div>
+			</div>
+			<div class="row">
+				{#{%for img in entries.figure out how to use cloudinary%}#}
+					<div class="col-xs-4 col-sm-3 col-lg-2">
+						<!-- TODO put img in src here -->
+						<img src="http://placemi.com/800x600" class="img-responsive">
+					</div>
+				{#{%endfor%}#}
+			</div>
+			<div class="content-wrapper">
+				<!-- TODO  put chapter description in this p tag -->
+				<p class="lead text-justify">{{chapter.context}}</p>
+				<h1 class="text-center"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></h1>
+			</div>
+		{%endfor%}
+	</div>
+{%endblock%}

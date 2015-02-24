@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+
+from django.contrib.auth import authenticate, login
+
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 
@@ -11,47 +14,35 @@ from cloudinary.forms import cl_init_js_callbacks
 
 def create_account(request):
 
-	# userForm = RegistrationForm()
-	# designerForm = DesignerRegistrationForm()
-	# context = dict(
-	# 	user_form = userForm,
-	# 	designer_form = designerForm
-	# )
+	context = {}
+	if request.method == "POST":
+		user_form = RegistrationForm(request.POST)
+		designer_form = DesignerRegistrationForm(request.POST)
 
-	direct_form = PhotoDirectForm()
-	context = dict(
-		direct_form = direct_form,
-	)
-	# When using direct upload - the following call in necessary to update the form's callback url cl_init_js_callbacks(context['designer_form'], request)
-	cl_init_js_callbacks(context['direct_form'], request)
+		if user_form.is_valid() and designer_form.is_valid():
+			# create an instance of the user model
+			new_user = user_form.save()
+
+			# create an instance of the designer model
+			new_designer = designer_form.save(commit=False)
+
+			# attach the user to the designer model
+			new_designer.user = new_user
+			new_designer.save()
+
+			# login user after account is created  
+			user = authenticate(new_user.username, new_user.password)
+			login(request,user)
+
+			# send them to edit their profile
+			return HttpResponseRedirect(reverse('Portfolios:edit_portfolio', args=(request.POST['subdomain'],)))
+		else:
+			context['error'] = dict(user_form.errors.items() + designer_form.errors.items())
+	else:
+		user_form = RegistrationForm()
+		designer_form = DesignerRegistrationForm()
+		context = {'user_form':user_form,'designer_form':designer_form}
+		cl_init_js_callbacks(context['designer_form'], request)
 
 	return render(request, "Users/create_account.html", context)
 
-@csrf_exempt
-def direct_upload_complete(request):
-	form = PhotoDirectForm(request.POST)
-	if form.is_valid():
-		# Create a model instance for uploaded image using the provided data
-		form.save()
-	else:
-		print form.errors
-
-	return HttpResponseRedirect(reverse('landingpage:landingpage'))
-
-
-# @csrf_exempt
-# def direct_upload_complete(request):
-# 	userForm = RegistrationForm(request.POST)
-# 	designerForm = DesignerRegistrationForm(request.POST)
-
-# 	if userForm.is_valid() and designerForm.is_valid():
-# 		new_user = userForm.save()
-# 		new_designer = designerForm.save(commit=False)
-# 		new_designer.user = new_user
-# 		new_designer.save()
-# 		print new_designer.user.username #success
-# 		print new_designer.prof_pic # this is null
-# 	else:
-# 		print "invalid form data"
-	
-# 	return HttpResponseRedirect(reverse('landingpage:landingpage'))
