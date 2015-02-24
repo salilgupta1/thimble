@@ -35,7 +35,7 @@ def create_account(request):
 			login(request,user)
 
 			# send them to edit their profile
-			return HttpResponseRedirect(reverse('Portfolios:edit_portfolio', args=(request.POST['subdomain'],)))
+			return HttpResponseRedirect(reverse('Portfolios:render_portfolio', args=(request.POST['subdomain'],)))
 		else:
 			context['error'] = dict(user_form.errors.items() + designer_form.errors.items())
 	else:
