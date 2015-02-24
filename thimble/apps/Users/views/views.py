@@ -31,7 +31,7 @@ def create_account(request):
 			new_designer.save()
 
 			# login user after account is created  
-			user = authenticate(username=new_user.username, password=new_user.password)
+			user = authenticate(username=user_form.cleaned_data['username'], password=user_form.cleaned_data['password1'])
 			login(request,user)
 
 			# send them to edit their profile
