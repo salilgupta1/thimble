@@ -28,16 +28,10 @@
 
 {%block portfolio_content%}
 	<div class="row">
-		{% if design_stories%}
-			{%for story in design_stories%}
-				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-					<a href="{% url 'Portfolios:render_design_story' subdomain story.design_story_id%}"><img src="http://placemi.com/800x600" class="img-responsive"></a>
-				</div>
-			{%endfor%}
-		{%else%}
+		{%for story in design_stories%}
 			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-				<p>Add a Design Story! (Link to create design story</p>
+				<a href="{% url 'Portfolios:render_design_story' subdomain story.design_story_id%}"><img src="http://placemi.com/800x600" class="img-responsive"></a>
 			</div>
-		{%endif%}
+		{%endfor%}
 	</div>
 {%endblock%}
