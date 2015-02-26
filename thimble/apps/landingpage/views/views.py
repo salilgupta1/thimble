@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.core.context_processors import csrf
 import os
 import chimpy
-
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 def landingpage(request):
 	context = {}

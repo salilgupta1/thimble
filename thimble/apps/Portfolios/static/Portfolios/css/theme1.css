@@ -1,0 +1,28 @@
+#portfolio-header {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	text-align: center;
+
+}
+
+#portfolio-header > div {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#prof-pic-wrapper {
+	max-width: 150px;	
+}
+
+.row > div {
+	padding-bottom: 30px;
+}
+
+.row > div > img {
+	margin-left: auto;
+	margin-right: auto;
+}
+
