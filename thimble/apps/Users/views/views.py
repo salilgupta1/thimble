@@ -40,7 +40,7 @@ def create_account(request):
 	else:
 		user_form = RegistrationForm()
 		designer_form = DesignerRegistrationForm()
-		context = {'user_form':user_form,'designer_form':designer_form, 'subdomain':subdomain}
+		context = {'user_form':user_form,'designer_form':designer_form}
 		cl_init_js_callbacks(context['designer_form'], request)
 
 	return render(request, "Users/create_account.html", context)

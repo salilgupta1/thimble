@@ -4,6 +4,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from cloudinary.forms import cl_init_js_callbacks
+from cloudinary.uploader import rename
+
 # models
 from thimble.apps.Portfolios.models.schemas.Entry import Entry
 from thimble.apps.Portfolios.models.schemas.DesignStory import DesignStory
@@ -12,9 +14,10 @@ from thimble.apps.Users.models.schemas.Designer import Designer
 # forms 
 from thimble.apps.Portfolios.forms.create_forms import *
 
+
 # figure out how to clear session in an appropriate manner (Salil Gupta)
 
-def render_portfolio(request, subdomain, isEditMode=False):
+def render_portfolio(request, subdomain, isEditMode=True):
 	portfolio_data = Designer.objects.get_portfolio_data(subdomain=subdomain)
 
 	# if portfolio isn't real then raise error
@@ -28,7 +31,14 @@ def render_portfolio(request, subdomain, isEditMode=False):
 
 	if design_stories != None:
 		context['design_stories'] = design_stories
+		context['cover_photos'] = []
+		for design_story in design_stories:
+			cover_photo = Entry.objects.get_cover_photos(design_story['design_story_id'])[0]
+			context['cover_photos'].append(cover_photo)
 
+		context['stories'] = zip(context['design_stories'],context['cover_photos'])
+		del context['cover_photos']
+		del context['design_stories']
 	# save meta data for later 
 	# fix to clear out sessions when a different designer is uploaded
 	request.session['designer_name'] = portfolio_data.user.first_name +" "+ portfolio_data.user.last_name
@@ -52,15 +62,17 @@ def render_design_story(request,subdomain,story_id):
 	if entries !=None:
 		context['entries'] = entries
 
+	context['subdomain'] = subdomain
+
 	return render(request, "Portfolios/story.html", context)
 
 # security issue? How to cross check user???
-@login_required
+
 def edit_portfolio(request, subdomain):
 	return render_portfolio(request, subdomain, True)
 
 # security issue? How to cross check user???
-@login_required
+
 def create_design_story(request, subdomain):
 	context = {}
 	if request.method == "POST":
@@ -83,8 +95,15 @@ def create_design_story(request, subdomain):
 			
 			bucket_link = "%s/%s/%s" % (subdomain, new_design_story.design_story_id,e_id)
 			new_entry.bucket_link  = bucket_link
-
 			new_entry.save()
+
+			photos = request.POST.getlist('entry_photos')
+			i = 0
+			for photo in photos:
+				p = photo.split("/")[3]
+				p = p.split('#')[0].split('.')[0]
+				rename(p,"%s/%s"%(bucket_link,i))
+				i+=1
 
 			return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(subdomain, new_design_story.pk)))
 		else:
@@ -95,8 +114,6 @@ def create_design_story(request, subdomain):
 		context = {'entry_form':entry_form,'design_story_form':design_story_form, "subdomain":subdomain}
 		cl_init_js_callbacks(context['entry_form'], request)
 	return render(request, "Portfolios/create_design_story.html",context)
-
-
 
 
 
