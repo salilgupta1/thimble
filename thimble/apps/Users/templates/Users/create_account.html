@@ -23,6 +23,10 @@
     
 {% endblock %}
 
+{%block users_css%}
+    <link rel='stylesheet' type='text/css' href ="{%static 'Users/css/login.css'%}"/>
+{%endblock%}
+
 {% block content %}
     <div id='direct_upload'>
         <form action="{%url 'Users:create_account' %}" method='POST' enctype="multipart/form-data">
