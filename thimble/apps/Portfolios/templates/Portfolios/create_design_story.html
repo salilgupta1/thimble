@@ -12,14 +12,17 @@
             $('#direct_upload input[type="file"]').fileupload({
                 dropZone: '#direct_upload',
 
-                progress: function () {
-                    $('.status_value').text('Uploading...');
-                },
             }).on('cloudinarydone', function (e, data) {
-                $('.status_value').text('Upload Complete! Finish creating your account by clicking Register');
+                $('.status').show();  
+                var x = $(this).attr('data-cloudinary-field');
+                $('.status').append(x+' upload complete!\n');
+            
                 photos_upload++;
-                console.log(photos_upload);
                 $("#id_num_photos").val(photos_upload);
+                if(photos_upload > 0)
+                {
+                    $("button").attr("disabled",false);
+                }
             });
         });
 
@@ -28,7 +31,9 @@
 {% endblock %}
 
 {%block portfolio_content%}
-	<div id="direct_upload" class="row" style="width:30%; margin:0 auto">
+	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
+        <h2> Create A Design Story</h2>
+        {{error}}
 		<form method='post' action="{%url 'Portfolios:create_design_story' subdomain%}">
 			{%csrf_token%}
             {% for field in design_story_form %}
@@ -38,6 +43,7 @@
                     {{field}}
                 </div>
             {% endfor %}
+            <h3>Add an Entry into the Story</h3>
             {%for field in entry_form%}
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>
@@ -47,11 +53,11 @@
                     {{field}}
                 </div>
             {%endfor%} 
-            <button type = 'submit' class = 'btn btn-primary'>Create</button>
+            <button type = 'submit' class = 'btn btn-primary' disabled='true'>Create</button>
 		</form>
+        <div class='status' hidden='true'>
+            <h3>Photo Upload Status</h3>
+        </div>
 	</div>
-    <div class='status'>
-        <h3>Status</h3>
-        <div class='status_value'></div>
-    </div>
+
 {%endblock%}

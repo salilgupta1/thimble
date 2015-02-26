@@ -3,6 +3,8 @@ from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
+
+# cloudinary
 from cloudinary.forms import cl_init_js_callbacks
 from cloudinary.uploader import rename
 
@@ -39,6 +41,7 @@ def render_portfolio(request, subdomain, isEditMode=True):
 		context['stories'] = zip(context['design_stories'],context['cover_photos'])
 		del context['cover_photos']
 		del context['design_stories']
+	
 	# save meta data for later 
 	# fix to clear out sessions when a different designer is uploaded
 	request.session['designer_name'] = portfolio_data.user.first_name +" "+ portfolio_data.user.last_name
@@ -74,7 +77,7 @@ def edit_portfolio(request, subdomain):
 # security issue? How to cross check user???
 
 def create_design_story(request, subdomain):
-	context = {}
+	context = {'subdomain':subdomain}
 	if request.method == "POST":
 		design_story_form = DesignStoryForm(request.POST)
 		entry_form = EntryForm(request.POST)
@@ -111,7 +114,8 @@ def create_design_story(request, subdomain):
 	else:
 		design_story_form = DesignStoryForm()
 		entry_form = EntryForm()
-		context = {'entry_form':entry_form,'design_story_form':design_story_form, "subdomain":subdomain}
+		context['entry_form']=entry_form
+		context['design_story_form']=design_story_form
 		cl_init_js_callbacks(context['entry_form'], request)
 	return render(request, "Portfolios/create_design_story.html",context)
 
