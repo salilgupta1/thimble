@@ -8,7 +8,7 @@
 
 {%block portfolio_header%}
 	<div id="prof-pic-wrapper">
-		{% cloudinary portfolio_data.prof_pic class='img-responsive img-circle'%}
+		{% cloudinary portfolio_data.prof_pic class='img-responsive img-circle' nopin="nopin"%}
 	</div>
 	<div id="name-wrapper">
 		<h2>{{portfolio_data.user.first_name}} {{portfolio_data.user.last_name}}</h2>
