@@ -4,6 +4,7 @@ from thimble.apps.Portfolios.views import views
 
 urlpatterns = patterns('',
 	url(r'^$', views.render_portfolio, name='render_portfolio'),
+	url(r'^create_design_story/$', views.create_design_story, name='create_design_story'),
 	url(r'^edit/$', views.edit_portfolio, name='edit_portfolio'),
 	url(r'^story/(?P<story_id>[0-9]+)/$', views.render_design_story, name='render_design_story'),
 )

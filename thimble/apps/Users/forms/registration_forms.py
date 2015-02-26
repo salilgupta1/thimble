@@ -9,7 +9,7 @@ from thimble.apps.Users.models.schemas.Designer import Designer
 class DesignerRegistrationForm(forms.ModelForm):
 
   # pass the folder and public_id attribute in upon upload
-  prof_pic = CloudinaryJsFileField()
+  prof_pic = CloudinaryJsFileField(attrs={'multiple':1})
 
   class Meta:
       model = Designer
