@@ -1,5 +1,5 @@
 from django import forms      
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 from cloudinary.forms import CloudinaryJsFileField 
@@ -35,3 +35,8 @@ class RegistrationForm(UserCreationForm):
         super(RegistrationForm,self).__init__(*args,**kwargs)
         for fields in self.fields.items():
             fields[1].widget.attrs.update({'class':'form-control'})  
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(max_length=15,error_messages={'required':'Please input a username'}, widget = forms.TextInput(attrs={'class' : 'form-control'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs = {"class":"form-control"}),error_messages = {'required':'Please Input a password'})

@@ -19,7 +19,7 @@ from thimble.apps.Portfolios.forms.create_forms import *
 
 # figure out how to clear session in an appropriate manner (Salil Gupta)
 
-def render_portfolio(request, subdomain, isEditMode=True):
+def render_portfolio(request, subdomain, isEditMode=False):
 	portfolio_data = Designer.objects.get_portfolio_data(subdomain=subdomain)
 
 	# if portfolio isn't real then raise error
@@ -42,8 +42,9 @@ def render_portfolio(request, subdomain, isEditMode=True):
 		del context['cover_photos']
 		del context['design_stories']
 	
-	# save meta data for later 
 	# fix to clear out sessions when a different designer is uploaded
+	# will cause a bug fix later (Salil Gupta)
+
 	request.session['designer_name'] = portfolio_data.user.first_name +" "+ portfolio_data.user.last_name
 	request.session['prof_pic'] = portfolio_data.prof_pic.public_id
 
@@ -69,59 +70,64 @@ def render_design_story(request,subdomain,story_id):
 
 	return render(request, "Portfolios/story.html", context)
 
-# security issue? How to cross check user???
 
+@login_required
 def edit_portfolio(request, subdomain):
-	return render_portfolio(request, subdomain, True)
-
-# security issue? How to cross check user???
-
-def create_design_story(request, subdomain):
-	context = {'subdomain':subdomain}
-	if request.method == "POST":
-		design_story_form = DesignStoryForm(request.POST)
-		entry_form = EntryForm(request.POST)
-
-		if design_story_form.is_valid() and entry_form.is_valid():
-
-			# create an instance of the of design_story_model model
-			new_design_story = design_story_form.save(commit=False)
-			new_design_story.designer = request.user.designer
-			new_design_story.save()
-
-			# create an instance of the entry model
-			new_entry = entry_form.save(commit=False)
-			new_entry.design_story = new_design_story
-			new_entry.save()
-
-			e_id = new_entry.entry_id
-			
-			bucket_link = "%s/%s/%s" % (subdomain, new_design_story.design_story_id,e_id)
-			new_entry.bucket_link  = bucket_link
-			new_entry.save()
-
-			photos = request.POST.getlist('entry_photos')
-			i = 0
-			for photo in photos:
-				p = photo.split("/")[3]
-				p = p.split('#')[0].split('.')[0]
-				rename(p,"%s/%s"%(bucket_link,i))
-				i+=1
-
-			return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(subdomain, new_design_story.pk)))
-		else:
-			context['error'] = dict(design_story_form.errors.items() + entry_form.errors.items())
+	# user must be logged in and must be accessing personal portfolio
+	# not someone else's
+	if request.user.designer.subdomain == subdomain:
+		return render_portfolio(request, subdomain, True)
 	else:
-		design_story_form = DesignStoryForm()
-		entry_form = EntryForm()
-		context['entry_form']=entry_form
-		context['design_story_form']=design_story_form
-		cl_init_js_callbacks(context['entry_form'], request)
-	return render(request, "Portfolios/create_design_story.html",context)
+		raise Http404
 
+@login_required 
+def create_design_story(request, subdomain):
+	if request.user.designer.subdomain == subdomain:
+		context = {'subdomain':subdomain}
+		if request.method == "POST":
+			# form is posted
+			design_story_form = DesignStoryForm(request.POST)
+			entry_form = EntryForm(request.POST)
 
+			if design_story_form.is_valid() and entry_form.is_valid():
 
+				# create an instance of the of design_story_model model
+				new_design_story = design_story_form.save(commit=False)
+				new_design_story.designer = request.user.designer
+				new_design_story.save()
 
+				# create an instance of the entry model
+				new_entry = entry_form.save(commit=False)
+				new_entry.design_story = new_design_story
+				new_entry.save()
 
+				e_id = new_entry.entry_id
+				
+				# update the bucket link
+				bucket_link = "%s/%s/%s" % (subdomain, new_design_story.design_story_id,e_id)
+				new_entry.bucket_link  = bucket_link
+				new_entry.save()
 
+				# rename photos pushed to cloudinary
+				photos = request.POST.getlist('entry_photos')
+				i = 0
+				for photo in photos:
+					p = photo.split("/")[3]
+					p = p.split('#')[0].split('.')[0]
+					rename(p,"%s/%s"%(bucket_link,i))
+					i+=1
 
+				return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(subdomain, new_design_story.pk)))
+			else:
+				context['error'] = dict(design_story_form.errors.items() + entry_form.errors.items())
+		else:
+			# page is being "getted"
+			design_story_form = DesignStoryForm()
+			entry_form = EntryForm()
+			context['entry_form']=entry_form
+			context['design_story_form']=design_story_form
+			cl_init_js_callbacks(context['entry_form'], request)
+		return render(request, "Portfolios/create_design_story.html",context)
+
+	else:
+		raise Http404

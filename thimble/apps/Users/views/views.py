@@ -21,7 +21,6 @@ def create_account(request):
 			# create an instance of the user model
 			new_user = user_form.save()
 
-			
 			# create an instance of the designer model
 			new_designer = designer_form.save(commit=False)
 
