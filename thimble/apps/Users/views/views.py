@@ -5,7 +5,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login
 
 from django.core.context_processors import csrf
-from django.views.decorators.csrf import csrf_exempt
 
 from thimble.apps.Users.forms.registration_forms import *
 
@@ -18,7 +17,6 @@ def create_account(request):
 	if request.method == "POST":
 		user_form = RegistrationForm(request.POST)
 		designer_form = DesignerRegistrationForm(request.POST)
-
 		if user_form.is_valid() and designer_form.is_valid():
 			# create an instance of the user model
 			new_user = user_form.save()
@@ -35,7 +33,7 @@ def create_account(request):
 			login(request,user)
 
 			# send them to edit their profile
-			return HttpResponseRedirect(reverse('Portfolios:render_portfolio', args=(request.POST['subdomain'],)))
+			return HttpResponseRedirect(reverse('Portfolios:edit_portfolio', args=(request.POST['subdomain'],)))
 		else:
 			context['error'] = dict(user_form.errors.items() + designer_form.errors.items())
 	else:

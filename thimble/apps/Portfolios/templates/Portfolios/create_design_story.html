@@ -1,0 +1,63 @@
+{%extends 'Portfolios/base_portfolio.html' %}
+{%load staticfiles%}
+{% load cloudinary %}
+
+{%block cloudinary%}
+    {% cloudinary_includes %}
+    {% cloudinary_js_config %}
+
+    <script>
+        var photos_upload = -1;
+        $(function () {
+            $('#direct_upload input[type="file"]').fileupload({
+                dropZone: '#direct_upload',
+
+            }).on('cloudinarydone', function (e, data) {
+                $('.status').show();  
+                var x = $(this).attr('data-cloudinary-field');
+                $('.status').append(x+' upload complete!\n');
+            
+                photos_upload++;
+                $("#id_num_photos").val(photos_upload);
+                if(photos_upload > 0)
+                {
+                    $("button").attr("disabled",false);
+                }
+            });
+        });
+
+    </script>
+    
+{% endblock %}
+
+{%block portfolio_content%}
+	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
+        <h2> Create A Design Story</h2>
+        {{error}}
+		<form method='post' action="{%url 'Portfolios:create_design_story' subdomain%}">
+			{%csrf_token%}
+            {% for field in design_story_form %}
+                <div class = 'form-group'>
+                    <div>{{field.errors|striptags}}</div>
+                    {{field.label_tag}}
+                    {{field}}
+                </div>
+            {% endfor %}
+            <h3>Add an Entry into the Story</h3>
+            {%for field in entry_form%}
+                <div class = 'form-group'>
+                    <div>{{field.errors|striptags}}</div>
+                    {% if not field.field.is_hidden %}
+                        {{field.label_tag}}
+                    {% endif %}
+                    {{field}}
+                </div>
+            {%endfor%} 
+            <button type = 'submit' class = 'btn btn-primary' disabled='true'>Create</button>
+		</form>
+        <div class='status' hidden='true'>
+            <h3>Photo Upload Status</h3>
+        </div>
+	</div>
+
+{%endblock%}

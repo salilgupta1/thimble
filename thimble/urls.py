@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^', include('thimble.apps.landingpage.urls', namespace='landingpage')),
 
     # Users app
-    url(r'^users/',include('thimble.apps.Users.urls', namespace="Users")),
+    url(r'^accounts/',include('thimble.apps.Users.urls', namespace="Users")),
 
     # Portfolios app
     url(r'^portfolios/(?P<subdomain>[-a-zA-Z0-9_]+)/',include('thimble.apps.Portfolios.urls', namespace="Portfolios"))
