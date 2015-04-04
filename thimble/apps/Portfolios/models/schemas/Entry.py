@@ -10,7 +10,15 @@ class Entry(models.Model):
 	# entry specific fields
 	entry_id = models.AutoField(primary_key = True)
 	context = models.TextField(blank = True)
+	
+	### remove
 	date = models.DateField(blank=True)
+	####
+
+	### 
+	## date uploaded
+	###
+	 
 	bucket_link = models.CharField(max_length=255, null=False, default='dummy') # /subdomain/story_id/entry_id
 	cover_photo = CloudinaryField('image') 
 	num_photos = models.IntegerField(default=0)

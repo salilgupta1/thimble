@@ -16,10 +16,9 @@ from thimble.apps.Users.models.schemas.Designer import Designer
 # forms 
 from thimble.apps.Portfolios.forms.create_forms import *
 
-
 # figure out how to clear session in an appropriate manner (Salil Gupta)
 
-def render_portfolio(request, subdomain, isEditMode=False):
+def render_portfolio(request, username, isEditMode=False):
 	portfolio_data = Designer.objects.get_portfolio_data(subdomain=subdomain)
 
 	# if portfolio isn't real then raise error
@@ -50,7 +49,7 @@ def render_portfolio(request, subdomain, isEditMode=False):
 
 	return render(request, "Portfolios/%s.html" % portfolio_data.template_theme, context)
 
-def render_design_story(request,subdomain,story_id):
+def render_design_story(request,username,story_id):
 
 	# get details of the specific design story
 	design_story = DesignStory.objects.get_design_story(subdomain=subdomain, design_story_id=story_id)
@@ -70,18 +69,8 @@ def render_design_story(request,subdomain,story_id):
 
 	return render(request, "Portfolios/story.html", context)
 
-
-@login_required
-def edit_portfolio(request, subdomain):
-	# user must be logged in and must be accessing personal portfolio
-	# not someone else's
-	if request.user.designer.subdomain == subdomain:
-		return render_portfolio(request, subdomain, True)
-	else:
-		raise Http404
-
 @login_required 
-def create_design_story(request, subdomain):
+def create_design_story(request, username):
 	if request.user.designer.subdomain == subdomain:
 		context = {'subdomain':subdomain}
 		if request.method == "POST":
