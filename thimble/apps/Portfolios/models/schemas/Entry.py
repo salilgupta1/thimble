@@ -5,7 +5,7 @@ from cloudinary.models import CloudinaryField
 
 class Entry(models.Model):
 	
-	design_story = models.ForeignKey('Portfolios.DesignStory')
+	design_story = models.ForeignKey('Portfolios.DesignStory', on_delete = models.CASCADE)
 
 	# entry specific fields
 	entry_id = models.AutoField(primary_key = True)

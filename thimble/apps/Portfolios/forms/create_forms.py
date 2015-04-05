@@ -8,7 +8,7 @@ from thimble.apps.Portfolios.models.schemas.Entry import Entry
 class DesignStoryForm(forms.ModelForm):
 	class Meta:
 		model = DesignStory
-		fields = ("name","description")
+		fields = ("name",)
 
 	def __init__(self, *args, **kwargs):
 		super(DesignStoryForm, self).__init__(*args, **kwargs)

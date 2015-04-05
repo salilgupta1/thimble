@@ -16,19 +16,17 @@ from thimble.apps.Users.models.schemas.Designer import Designer
 # forms 
 from thimble.apps.Portfolios.forms.create_forms import *
 
-# figure out how to clear session in an appropriate manner (Salil Gupta)
-
 def render_portfolio(request, username, isEditMode=False):
-	portfolio_data = Designer.objects.get_portfolio_data(subdomain=subdomain)
+	portfolio_data = Designer.objects.get_portfolio_data(username=username)
 
 	# if portfolio isn't real then raise error
 	if portfolio_data == None:
 		raise Http404
 
-	context = {"subdomain":subdomain,"portfolio_data":portfolio_data, "isEditMode":isEditMode}
+	context = {"portfolio_data":portfolio_data, "isEditMode":isEditMode}
 
 	# get design_stories related to portfolio
-	design_stories = DesignStory.objects.get_design_stories(subdomain=subdomain)
+	design_stories = DesignStory.objects.get_design_stories(username=username)
 
 	if design_stories != None:
 		context['design_stories'] = design_stories
@@ -40,16 +38,14 @@ def render_portfolio(request, username, isEditMode=False):
 		context['stories'] = zip(context['design_stories'],context['cover_photos'])
 		del context['cover_photos']
 		del context['design_stories']
-	
-	# fix to clear out sessions when a different designer is uploaded
-	# will cause a bug fix later (Salil Gupta)
 
-	request.session['designer_name'] = portfolio_data.user.first_name +" "+ portfolio_data.user.last_name
-	request.session['prof_pic'] = portfolio_data.prof_pic.public_id
 
-	return render(request, "Portfolios/%s.html" % portfolio_data.template_theme, context)
+	#request.session['designer_name'] = portfolio_data.user.first_name +" "+ portfolio_data.user.last_name
+	#request.session['prof_pic'] = portfolio_data.prof_pic.public_id
 
-def render_design_story(request,username,story_id):
+	return render(request, "Portfolios/portfolio.html", context)
+
+#def render_design_story(request, username, story_id):
 
 	# get details of the specific design story
 	design_story = DesignStory.objects.get_design_story(subdomain=subdomain, design_story_id=story_id)
@@ -69,8 +65,8 @@ def render_design_story(request,username,story_id):
 
 	return render(request, "Portfolios/story.html", context)
 
-@login_required 
-def create_design_story(request, username):
+#@login_required 
+#def create_design_story(request, username):
 	if request.user.designer.subdomain == subdomain:
 		context = {'subdomain':subdomain}
 		if request.method == "POST":
@@ -119,4 +115,4 @@ def create_design_story(request, username):
 		return render(request, "Portfolios/create_design_story.html",context)
 
 	else:
-		raise Http404
+		raise Http40

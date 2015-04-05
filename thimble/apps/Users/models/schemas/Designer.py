@@ -8,10 +8,8 @@ from cloudinary.models import CloudinaryField
 # social media accounts
 
 class Designer(models.Model):
-	user = models.OneToOneField(User)
+	user = models.OneToOneField(User, to_field='username', primary_key=True)
 
-	# Designer specific fields
-	designer_id = models.AutoField(primary_key=True)
 	bio = models.TextField(blank=True)
 
 	# Points to a Cloudinary image
