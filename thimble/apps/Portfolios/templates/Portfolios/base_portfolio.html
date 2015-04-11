@@ -1,22 +1,11 @@
 {% extends 'base.html' %}
 {%load staticfiles%}
-{%block app_css%}
-	<link rel='stylesheet' type='text/css' href = "{%static "Portfolios/css/main.css"%}"/>
-	{%block portfolio_css%}
-	{%endblock%}
-{%endblock%}
+{%block app_css%}{%endblock%}
 
-{%block content%}
-	<div id='portfolio-header'>
-		{%block portfolio_header%}{%endblock%}
-	</div>
-	<div id='portfolio-content'>
-		{%block portfolio_content%}
+{%block content%}{%endblock%}
 
-		{%endblock%}
-	</div>
-	{%block scripts%}
-		<script type="text/javascript" async defer  data-pin-color="red" data-pin-height="28" data-pin-hover="true" src="//assets.pinterest.com/js/pinit.js"></script>
-		{%block portfolio_scripts%}{%endblock%}
-	{%endblock%}
+{%block scripts%}
+	<script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+	<script src="{%static 'js/hover.js' %}"></script>
+	<script src="{%static 'Portfolios/js/CommunityActivities.js' %}"></script>
 {%endblock%}

@@ -18,6 +18,7 @@
                 $('.status').append(x+' upload complete!\n');
             
                 photos_upload++;
+                console.log(photos_upload);
                 $("#id_num_photos").val(photos_upload);
                 if(photos_upload > 0)
                 {
@@ -36,15 +37,7 @@
         {{error}}
 		<form method='post' action="{%url 'Portfolios:create_design_story' request.user.username%}">
 			{%csrf_token%}
-            {% for field in design_story_form %}
-                <div class = 'form-group'>
-                    <div>{{field.errors|striptags}}</div>
-                    {{field.label_tag}}
-                    {{field}}
-                </div>
-            {% endfor %}
-            <hr/>
-            <h3>Write Your First Chapter</h3>
+            <h3>Add a New Chapter</h3>
             {%for field in entry_form.visible_fields%}
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>

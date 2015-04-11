@@ -2,35 +2,107 @@
 {%load staticfiles%}
 {% load cloudinary %}
 
-{%block portfolio_css%}
-	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/theme1.css'%}"/>
+{%block app_css%}
+  <link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/profile.css'%}"/>
 {%endblock%}
 
-{%block portfolio_header%}
-	<div id="prof-pic-wrapper">
-		{% cloudinary portfolio_data.prof_pic class='img-responsive img-circle' nopin="nopin"%}
-	</div>
-	<div id="name-wrapper">
-		<h2>{{portfolio_data.user.first_name}} {{portfolio_data.user.last_name}}</h2>
-	</div>
-	<div id="info-wrapper">
-		<p class="lead">{%if portfolio_data.location%}{{portfolio_data.location}}{%else%}Location{%endif%}</p>
-	</div>
-	<div id="bio-wraper">
-		<p class="lead">{%if portfolio_data.bio%}{{portfolio_data.bio}}{%else%}Designer Bio{%endif%}</p>
-		{%if isEditMode%}<a href="{%url 'Portfolios:create_design_story' subdomain%}"><button class = 'btn btn-primary'>Create a Design Story</button></a>{%endif%}
-	</div>
-	<hr>
+
+{%block content%}
+  <div class="profile-header">
+    <div class="profile-line profile-line-left">
+      <p class="text-followers"><span>{{portfolio_data.followers}}</span><br>Followers</p>
+      <p class="text-following"><span>{{portfolio_data.following}}</span><br>Following</p>
+    </div>
+    <div class="profile-pic-block">
+      <div class="profile-pic-wrapper">
+        {%if not portfolio_data.avatar == None%}
+          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
+        {%else%}
+          <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
+        {%endif%}
+      </div>
+    </div>
+    <div class="profile-line profile-line-right">
+      <p class="text-favorites">8<br>Favorites</p>
+      <p class="text-pieces">{{num_pieces}}<br>Pieces</p>
+    </div>
+  </div>
+  <h2 class="profile-name">{{user.first_name}} {{user.last_name}}</h2>
+
+  {% if not portfolio_data.user == user.username and user.is_authenticated %}
+    <div class="follow-wrapper">
+      <button class="follow-btn" id='follow-btn'>Follow</button>
+    </div>  
+  {%endif%}
+
+  <div class="bio-wrapper">
+    <p class="bio-text">{{portfolio_data.bio}}</p>
+  </div>
+
+
+  <div class="row piece-grid">
+    {%for story in stories%}
+      <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+        <!--a href="{%url 'Portfolios:render_design_story' portfolio_data.user story.0.design_story_id%}"-->
+          <div class="piece">
+            <div class="piece-thumb-container">
+              <div class="piece-overlay">
+                <p><strong>{{story.0.title}}</strong></p>
+                <p>{{story.0.date_created}}</p>
+                <br></br>
+                <!--p> <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>  14,123</p-->
+                <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{story.0.likes}}</span></p>
+                <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{story.0.comments}}</span></p>
+
+                {%if user.is_authenticated%}
+                  <button type="button" class="btn btn-default btn-lg like-btn" data-storyid="{{story.0.design_story_id}}">
+                    <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  </button>
+
+                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-storyid="{{story.0.design_story_id}}">
+                    <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  </button>
+                {%endif%}
+
+                <button type="button" class="btn btn-default btn-lg share-btn">
+                  Share <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </button>
+              </div>
+              <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
+            </div>
+          </div>
+        <!--/a-->
+      </div>
+    {%endfor%}
+  </div>
+       
 {%endblock%}
 
-{%block portfolio_content%}
-	<div class="row">
-		{%for story in stories%}
-			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-				<a href="{%url 'Portfolios:render_design_story' subdomain story.0.design_story_id %}">
-					{% cloudinary story.1.cover_photo width='800' height='600' class='img-responsive' %}</a>
-			</div>
-		{%endfor%}
+{%block scripts%}
+{{block.super}}
 
-	</div>
+<script>
+  $(document).ready(function(){
+      CommunityActivities.portfolioUsername = "{{portfolio_data.user}}";
+      CommunityActivities.authenticatedUsername = "{{user.username}}";
+      CommunityActivities.csrftoken = $.cookie('csrftoken');
+      var path;
+
+      // like button is clicked
+      $(".like-btn").on("click", function(){
+        path = "{%url 'Portfolios:like_design_story' portfolio_data.user%}";
+        CommunityActivities.like($(this),path);
+      }); 
+
+      // follow button is clicked
+      $("#follow-btn").on("click", function() {
+        path = "{%url 'Portfolios:follow_designer' portfolio_data.user%}";
+        CommunityActivities.follow(path);
+      });
+
+      // comment is submitted
+
+      
+  });
+</script>
 {%endblock%}

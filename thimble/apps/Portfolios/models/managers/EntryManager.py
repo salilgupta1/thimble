@@ -5,7 +5,7 @@ class EntryManager(models.Manager):
 	def get_entries(self, story_id):
 		# get all entries associated with a story
 		try:
-			rows = self.filter(design_story_id=story_id).values('context','date','bucket_link','cover_photo','num_photos')
+			rows = self.filter(design_story_id=story_id).values('entry_title','bucket_link','cover_photo','num_photos')
 			if len(rows) == 0:
 				return None
 			return rows

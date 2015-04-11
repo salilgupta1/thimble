@@ -6,7 +6,7 @@ class Like(models.Model):
 	design_story = models.ForeignKey("Portfolios.DesignStory", on_delete = models.CASCADE)
 
 	# connect the manager
-	objects = LikeManager()
+	#objects = LikeManager()
 	
 	class Meta:
 		unique_together=('liker','design_story')

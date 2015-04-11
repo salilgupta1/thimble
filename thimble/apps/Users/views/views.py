@@ -61,4 +61,8 @@ def edit_account(request):
 
 	context['edit_user'] = edit_user
 	context['edit_designer'] = edit_designer
+
 	return render(request, "Users/edit_account.html", context)
+
+def delete_account(request):
+	pass

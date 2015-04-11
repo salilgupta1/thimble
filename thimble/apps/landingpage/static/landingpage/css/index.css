@@ -1,0 +1,26 @@
+/* STYLING FOR HOMEPAGE ONLY */
+.byline-container {
+	width: calc(100% - 16px);
+	margin-left: 8px;
+	float: left;
+	padding-bottom: 10px;
+}
+
+@media(max-width:767px){
+	.byline-container {
+		display: none;
+	}
+}
+
+.byline-img {
+	float: left;
+	margin-left: 5px;
+	margin-right: 10px;	
+}
+
+.byline-name {
+	float: left;
+	font-weight: 700;
+	font-size: 20px;
+	margin-top: 8px;
+}

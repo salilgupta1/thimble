@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
@@ -12,43 +12,41 @@ from cloudinary.uploader import rename
 from thimble.apps.Portfolios.models.schemas.Entry import Entry
 from thimble.apps.Portfolios.models.schemas.DesignStory import DesignStory
 from thimble.apps.Users.models.schemas.Designer import Designer
+from thimble.apps.Portfolios.models.schemas.Like import Like
+from thimble.apps.Users.models.schemas.Follow import Follow
 
 # forms 
 from thimble.apps.Portfolios.forms.create_forms import *
 
-def render_portfolio(request, username, isEditMode=False):
+# pull likes and follow to update follow/like buttons...
+def render_portfolio(request, username):
 	portfolio_data = Designer.objects.get_portfolio_data(username=username)
-
 	# if portfolio isn't real then raise error
 	if portfolio_data == None:
 		raise Http404
 
-	context = {"portfolio_data":portfolio_data, "isEditMode":isEditMode}
+	context = {"portfolio_data":portfolio_data}
 
 	# get design_stories related to portfolio
 	design_stories = DesignStory.objects.get_design_stories(username=username)
 
 	if design_stories != None:
-		context['design_stories'] = design_stories
-		context['cover_photos'] = []
+		cover_photos = []
+
+		# ugly process of getting cover photos from entry database
 		for design_story in design_stories:
 			cover_photo = Entry.objects.get_cover_photos(design_story['design_story_id'])[0]
-			context['cover_photos'].append(cover_photo)
+			cover_photos.append(cover_photo)
 
-		context['stories'] = zip(context['design_stories'],context['cover_photos'])
-		del context['cover_photos']
-		del context['design_stories']
-
-
-	#request.session['designer_name'] = portfolio_data.user.first_name +" "+ portfolio_data.user.last_name
-	#request.session['prof_pic'] = portfolio_data.prof_pic.public_id
+		context['stories'] = zip(design_stories, cover_photos)
+		context['num_pieces'] = len(design_stories)
 
 	return render(request, "Portfolios/portfolio.html", context)
 
-#def render_design_story(request, username, story_id):
+def render_design_story(request, username, story_id):
 
 	# get details of the specific design story
-	design_story = DesignStory.objects.get_design_story(subdomain=subdomain, design_story_id=story_id)
+	design_story = DesignStory.objects.get_design_story(username=username, design_story_id=story_id)
 	
 	if design_story == None:
 		raise Http404
@@ -61,37 +59,35 @@ def render_portfolio(request, username, isEditMode=False):
 	if entries !=None:
 		context['entries'] = entries
 
-	context['subdomain'] = subdomain
 
 	return render(request, "Portfolios/story.html", context)
 
-#@login_required 
-#def create_design_story(request, username):
-	if request.user.designer.subdomain == subdomain:
-		context = {'subdomain':subdomain}
+######### WORK HERE
+@login_required 
+def create_design_story(request, username):
+	if request.user.username == username:
+		context = {}
 		if request.method == "POST":
 			# form is posted
-			design_story_form = DesignStoryForm(request.POST)
-			entry_form = EntryForm(request.POST)
+			design_story_form = CreateDesignStory(request.POST)
+			entry_form = CreateEntry(request.POST)
 
 			if design_story_form.is_valid() and entry_form.is_valid():
 
 				# create an instance of the of design_story_model model
 				new_design_story = design_story_form.save(commit=False)
 				new_design_story.designer = request.user.designer
-				new_design_story.save()
+			 	new_design_story.save()
 
 				# create an instance of the entry model
-				new_entry = entry_form.save(commit=False)
-				new_entry.design_story = new_design_story
-				new_entry.save()
+			 	new_entry = entry_form.save(commit=False)
+			 	new_entry.design_story = new_design_story
+			 	new_entry.save()
 
-				e_id = new_entry.entry_id
-				
 				# update the bucket link
-				bucket_link = "%s/%s/%s" % (subdomain, new_design_story.design_story_id,e_id)
-				new_entry.bucket_link  = bucket_link
-				new_entry.save()
+			 	bucket_link = "%s/%s/%s" % (username, new_design_story.design_story_id, new_entry.entry_id)
+			 	new_entry.bucket_link = bucket_link
+			 	new_entry.save()
 
 				# rename photos pushed to cloudinary
 				photos = request.POST.getlist('entry_photos')
@@ -102,17 +98,86 @@ def render_portfolio(request, username, isEditMode=False):
 					rename(p,"%s/%s"%(bucket_link,i))
 					i+=1
 
-				return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(subdomain, new_design_story.pk)))
+				return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(username, new_design_story.design_story_id)))
 			else:
 				context['error'] = dict(design_story_form.errors.items() + entry_form.errors.items())
 		else:
+
 			# page is being "getted"
-			design_story_form = DesignStoryForm()
-			entry_form = EntryForm()
-			context['entry_form']=entry_form
-			context['design_story_form']=design_story_form
+			context['entry_form']= CreateEntry(label_suffix='')
+			context['design_story_form']= CreateDesignStory(label_suffix='')
 			cl_init_js_callbacks(context['entry_form'], request)
 		return render(request, "Portfolios/create_design_story.html",context)
 
 	else:
-		raise Http40
+		raise Http404
+
+# work required....
+@login_required
+def create_chapter(request, username):
+	context = {}
+	if request.user.username == username:
+		if request.method =="POST":
+			entry_form = CreateEntry(request.POST)
+			new_entry = entry_form.save(commit=False)
+			pass
+
+
+		else:
+			context['entry_form'] = CreateEntry(label_suffix='')
+	else:
+		raise Http404
+	return render(request, "Portfolios/create_chapter.html", context)
+##############
+
+@login_required
+def edit_design_story(request, username):
+	pass
+
+@login_required
+def like_design_story(request, username):
+	if request.is_ajax():
+		liker = request.POST['liker']
+		design_story_id = request.POST['design_story_id']
+		try:
+			Like.objects.create(liker_id=liker, design_story_id=design_story_id)
+		except:
+			raise
+	return HttpResponse(True)
+
+@login_required
+def unlike_design_story(request, username):
+	if request.is_ajax():
+		liker = request.POST['liker']
+		design_story_id = request.POST['design_story_id']
+		try:
+			Like.objects.filter(liker_id=liker, design_story_id=design_story_id).delete()
+		except:
+			raise
+	return HttpResponse(True)
+
+@login_required
+def follow_designer(request, username):
+	if request.is_ajax():
+		follower = request.POST['follower']
+		followee = request.POST['followee']
+		try:
+			Follow.objects.create(follower_id=follower, followee_id=followee)
+		except:
+			raise
+	return HttpResponse(True)
+
+@login_required
+def unfollow_designer(request, username):
+	if request.is_ajax():
+		follower = request.POST['follower']
+		followee = request.POST['followee']
+		try:
+			Follow.objects.filter(follower=follower, followee=followee).delete()
+		except:
+			raise
+	return HttpResponse(True)
+
+@login_required
+def comment(request, username):
+	pass

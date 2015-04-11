@@ -6,6 +6,9 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+def home(request):
+	return render(request, "landingpage/index.html", {})
+
 def landingpage(request):
 	context = {}
 	if request.method=="POST":
@@ -19,4 +22,5 @@ def landingpage(request):
 		else:
 			context['success'] = "Thank you for your interest in Thimble!"
 
-	return render(request, "landingpage/index.html",context)
+	return render(request, "landingpage/old-index.html",context)
+

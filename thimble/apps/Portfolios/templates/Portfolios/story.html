@@ -9,11 +9,11 @@
 
 {%block portfolio_header%}
 	<div id="name-wrapper">
-		<h2>{{design_story.name}}</h2>
+		<h2>{{design_story.title}}</h2>
 	</div>
 	<div id="by-wrapper">
-		<img src="{%cloudinary_url request.session.prof_pic width='200' height='200'%}" class="img-responsive img-circle" nopin='nopin'>
-		<p class="lead">By <a href="{%url 'Portfolios:render_portfolio' subdomain%}">{{ request.session.designer_name }}</a></p>
+		<img src="{%cloudinary_url user.designer.prof_pic width='200' height='200'%}" class="img-responsive img-circle" nopin='nopin'>
+		<p class="lead">By <a href="{%url 'Portfolios:render_portfolio' user.username%}">{{user.first_name}} {{user.last_name}}</a></p>
 	</div>
 	<div id="desc-wrapper">
 		<h3>About this piece</h3>
@@ -26,9 +26,8 @@
 {%block portfolio_content%}
 	<div id="chapter-list">
 		{%for chapter in entries%}
-			<div id="date-wrapper">
-				<!-- TODO get date of entry -->
-				<p class="lead text-center">{{chapter.date}}</p>
+			<div class='row'>
+				<h3>{{chapter.entry_title}}</h3>
 			</div>
 			<div class="row">
 				<div class="col-xs-12 cover-img">
@@ -44,11 +43,6 @@
 	  				</div>
 	  				{%endwith%}
   				{% endfor %}
-			</div>
-			<div class="content-wrapper">
-				<!-- TODO  put chapter description in this p tag -->
-				<p class="lead text-justify">{{chapter.context}}</p>
-				<h1 class="text-center"><span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></h1>
 			</div>
 		{%endfor%}
 	</div>
