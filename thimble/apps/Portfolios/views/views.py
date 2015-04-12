@@ -19,8 +19,10 @@ from thimble.apps.Users.models.schemas.Follow import Follow
 from thimble.apps.Portfolios.forms.create_forms import *
 
 # pull likes and follow to update follow/like buttons...
+# username refers to portfolio 
 def render_portfolio(request, username):
 	portfolio_data = Designer.objects.get_portfolio_data(username=username)
+
 	# if portfolio isn't real then raise error
 	if portfolio_data == None:
 		raise Http404
@@ -30,17 +32,29 @@ def render_portfolio(request, username):
 	# get design_stories related to portfolio
 	design_stories = DesignStory.objects.get_design_stories(username=username)
 
-	if design_stories != None:
-		cover_photos = []
+	story_ids = []
 
-		# ugly process of getting cover photos from entry database
-		for design_story in design_stories:
-			cover_photo = Entry.objects.get_cover_photos(design_story['design_story_id'])[0]
-			cover_photos.append(cover_photo)
+	# get cover photos
+	if design_stories != None:
+		for story in design_stories:
+			story_ids.append(story['design_story_id'])
+
+		cover_photos = Entry.objects.get_cover_photos(story_ids)
 
 		context['stories'] = zip(design_stories, cover_photos)
 		context['num_pieces'] = len(design_stories)
 
+	# get likes and follow
+	if request.user.is_authenticated():
+
+		# get following status
+		context['is_following'] = Follow.objects.get_is_following(follower = request.user, followee = portfolio_data['user'])
+
+		# get likes
+		if design_stories != None:
+			likes = Like.objects.get_likes(liker=request.user, story_ids=story_ids)
+			context['likes'] = likes
+		
 	return render(request, "Portfolios/portfolio.html", context)
 
 def render_design_story(request, username, story_id):
@@ -56,9 +70,8 @@ def render_design_story(request, username, story_id):
 	# get entries associated with story
 	entries = Entry.objects.get_entries(story_id=story_id)
 
-	if entries !=None:
+	if entries != None:
 		context['entries'] = entries
-
 
 	return render(request, "Portfolios/story.html", context)
 

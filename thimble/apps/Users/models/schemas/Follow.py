@@ -7,7 +7,7 @@ class Follow(models.Model):
 	followee = models.ForeignKey("Users.Designer", related_name="follow_followee", on_delete = models.CASCADE)
 
 	# connect the manager
-	#objects = FollowManager()
+	objects = FollowManager()
 
 	def save(self, *args, **kwargs):
 		if self.follower == self.followee:

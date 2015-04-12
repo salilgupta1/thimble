@@ -27,12 +27,16 @@
       <p class="text-pieces">{{num_pieces}}<br>Pieces</p>
     </div>
   </div>
-  <h2 class="profile-name">{{user.first_name}} {{user.last_name}}</h2>
+  <h2 class="profile-name">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</h2>
 
   {% if not portfolio_data.user == user.username and user.is_authenticated %}
     <div class="follow-wrapper">
-      <button class="follow-btn" id='follow-btn'>Follow</button>
-    </div>  
+      {%if not is_following %}
+        <button class="follow-btn" id='follow-btn'>Follow</button>
+      {%else%}
+        <button class="follow-btn" id='unfollow-btn'>Following</button>
+      {%endif%} 
+    </div>
   {%endif%}
 
   <div class="bio-wrapper">
@@ -55,13 +59,15 @@
                 <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{story.0.comments}}</span></p>
 
                 {%if user.is_authenticated%}
-                  <button type="button" class="btn btn-default btn-lg like-btn" data-storyid="{{story.0.design_story_id}}">
-                    <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                  </button>
-
-                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-storyid="{{story.0.design_story_id}}">
-                    <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                  </button>
+                  {% if story.0.design_story_id in likes %}
+                    <button type="button" class="btn btn-default btn-lg unlike-btn" data-storyid="{{story.0.design_story_id}}">
+                      <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                    </button>
+                  {%else%}
+                    <button type="button" class="btn btn-default btn-lg like-btn" data-storyid="{{story.0.design_story_id}}">
+                      <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                    </button>
+                  {%endif%}
                 {%endif%}
 
                 <button type="button" class="btn btn-default btn-lg share-btn">
@@ -86,23 +92,7 @@
       CommunityActivities.portfolioUsername = "{{portfolio_data.user}}";
       CommunityActivities.authenticatedUsername = "{{user.username}}";
       CommunityActivities.csrftoken = $.cookie('csrftoken');
-      var path;
-
-      // like button is clicked
-      $(".like-btn").on("click", function(){
-        path = "{%url 'Portfolios:like_design_story' portfolio_data.user%}";
-        CommunityActivities.like($(this),path);
-      }); 
-
-      // follow button is clicked
-      $("#follow-btn").on("click", function() {
-        path = "{%url 'Portfolios:follow_designer' portfolio_data.user%}";
-        CommunityActivities.follow(path);
-      });
-
-      // comment is submitted
-
-      
+      CommunityActivities.init();      
   });
 </script>
 {%endblock%}

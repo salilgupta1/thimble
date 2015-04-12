@@ -48,8 +48,8 @@ var CommunityActivities = (function($){
 				self.siblings("p").children(".likes-count").text(count);
 
 				// change button to like
-				self.children(".text").text("Unlike");
-				self.removeClass("like-btn").addClass("unlike-btn");
+				self.children(".text").text("Like");
+				self.removeClass("unlike-btn").addClass("like-btn");
 			},
 			error:function(error){
 				console.log(error);
@@ -102,7 +102,9 @@ var CommunityActivities = (function($){
 				$(".text-followers").children("span").text(count);
 
 				// change button text
-				$("#follow-btn").text("Follow");
+				$("#unfollow-btn").text("Follow");
+				$("#unfollow-btn").attr("id","follow-btn");
+
 			},
 			error:function(error){
 				console.log(error);
@@ -112,11 +114,38 @@ var CommunityActivities = (function($){
 
 	comment = function(path){
 
-	};
+	},
+	init = function(){
+		var path;
 
+		// like button is clicked
+		$(".like-btn").on("click", function(){
+			path = "/"+CommunityActivities.portfolioUsername+"/like_story/";
+			like($(this),path);
+		}); 
+
+		// unlike button is clicked
+		$(".unlike-btn").on("click", function(){
+			path = "/"+CommunityActivities.portfolioUsername+"/unlike_story/";
+			unlike($(this), path);
+		});
+
+		// follow button is clicked
+		$("#follow-btn").on("click", function() {
+			path = "/"+CommunityActivities.portfolioUsername+"/follow/";
+			follow(path);
+		});
+
+		// unfollow button is clicked
+		$("#unfollow-btn").on("click", function(){
+			path = "/"+CommunityActivities.portfolioUsername+"/unfollow/";
+			unfollow(path);
+		});
+
+      	// comment is submitted
+	};
 	return {
 		// make publically accessible 
-		like:like,
-		follow:follow,
+		init:init,
 	};
 }(jQuery));
