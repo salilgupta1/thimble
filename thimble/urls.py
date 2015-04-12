@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^accounts/',include('thimble.apps.Users.urls', namespace="Users")),
 
     # Portfolios app
-    url(r'^portfolios/(?P<subdomain>[-a-zA-Z0-9_]+)/',include('thimble.apps.Portfolios.urls', namespace="Portfolios"))
+   	url(r'^(?P<username>[-a-zA-Z0-9_]+)/',include('thimble.apps.Portfolios.urls', namespace="Portfolios"))
 )
 
 handler404 = 'thimble.views.handler404'

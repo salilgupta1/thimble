@@ -1,0 +1,70 @@
+/* navbar styling - start */
+.navbar-default {
+	background-color: #031926;
+	background-image: none;
+	border-color: #031926
+}
+
+.navbar-default .navbar-brand {
+	color: #f4e9cd;
+	text-decoration: none;
+	font-size: 25px;
+}
+
+.navbar-default .navbar-brand:hover , .navbar-default .navbar-brand:focus {
+	text-decoration: none;
+	color: #f4e9cd;
+}
+
+.navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a:hover {
+	color: 	white;
+	text-decoration: none;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background-color: #031926;
+    color: white;
+    background-image: none;
+    box-shadow: none;
+}
+
+/*Enable touch and hover for dropdown menu*/
+.dropdown:hover .dropdown-menu {
+    display: block;
+ }
+
+ .navbar-default .navbar-nav > .open > a {
+ 	color: white;
+ 	background-color: #031926;
+ }
+
+.dropdown-menu {
+	background-color: #031926;
+}
+
+.dropdown-menu > li > a {
+	color: white;
+}
+
+.dropdown-menu li a:hover :focus {
+    color: #031926;
+    background: none;           
+}
+
+.navbar-default .navbar-toggle {
+	border-color: #f4e9cd;
+}
+
+.navbar-default .navbar-toggle:hover {
+	background: none;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #f4e9cd;
+}
+
+.navbar-default .navbar-collapse {
+	border-color: #031926;
+	box-shadow: none;
+}
+/* navbar-style end */

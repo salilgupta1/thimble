@@ -7,11 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Portfolios', '0003_auto_20150220_0134'),
+        ('Users', '0009_auto_20150404_2044'),
     ]
 
     operations = [
-        migrations.DeleteModel(
-            name='Portfolio',
+        migrations.RenameField(
+            model_name='designer',
+            old_name='prof_pic',
+            new_name='avatar',
         ),
     ]

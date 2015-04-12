@@ -1,0 +1,1 @@
+default_app_config = 'thimble.apps.Users.apps.UsersAppConfig'

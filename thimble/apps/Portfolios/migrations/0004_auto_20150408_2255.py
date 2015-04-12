@@ -2,20 +2,23 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import cloudinary.models
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Portfolios', '0005_auto_20150223_0056'),
+        ('Portfolios', '0003_auto_20150408_2219'),
     ]
 
     operations = [
         migrations.AlterField(
             model_name='designstory',
-            name='cover_photo',
-            field=cloudinary.models.CloudinaryField(max_length=100, verbose_name=b'image'),
+            name='wip',
+            field=models.BooleanField(default=False),
             preserve_default=True,
+        ),
+        migrations.AlterUniqueTogether(
+            name='entry',
+            unique_together=set([('title', 'design_story')]),
         ),
     ]

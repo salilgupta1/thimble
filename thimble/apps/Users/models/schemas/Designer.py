@@ -3,40 +3,21 @@ from django.contrib.auth.models import User
 from thimble.apps.Users.models.managers.DesignerManager import DesignerManager
 from cloudinary.models import CloudinaryField
 
+# social media accounts
+
 class Designer(models.Model):
-	user = models.OneToOneField(User)
+	user = models.OneToOneField(User, to_field='username', primary_key=True)
+	bio = models.TextField(blank=True)
 
-	# Designer specific fields
-	designer_id = models.AutoField(primary_key=True)
-	text_bio = models.TextField()
-
-	# Points to a Cloudinary image -- required
-	prof_pic = CloudinaryField('image')
-	
-	MALE = "M"
-	FEMALE = "F"
-	PNT = "NA",
-	OTHER = "OT"
-	GENDER = (
-	        (MALE,"Male"),
-	        (FEMALE,"Female"),
-	        (PNT,"Prefer not to Disclose"),
-	        (OTHER,"Other"))
-
-	# not required
-	gender = models.CharField(max_length=2, choices=GENDER, default=MALE, blank=True, null=False)
-
-	# not required
-	age = models.PositiveSmallIntegerField(blank=True, null=True)
-
-	# not required
+	# Points to a Cloudinary image
+	avatar = CloudinaryField('image', blank=True, null=True)
 	location = 	models.CharField(max_length=200, blank=True)
-
-	subdomain = models.SlugField(unique=True)
-	template_theme = models.CharField(max_length=30)
+	following = models.BigIntegerField(default=0, blank=True)
+	followers = models.BigIntegerField(default=0, blank=True)
 
 	# connect the manager
 	objects = DesignerManager()
 
 	class Meta:
+		# so migrations know where to look
 	    app_label='Users'
