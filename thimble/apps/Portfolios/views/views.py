@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.utils.text import slugify
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
@@ -18,10 +19,10 @@ from thimble.apps.Users.models.schemas.Follow import Follow
 # forms 
 from thimble.apps.Portfolios.forms.create_forms import *
 
-# pull likes and follow to update follow/like buttons...
 # username refers to portfolio 
 def render_portfolio(request, username):
-	portfolio_data = Designer.objects.get_portfolio_data(username=username)
+	column_list = ['user','user__first_name','user__last_name','bio','avatar','following','followers']
+	portfolio_data = Designer.objects.get_portfolio_data(username = username, column_list = column_list)
 
 	# if portfolio isn't real then raise error
 	if portfolio_data == None:
@@ -57,15 +58,25 @@ def render_portfolio(request, username):
 		
 	return render(request, "Portfolios/portfolio.html", context)
 
-def render_design_story(request, username, story_id):
-
+def render_design_story(request, username, story_id, slug):
+	
+	# get portfolio data
+	column_list = ['user__first_name', 'user__last_name','avatar']
+	portfolio_data = Designer.objects.get_portfolio_data(username = username, column_list = column_list)
+	
 	# get details of the specific design story
 	design_story = DesignStory.objects.get_design_story(username=username, design_story_id=story_id)
 	
 	if design_story == None:
 		raise Http404
 
-	context = {"design_story": design_story}
+	context = {
+				"design_story": design_story, 
+				"username":username,
+				"design_story_id":story_id,
+				"portfolio_data":portfolio_data,
+				"slug": slug
+			   }
 
 	# get entries associated with story
 	entries = Entry.objects.get_entries(story_id=story_id)
@@ -91,6 +102,7 @@ def create_design_story(request, username):
 				new_design_story = design_story_form.save(commit=False)
 				new_design_story.designer = request.user.designer
 			 	new_design_story.save()
+			 	slug = slugify(new_design_story.title)
 
 				# create an instance of the entry model
 			 	new_entry = entry_form.save(commit=False)
@@ -111,7 +123,7 @@ def create_design_story(request, username):
 					rename(p,"%s/%s"%(bucket_link,i))
 					i+=1
 
-				return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(username, new_design_story.design_story_id)))
+				return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(username, new_design_story.design_story_id, slug)))
 			else:
 				context['error'] = dict(design_story_form.errors.items() + entry_form.errors.items())
 		else:
@@ -127,20 +139,42 @@ def create_design_story(request, username):
 
 # work required....
 @login_required
-def create_chapter(request, username):
+def create_chapter(request, username, story_id, slug):
 	context = {}
 	if request.user.username == username:
 		if request.method =="POST":
 			entry_form = CreateEntry(request.POST)
-			new_entry = entry_form.save(commit=False)
-			pass
+			if entry_form.is_valid():
+				new_entry = entry_form.save(commit=False)
+				new_entry.design_story_id = story_id
+				new_entry.save()
 
+				# update the bucket link
+			 	bucket_link = "%s/%s/%s" % (username, story_id, new_entry.entry_id)
+			 	new_entry.bucket_link = bucket_link
+			 	new_entry.save()
 
+				# rename photos pushed to cloudinary
+				photos = request.POST.getlist('entry_photos')
+				i = 0
+				for photo in photos:
+					p = photo.split("/")[3]
+					p = p.split('#')[0].split('.')[0]
+					rename(p,"%s/%s"%(bucket_link,i))
+					i+=1
+
+				return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(username, story_id, slug)))
+			else:
+				context['error'] = entry_form.errors.items()
 		else:
 			context['entry_form'] = CreateEntry(label_suffix='')
+			context['design_story_id'] = story_id
+			context['slug'] = slug
+			cl_init_js_callbacks(context['entry_form'], request)
+		return render(request, "Portfolios/create_chapter.html", context)
 	else:
 		raise Http404
-	return render(request, "Portfolios/create_chapter.html", context)
+	
 ##############
 
 @login_required
