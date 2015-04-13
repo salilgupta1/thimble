@@ -3,27 +3,28 @@
 {% load cloudinary %}
 {% load get_range %}
 
-{%block portfolio_css%}
+{%block app_css%}
 	<link rel='stylesheet' type='text/css' href ="{%static "Portfolios/css/story.css"%}"/>
 {%endblock%}
 
-{%block portfolio_header%}
+
+{%block content%}
 	<div id="name-wrapper">
 		<h2>{{design_story.title}}</h2>
+		<a href="{%url 'Portfolios:create_chapter' username design_story_id slug%}">Create Chapter</a>
 	</div>
 	<div id="by-wrapper">
-		<img src="{%cloudinary_url user.designer.prof_pic width='200' height='200'%}" class="img-responsive img-circle" nopin='nopin'>
-		<p class="lead">By <a href="{%url 'Portfolios:render_portfolio' user.username%}">{{user.first_name}} {{user.last_name}}</a></p>
+		{%if not portfolio_data.avatar == None%}
+          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
+        {%else%}
+          <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
+        {%endif%}
+		<p class="lead">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
 	</div>
 	<div id="desc-wrapper">
 		<h3>About this piece</h3>
 		<p class="lead">{{design_story.description}}</p>
 	</div>
-	</div>
-{%endblock%}
-
-
-{%block portfolio_content%}
 	<div id="chapter-list">
 		{%for chapter in entries%}
 			<div class='row'>

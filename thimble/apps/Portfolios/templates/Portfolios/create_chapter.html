@@ -33,11 +33,10 @@
 
 {%block content%}
 	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
-        <h2> Write a Design Story</h2>
+        <h2>Add a New Chapter</h2>
         {{error}}
-		<form method='post' action="{%url 'Portfolios:create_design_story' request.user.username%}">
+		<form method='POST' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}">
 			{%csrf_token%}
-            <h3>Add a New Chapter</h3>
             {%for field in entry_form.visible_fields%}
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>
