@@ -6,25 +6,25 @@
     {% cloudinary_includes %}
     {% cloudinary_js_config %}
 
-    <script>
-        var photos_upload = -1;
-        $(function () {
-            $('#direct_upload input[type="file"]').fileupload({
-                dropZone: '#direct_upload'
-            }).on('cloudinarydone', function (e, data) {
-                $('.status').show();  
-                var x = $(this).attr('data-cloudinary-field');
-                $('.status').append(x+' upload complete!\n');
-            
-                photos_upload++;
-                $("#id_num_photos").val(photos_upload);
-                if(photos_upload > 0)
-                {
-                    $("button").attr("disabled",false);
-                }
-            });
-        });
-    </script>
+    <!--<script>-->
+        <!--var num_photos = -1;-->
+        <!--$(function () {-->
+            <!--$('#direct_upload input[type="file"]').fileupload({-->
+                <!--dropZone: '#direct_upload'-->
+            <!--}).on('cloudinarydone', function (e, data) {-->
+                <!--$('.status').show();-->
+                <!--var x = $(this).attr('data-cloudinary-field');-->
+                <!--$('.status').append(x+' upload complete!\n');-->
+
+                <!--num_photos++;-->
+                <!--$("#id_num_photos").val(num_photos);-->
+                <!--if(num_photos > 0)-->
+                <!--{-->
+                    <!--$("button").attr("disabled",false);-->
+                <!--}-->
+            <!--});-->
+        <!--});-->
+    <!--</script>-->
     
 {% endblock %}
 
@@ -50,7 +50,6 @@
                     {% if field.label == 'Main Photo' %}
                         <br/>
                         <a href="#" id="cover_upload_widget_opener"></a>
-                        <!--TODO Somehow need to make this form item get all that django-generated shit, or circumvent-->
                     {% elif field.label == 'Supplementary Photos'%}
                         <br/>
                         <a href="#" id="supp_upload_widget_opener"></a>
@@ -63,7 +62,7 @@
                  {{ hidden }}
             {% endfor %}
 
-            <button type='submit' class='btn btn-primary' disabled='true'>Create</button>
+            <button type='submit' class='btn btn-primary' disabled="true" >Create</button>
 
 
 
@@ -72,26 +71,33 @@
              <!--TODO get a local version of this and maybe we can customize more-->
 
             <script type="text/javascript">
+                function updateNumPhotos(){
+                    photos_upload++;
+                    $("#id_num_photos").val(photos_upload);
+                    if(photos_upload > 0)
+                    {
+                        $("button").attr("disabled",false);
+                    }
+                }
+
+              var photos_upload = -1;
               $('#cover_upload_widget_opener').cloudinary_upload_widget(
                       <!--Can you set the folder, etc. here? take a look at upload preset in Cloudinary settings...-->
                 { cloud_name: 'thimbleapp', upload_preset: 'orphans',
-                  cropping: 'server', cropping_aspect_ratio:0.5, button_caption:"Upload Cover"},
-                function(error, result) { console.log(error, result) });
+                  cropping: 'server', cropping_aspect_ratio:0.5, button_caption:"Upload Cover", field_name:"cover_photo"},
+                function(error, result) {
+                    updateNumPhotos();
+                    console.log(error, result)
+                });
 
               $('#supp_upload_widget_opener').cloudinary_upload_widget(
                 { cloud_name: 'thimbleapp', upload_preset: 'orphans',
-                  cropping: 'server', cropping_aspect_ratio:0.5, button_caption:"Upload Supplementary"},
-                function(error, result) { console.log(error, result) });
+                  cropping: 'server', cropping_aspect_ratio:0.5, button_caption:"Upload Supplementary", field_name:"entry_photos"},
+                function(error, result) {
+                    updateNumPhotos();
+                    console.log(error, result)
+                });
             </script>
-
-             <!--HENRY NOTE: We should instead have both fields be single-upload (aka one at a time) and have the cover photo always
-                overwrite the old ones if they use it multiple times
-
-                Basically instead of the Django-generated image form, we just hook it up to this widget
-
-                Should be very customizable: http://cloudinary.com/documentation/upload_widget
-
-                -->
 
 		</form>
         <div class='status' hidden='true'>
