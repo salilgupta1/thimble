@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 LOGIN_URL = "/accounts/login"
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/new-home-page'
 
 # Application definition
 
