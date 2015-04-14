@@ -1,13 +1,24 @@
 {%extends 'Users/base_users.html'%}
-    {%block content%}
-                    <form role='form' action="{%url 'Users:login' %}" method='POST'>        {%csrf_token%}
-                    {% for field in form %}
-                    <div class = 'form-group'>
-                            <div>{{field.errors|striptags}}</div>
-                    {{field.label_tag}}
-                    {{field}}
+
+{% load staticfiles %}
+
+{%block users_css%}
+    <link rel='stylesheet' type='text/css' href ="{%static 'Users/css/login.css'%}"/>
+{%endblock%}
+
+{%block content%}
+    <div class="reg-form-wrapper">
+        <form role='form' action="{%url 'Users:login' %}" method='POST'>        
+            {%csrf_token%}
+            <div class="form-group">
+                <div></div>
+                <input class="form-control" id="id_username" maxlength="254" name="username" type="text" placeholder="Username">
             </div>
-                    {% endfor %}
-                    <button type = 'submit' class = 'btn btn-primary'>Login</button>
+            <div class="form-group">
+                <div></div>
+                <input class="form-control" id="id_password" name="password" type="password" placeholder="Password">
+            </div>
+            <button type = 'submit' class = 'btn btn-primary'>Login</button>
         </form>
-    {%endblock%}
+    </div>
+{%endblock%}
