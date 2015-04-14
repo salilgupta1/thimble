@@ -155,7 +155,7 @@ def create_chapter(request, username, story_id, slug):
 			 	new_entry.bucket_link = bucket_link
 			 	new_entry.save()
 
-				# rename photos pushed to cloudinary
+				# rename entry_photos pushed to cloudinary
 				photos = request.POST.getlist('entry_photos')
 				i = 0
 				for photo in photos:
