@@ -28,7 +28,7 @@ def render_portfolio(request, username):
 	if portfolio_data == None:
 		raise Http404
 
-	context = {"portfolio_data":portfolio_data}
+	context = {"portfolio_data":portfolio_data, "num_pieces":0}
 
 	# get design_stories related to portfolio
 	design_stories = DesignStory.objects.get_design_stories(username=username)
