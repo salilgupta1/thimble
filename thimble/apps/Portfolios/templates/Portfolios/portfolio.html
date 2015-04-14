@@ -47,37 +47,37 @@
   <div class="row piece-grid">
     {%for story in stories%}
       <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-        <!--a href="{%url 'Portfolios:render_design_story' portfolio_data.user story.0.design_story_id%}"-->
-          <div class="piece">
-            <div class="piece-thumb-container">
-              <div class="piece-overlay">
+        <div class="piece">
+          <div class="piece-thumb-container">
+            <div class="piece-overlay">
+              <a href="{%url 'Portfolios:render_design_story' portfolio_data.user story.0.design_story_id story.0.title|slugify%}">
                 <p><strong>{{story.0.title}}</strong></p>
-                <p>{{story.0.date_created}}</p>
-                <br></br>
-                <!--p> <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>  14,123</p-->
-                <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{story.0.likes}}</span></p>
-                <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{story.0.comments}}</span></p>
+              </a>
+              <p>{{story.0.date_created}}</p>
+              <br></br>
+              <!--p> <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>  14,123</p-->
+              <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{story.0.likes}}</span></p>
+              <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{story.0.comments}}</span></p>
 
-                {%if user.is_authenticated%}
-                  {% if story.0.design_story_id in likes %}
-                    <button type="button" class="btn btn-default btn-lg unlike-btn" data-storyid="{{story.0.design_story_id}}">
-                      <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                    </button>
-                  {%else%}
-                    <button type="button" class="btn btn-default btn-lg like-btn" data-storyid="{{story.0.design_story_id}}">
-                      <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                    </button>
-                  {%endif%}
+              {%if user.is_authenticated%}
+                {% if story.0.design_story_id in likes %}
+                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-storyid="{{story.0.design_story_id}}">
+                    <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  </button>
+                {%else%}
+                  <button type="button" class="btn btn-default btn-lg like-btn" data-storyid="{{story.0.design_story_id}}">
+                    <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  </button>
                 {%endif%}
+              {%endif%}
 
-                <button type="button" class="btn btn-default btn-lg share-btn">
-                  Share <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                </button>
-              </div>
-              <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
+              <button type="button" class="btn btn-default btn-lg share-btn">
+                Share <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              </button>
             </div>
+            <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
           </div>
-        <!--/a-->
+        </div>
       </div>
     {%endfor%}
   </div>
