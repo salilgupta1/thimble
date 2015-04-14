@@ -34,14 +34,15 @@ def render_portfolio(request, username):
 	design_stories = DesignStory.objects.get_design_stories(username=username)
 
 	story_ids = []
+	cover_photos = []
 
 	# get cover photos
 	if design_stories != None:
 		for story in design_stories:
 			story_ids.append(story['design_story_id'])
-
-		cover_photos = Entry.objects.get_cover_photos(story_ids)
-
+			cover_photo = Entry.objects.get_cover_photos(story['design_story_id'])
+			cover_photos.append(cover_photo)
+		
 		context['stories'] = zip(design_stories, cover_photos)
 		context['num_pieces'] = len(design_stories)
 

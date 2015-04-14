@@ -12,9 +12,9 @@ class EntryManager(models.Manager):
 		except:
 			raise
 
-	def get_cover_photos(self, story_ids):
+	def get_cover_photos(self, story_id):
 		try:
-			rows = self.filter(design_story_id__in=story_ids).values('cover_photo')
+			rows = self.filter(design_story_id=story_id).values('cover_photo').last()
 			if len(rows) > 0:
 				return rows
 		except:
