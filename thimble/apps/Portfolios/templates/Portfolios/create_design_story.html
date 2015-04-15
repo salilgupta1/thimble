@@ -5,30 +5,9 @@
 {%block cloudinary%}
     {% cloudinary_includes %}
     {% cloudinary_js_config %}
-
-    <script>
-        var photos_upload = -1;
-        $(function () {
-            $('#direct_upload input[type="file"]').fileupload({
-                dropZone: '#direct_upload',
-
-            }).on('cloudinarydone', function (e, data) {
-                $('.status').show();  
-                var x = $(this).attr('data-cloudinary-field');
-                $('.status').append(x+' upload complete!\n');
-            
-                photos_upload++;
-                $("#id_num_photos").val(photos_upload);
-                if(photos_upload > 0)
-                {
-                    $("button").attr("disabled",false);
-                }
-            });
-        });
-
-    </script>
-    
 {% endblock %}
+
+
 
 {%block content%}
 	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
@@ -49,13 +28,51 @@
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
-                    {{field}}
+                    {% if field.label == 'Main Photo' %}
+                        <br/>
+                        <a href="#" id="cover_upload_widget_opener"></a>
+                    {% elif field.label == 'Supplementary Photos'%}
+                        <br/>
+                        <a href="#" id="supp_upload_widget_opener"></a>
+                    {% else %}
+                        {{field}}
+                    {% endif %}
                 </div>
             {%endfor%} 
             {% for hidden in entry_form.hidden_fields %}
                  {{ hidden }}
             {% endfor %}
-            <button type = 'submit' class = 'btn btn-primary' disabled='true'>Create</button>
+
+            <button type='submit' class='btn btn-primary' disabled="true">Create</button>
+
+            <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
+            <script type="text/javascript">
+                function updateNumPhotos(){
+                    photos_upload++;
+                    $("#id_num_photos").val(photos_upload);
+                    if(photos_upload > 0)
+                    {
+                        $("button").attr("disabled",false);
+                    }
+                }
+
+              $('#cover_upload_widget_opener').cloudinary_upload_widget(
+                { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,
+                  cropping: 'server', cropping_aspect_ratio:0.5, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal"},
+                function(error, result) {
+                    // TODO change "Upload Cover" on button to "Change cover"
+                });
+
+              var photos_upload = 0;
+              $('#supp_upload_widget_opener').cloudinary_upload_widget(
+                { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true,
+                  cropping: 'server', cropping_aspect_ratio:0.5, button_caption:"Upload Supplementary", field_name:"entry_photos", theme:"minimal"},
+                function(error, result) {
+                    updateNumPhotos();
+                        // TODO error handle here
+                });
+            </script>
+
 		</form>
         <div class='status' hidden='true'>
             <h3>Photo Upload Status</h3>
