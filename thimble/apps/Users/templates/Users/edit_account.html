@@ -1,6 +1,11 @@
 {% extends 'Users/base_users.html' %}
 
 {% load staticfiles %}
+
+{%block app_css%}
+    <link rel='stylesheet' type='text/css' href ="{%static 'Users/css/edit.css'%}"/>
+{%endblock%}
+
 {% load cloudinary %}
 
 {%block cloudinary%}
@@ -23,23 +28,19 @@
     
 {% endblock %}
 
-{%block users_css%}
-    <link rel='stylesheet' type='text/css' href ="{%static 'Users/css/login.css'%}"/>
-{%endblock%}
-
 {% block content %}
-    <div>
+    <div class="edit-form-wrapper">
         <form action="{%url 'Users:edit_account' %}" method='POST' >
             {%csrf_token%}
             {% for field in edit_user %}
-                <div class = 'form-group'>
+                <div class='form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
                     {{field}}
                 </div>
             {% endfor %}
             {% for field in edit_designer %}
-                <div class = 'form-group'>
+                <div class='form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
                     {{field}}
@@ -47,6 +48,7 @@
             {% endfor %}
             <button type = 'submit' class = 'btn btn-primary'>Update Account</button>
         </form>
+        
     </div>
 
 {% endblock %}

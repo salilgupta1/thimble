@@ -1,0 +1,23 @@
+#direct_upload {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.edit-form-wrapper {
+	margin-top: 50px;
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.edit-form-wrapper textarea {
+	max-height: 100px;
+}
+
+
+/* Cloudinary puts a button inside an input, wtf */
+.edit-form-wrapper #id_avatar{
+	width: 	100px;
+	height: 30px;
+}
