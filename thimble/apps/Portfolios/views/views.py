@@ -99,6 +99,7 @@ def create_design_story(request, username):
             design_story_form = CreateDesignStory(request.POST)
             entry_form = CreateEntry(request.POST)
 
+            print request.POST
             if design_story_form.is_valid() and entry_form.is_valid():
 
                 # create an instance of the of design_story_model model
