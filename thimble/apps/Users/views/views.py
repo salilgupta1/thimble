@@ -32,9 +32,6 @@ def create_account(request):
 			return HttpResponseRedirect(reverse('Users:edit_account'))
 		else:
 			context['error'] = dict(user_form.errors.items())
-	else:
-		user_form = RegistrationForm()
-		context = {'user_form':user_form}
 
 	return render(request, "Users/create_account.html", context)
 
