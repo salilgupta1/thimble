@@ -1,10 +1,25 @@
+.story-header {
+	right: 8%;
+	position: fixed;
+	display: inline-block;
+}
+
 #name-wrapper {
+	padding-top: 20px;
 	padding-bottom: 15px;
 	text-align: center;
+	width: 100%;
+	display: inline-block;
+}
+
+#name-wrapper h1 {
+	font-size: 40px;	
 }
 
 #by-wrapper {
 	text-align: center;
+	width: 100%;
+	display: inline-block;
 }
 
 #by-wrapper > img {
@@ -20,41 +35,29 @@
 }
 
 #desc-wrapper {
-	max-width: 200px;
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
-}
-
-#portfolio-header {
 	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 5px;
-	padding-right: 5px;
-	text-align: center;
-
-}
-
-#portfolio-header > div {
-	margin-left: auto;
-	margin-right: auto;
+	display: inline-block;
 }
 
 #prof-pic-wrapper {
 	max-width: 150px;	
 }
 
+#chapter-list {
+	width: 60%;
+	display: inline-block;
+}
+
 .chapter-title {
-	padding-top: 15px;
 	text-align: center;
 }
 
 .chapter-img-wrapper {
 	position: relative;
-	max-width: 600px;
+	max-width: 550px;
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
@@ -66,7 +69,7 @@
 }
 
 .thumb-img-list {
-	width: 26%;
+	width: 26.1%;
 	float: left;
 	padding-right: 15px;
 }
@@ -81,7 +84,7 @@
 }
 
 .cover-img {
-	width: 74%;
+	width: 73.9%;
 	height: 100%;
 	float: left;
 }
@@ -90,22 +93,21 @@
 	width: 100%;
 }
 
-@media (min-width: 992px) {
-	#portfolio-header {
-		position: fixed;
-		width: 30%;
-		padding-left: 30px;
-		padding-right: 30px;
-	}
-	#portfolio-content {
-		float: right;
-		width: 70%;
+@media(max-width:767px){}
+@media(max-width:991px){
+	.story-header {
+		position: relative;
+		width: 100%;
+		right: 0%;
 	}
 	#chapter-list {
-		margin-left: auto;
-		margin-right: auto;
-		max-width: 800px;
+		width: 100%;
 	}
 }
-
+@media(min-width:992px){
+	.story-header {
+		max-width: 330px;
+	}
+}
+@media(min-width:1200px){}
 

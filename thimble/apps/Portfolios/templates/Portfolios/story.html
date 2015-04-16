@@ -9,21 +9,23 @@
 
 
 {%block content%}
-	<div id="name-wrapper">
-		<h1>{{design_story.title}}</h1>
-		<a href="{%url 'Portfolios:create_chapter' username design_story_id slug%}">Create Chapter</a>
-	</div>
-	<div id="by-wrapper">
-		{%if not portfolio_data.avatar == None%}
-          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
-        {%else%}
-          <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
-        {%endif%}
-		<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
-	</div>
-	<div id="desc-wrapper col-xs-12 col-sm-4">
-		<h3>About this piece</h3>
-		<p class="lead">{{design_story.description}}</p>
+	<div class="story-header">
+		<div id="name-wrapper">
+			<h1>{{design_story.title}}</h1>
+			<a href="{%url 'Portfolios:create_chapter' username design_story_id slug%}">Create Chapter</a>
+		</div>
+		<div id="by-wrapper">
+			{%if not portfolio_data.avatar == None%}
+	          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
+	        {%else%}
+	          <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
+	        {%endif%}
+			<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
+		</div>
+		<div id="desc-wrapper">
+			<h3>About this piece</h3>
+			<p class="lead">{{design_story.description}}</p>
+		</div>
 	</div>
 
 	<div id="chapter-list">
