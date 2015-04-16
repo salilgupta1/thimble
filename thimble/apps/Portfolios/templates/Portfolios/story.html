@@ -34,12 +34,10 @@
 			</div>
 			<div class="chapter-img-wrapper">
 				<div class="thumb-img-list">
-					{% for i in chapter.num_photos|get_range %}
-						{% with j=i|stringformat:'s'%}
+					{% for photo in chapter.photos %}
 						<div class="thumb-img-wrapper">
-			  				{%cloudinary chapter.bucket_link|add:"/"|add:j width='400' height='550' class='img-responsive'%}
+			  				{%cloudinary photo width='400' height='550' class='img-responsive'%}
 		  				</div>
-		  				{%endwith%}
 	  				{% endfor %}
 				</div>
 				<div class="cover-img">
