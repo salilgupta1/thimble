@@ -13,6 +13,7 @@ from cloudinary.api import resources
 
 
 # username refers to portfolio 
+# request.user refers to user that is logged in
 def render_portfolio(request, username):
     column_list = ['user', 'user__first_name', 'user__last_name', 'bio', 'avatar', 'following', 'followers']
     portfolio_data = Designer.objects.get_portfolio_data(username=username, column_list=column_list)
@@ -22,15 +23,16 @@ def render_portfolio(request, username):
         raise Http404
 
     context = {"portfolio_data": portfolio_data, "num_pieces": 0}
-
+    context['favorites'] = Like.objects.get_favorites(liker=username)
+    
     # get design_stories related to portfolio
     design_stories = DesignStory.objects.get_design_stories(username=username)
 
     story_ids = []
-    cover_photos = []
 
     # get cover photos
     if design_stories is not None:
+        cover_photos = []
         for story in design_stories:
             story_ids.append(story['design_story_id'])
             cover_photo = Entry.objects.get_cover_photos(story['design_story_id'])

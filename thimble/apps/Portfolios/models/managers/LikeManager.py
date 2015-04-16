@@ -8,3 +8,10 @@ class LikeManager(models.Manager):
 			return rows
 		except:
 			raise
+
+	def get_favorites(self, liker):
+		try:
+			count = self.filter(liker_id=liker).count()
+			return count
+		except:
+			raise
