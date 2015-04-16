@@ -1,6 +1,5 @@
 var CommunityActivities = (function($){
-	var portfolioUsername = "",
-	authenticatedUsername = "",
+	var authenticatedUsername = "",
 	csrftoken = "";
 
 	var like = function(self, path){
@@ -120,25 +119,26 @@ var CommunityActivities = (function($){
 
 		// like button is clicked
 		$(document).on('click','.like-btn',function(){
-			path = "/"+CommunityActivities.portfolioUsername+"/like_story/";
+
+			path = "/"+$(this).attr("data-username")+"/like_story/";
 			like($(this),path);
 		}); 
 
 		// unlike button is clicked
 		$(document).on('click','.unlike-btn',function(){
-			path = "/"+CommunityActivities.portfolioUsername+"/unlike_story/";
+			path = "/"+$(this).attr("data-username")+"/unlike_story/";
 			unlike($(this), path);
 		});
 
 		// follow button is clicked
 		$(document).on('click','#follow-btn',function(){
-			path = "/"+CommunityActivities.portfolioUsername+"/follow/";
+			path = "/"+$(this).attr("data-username")+"/follow/";
 			follow(path);
 		});
 
 		// unfollow button is clicked
 		$(document).on('click','#unfollow-btn',function(){
-			path = "/"+CommunityActivities.portfolioUsername+"/unfollow/";
+			path = "/"+$(this).attr("data-username")+"/unfollow/";
 			unfollow(path);
 		});
 

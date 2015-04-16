@@ -32,9 +32,9 @@
   {% if not portfolio_data.user == user.username and user.is_authenticated %}
     <div class="follow-wrapper">
       {%if not is_following %}
-        <button class="follow-btn" id='follow-btn'>Follow</button>
+        <button class="follow-btn" id='follow-btn' data-username="{{portfolio_data.user}}">Follow</button>
       {%else%}
-        <button class="follow-btn" id='unfollow-btn'>Following</button>
+        <button class="follow-btn" id='unfollow-btn' data-username="{{portfolio_data.user}}">Following</button>
       {%endif%} 
     </div>
   {%endif%}
@@ -61,11 +61,13 @@
 
               {%if user.is_authenticated%}
                 {% if story.0.design_story_id in likes %}
-                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-storyid="{{story.0.design_story_id}}">
+                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-storyid="{{story.0.design_story_id}}"
+                    data-username="{{portfolio_data.user}}">
                     <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                   </button>
                 {%else%}
-                  <button type="button" class="btn btn-default btn-lg like-btn" data-storyid="{{story.0.design_story_id}}">
+                  <button type="button" class="btn btn-default btn-lg like-btn" data-storyid="{{story.0.design_story_id}}"
+                    data-username="{{portfolio_data.user}}">
                     <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                   </button>
                 {%endif%}
@@ -89,7 +91,6 @@
 
 <script>
   $(document).ready(function(){
-      CommunityActivities.portfolioUsername = "{{portfolio_data.user}}";
       CommunityActivities.authenticatedUsername = "{{user.username}}";
       CommunityActivities.csrftoken = $.cookie('csrftoken');
       CommunityActivities.init();      
