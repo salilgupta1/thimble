@@ -20,11 +20,10 @@ class CreateEntry(forms.ModelForm):
 	entry_title = forms.CharField(label='Chapter Title')
 	cover_photo = CloudinaryJsFileField(label='Main Photo')
 	entry_photos = CloudinaryJsFileField(attrs={'multiple':1}, label='Supplementary Photos')
-	num_photos = forms.IntegerField(label="", help_text="", widget=forms.HiddenInput())
 
 	class Meta:
 		model = Entry
-		fields = ("entry_title","cover_photo","num_photos")
+		fields = ("entry_title",)
 
 	def __init__(self, *args, **kwargs):
 		super(CreateEntry, self).__init__(*args, **kwargs)

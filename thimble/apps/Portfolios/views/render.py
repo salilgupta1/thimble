@@ -79,7 +79,11 @@ def render_design_story(request, username, story_id, slug):
         for entry in entries:
             folder = resources(type="upload", resource_type="image", prefix=entry["bucket_link"])
             num_photos = len(folder['resources'])
-            entry["photos"] = [folder['resources'][i]['public_id'] for i in xrange(num_photos)]
+            
+            entry["photos"] = []
+            for i in xrange(num_photos):
+                if folder['resources'][i]['public_id'] != entry['cover_photo']:
+                    entry["photos"].append(folder['resources'][i]['public_id'])
+
 
     return render(request, "Portfolios/story.html", context)
-

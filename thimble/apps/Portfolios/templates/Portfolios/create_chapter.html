@@ -7,7 +7,7 @@
     {% cloudinary_js_config %}
 
     <script>
-        var photos_upload = -1;
+        var photos_upload = 0;
         $(function () {
             $('#direct_upload input[type="file"]').fileupload({
                 dropZone: '#direct_upload',
@@ -18,7 +18,6 @@
                 $('.status').append(x+' upload complete!\n');
             
                 photos_upload++;
-                console.log(photos_upload);
                 $("#id_num_photos").val(photos_upload);
                 if(photos_upload > 0)
                 {
@@ -37,16 +36,13 @@
         {{error}}
 		<form method='POST' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}">
 			{%csrf_token%}
-            {%for field in entry_form.visible_fields%}
+            {%for field in entry_form%}
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
                     {{field}}
                 </div>
             {%endfor%} 
-            {% for hidden in entry_form.hidden_fields %}
-                 {{ hidden }}
-            {% endfor %}
             <button type = 'submit' class = 'btn btn-primary' disabled='true'>Create</button>
 		</form>
         <div class='status' hidden='true'>

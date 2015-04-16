@@ -9,12 +9,12 @@ from django.core.context_processors import csrf
 from cloudinary.forms import cl_init_js_callbacks
 from cloudinary.uploader import rename
 
+# utils
+from thimble.apps.Portfolios.utils import photo_rename
+
 # models
 from thimble.apps.Portfolios.models.schemas.Entry import Entry
 from thimble.apps.Portfolios.models.schemas.DesignStory import DesignStory
-from thimble.apps.Portfolios.models.schemas.Like import Like
-from thimble.apps.Users.models.schemas.Designer import Designer
-from thimble.apps.Users.models.schemas.Follow import Follow
 
 # forms 
 from thimble.apps.Portfolios.forms.create_forms import *
@@ -32,32 +32,33 @@ def create_design_story(request, username):
             if design_story_form.is_valid() and entry_form.is_valid():
 
                 # create an instance of the of design_story_model model
-                new_design_story = design_story_form.save(commit=False)
-                new_design_story.designer = request.user.designer
-                new_design_story.save()
-                slug = slugify(new_design_story.title)
+                design_story = design_story_form.save(commit=False)
+                design_story.designer = request.user.designer
+                design_story.save()
 
                 # create an instance of the entry model
-                new_entry = entry_form.save(commit=False)
-                new_entry.design_story = new_design_story
-                new_entry.save()
+                entry = entry_form.save(commit=False)
+                entry.design_story = design_story
+                entry.save()
 
                 # update the bucket link
-                bucket_link = "%s/%s/%s" % (username, new_design_story.design_story_id, new_entry.entry_id)
-                new_entry.bucket_link = bucket_link
-                new_entry.save()
+                bucket_link = "%s/%s/%s" % (username, design_story.design_story_id, entry.entry_id)
+                entry.bucket_link = bucket_link
 
-                # rename photos pushed to cloudinary
+                # rename cover_photo
+                cover_photo = request.POST.get("cover_photo")
+                old_name = photo_rename(bucket_link, [cover_photo])
+
+                entry.cover_photo = "%s/%s" % (bucket_link, old_name)
+                entry.save()
+
+                # rename entry_photos pushed to cloudinary
                 photos = request.POST.getlist('entry_photos')
-                i = 0
-                for photo in photos:
-                    p = photo.split("/")[3]
-                    p = p.split('#')[0].split('.')[0]
-                    rename(p, "%s/%s" % (bucket_link, i))
-                    i += 1
+                photo_rename(bucket_link, photos)
 
+                slug = slugify(design_story.title)
                 return HttpResponseRedirect(
-                    reverse('Portfolios:render_design_story', args=(username, new_design_story.design_story_id, slug)))
+                    reverse('Portfolios:render_design_story', args=(username, design_story.design_story_id, slug)))
             else:
                 context['error'] = dict(design_story_form.errors.items() + entry_form.errors.items())
         else:
@@ -79,23 +80,25 @@ def create_chapter(request, username, story_id, slug):
         if request.method == "POST":
             entry_form = CreateEntry(request.POST)
             if entry_form.is_valid():
-                new_entry = entry_form.save(commit=False)
-                new_entry.design_story_id = story_id
-                new_entry.save()
+                # create an instance of the entry model
+                entry = entry_form.save(commit=False)
+                entry.design_story_id = story_id
+                entry.save()
 
                 # update the bucket link
-                bucket_link = "%s/%s/%s" % (username, story_id, new_entry.entry_id)
-                new_entry.bucket_link = bucket_link
-                new_entry.save()
+                bucket_link = "%s/%s/%s" % (username, story_id, entry.entry_id)
+                entry.bucket_link = bucket_link
+
+                # rename cover_photo
+                cover_photo = request.POST.get("cover_photo")
+                old_name = photo_rename(bucket_link, [cover_photo])
+
+                entry.cover_photo = "%s/%s" % (bucket_link, old_name)
+                entry.save()
 
                 # rename entry_photos pushed to cloudinary
                 photos = request.POST.getlist('entry_photos')
-                i = 0
-                for photo in photos:
-                    p = photo.split("/")[3]
-                    p = p.split('#')[0].split('.')[0]
-                    rename(p, "%s/%s" % (bucket_link, i))
-                    i += 1
+                photo_rename(bucket_link, photos)
 
                 return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(username, story_id, slug)))
             else:
