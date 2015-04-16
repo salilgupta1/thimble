@@ -1,5 +1,5 @@
 .story-header {
-	right: 8%;
+	left: 8%;
 	position: fixed;
 	display: inline-block;
 }
@@ -49,6 +49,7 @@
 #chapter-list {
 	width: 60%;
 	display: inline-block;
+	float: right;
 }
 
 .chapter-title {
@@ -98,7 +99,7 @@
 	.story-header {
 		position: relative;
 		width: 100%;
-		right: 0%;
+		left: 0%;
 	}
 	#chapter-list {
 		width: 100%;
