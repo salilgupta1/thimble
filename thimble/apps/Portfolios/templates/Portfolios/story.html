@@ -19,7 +19,7 @@
 		</div>
 		<div id="name-wrapper">
 			<h1>{{design_story.title}}</h1>
-			{%if user.is_authenticated%}
+			{%if user.is_authenticated and username == user.username%}
 				<a href="{%url 'Portfolios:create_chapter' username design_story_id slug%}">Create Chapter</a>
 			{%endif%}
 		</div>
