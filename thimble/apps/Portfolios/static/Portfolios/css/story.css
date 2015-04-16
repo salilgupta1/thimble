@@ -1,38 +1,33 @@
 .story-header {
-	left: 8%;
+	right: 5%;
 	position: fixed;
 	display: inline-block;
-	top: 20%;
 	background: white;
 	margin-top: 15px;
-	padding: 15px;
-	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
-	border-radius: 8px;
-	max-width: 550px;
+	padding: 10px;
+	border-radius: 3px;
+	width: 40%;
+	text-align: left;
+	height: calc(100vh - 80px);
 }
 
 
-#name-wrapper {
-	padding-top: 20px;
-	padding-bottom: 15px;
-	text-align: center;
+#name-wrapper {	
 	width: 100%;
 	display: inline-block;
 }
 
 #name-wrapper h1 {
-	font-size: 40px;	
+	font-size: 27px;	
 }
 
 #by-wrapper {
-	text-align: center;
 	width: 100%;
 	display: inline-block;
-	padding-bottom: 15px;
 }
 
 #by-wrapper > img {
-	width: 40px;
+	width: 30px;
 	margin-left: auto;
 	margin-right: auto;
 	display: inline-block;
@@ -41,14 +36,129 @@
 #by-wrapper > p {
 	display: inline-block;
 	margin-bottom: 0px;
+	font-size: 14px;
+}
+
+#by-wrapper > a {
+	font-size: 14px;
 }
 
 #desc-wrapper {
 	margin-left: auto;
 	margin-right: auto;
-	text-align: center;
 	width: 100%;
 	display: inline-block;
+}
+
+#desc-wrapper > p {
+	font-size: 14px;
+	font-weight: 300;
+}
+
+.like-text-wrapper > p {
+	margin-bottom: 0px;
+}
+
+.like-photo-row {
+	display: inline-block;
+}
+
+.liker-wrapper {
+	display: inherit;
+	width: 10%
+}
+
+.liker-wrapper > img {
+	width: 100%;
+	float: left;
+	padding: 5px;
+}
+
+.liker-wrapper > p {
+	width: 100%;
+	text-align: center;
+	font-size: 10px;
+}
+
+.comment-bin {
+	overflow-y: auto;
+	height: 270px;
+	background:
+		/* Shadow covers */
+		linear-gradient(white 30%, rgba(255,255,255,0)),
+		linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+		
+		/* Shadows */
+		radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
+		radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+	background:
+		/* Shadow covers */
+		linear-gradient(white 30%, rgba(255,255,255,0)),
+		linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+		
+		/* Shadows */
+		radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)),
+		radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+	background-repeat: no-repeat;
+	background-color: white;
+	background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+	
+	/* Opera doesn't support this in the shorthand */
+	background-attachment: local, local, scroll, scroll;
+	/*height: calc(100% - 500px);*/
+}
+
+.commenter-wrapper {
+	display: block;
+	width: 100%;
+	margin-bottom: 12px;
+}
+
+.commenter-wrapper > img {
+	width: 35px;
+	float: left;
+	margin-right: 4px;
+}
+
+.commenter-wrapper > p {
+	width: 100%;
+	padding-left: 43px;
+	margin-bottom: 0px;
+}
+
+.commenter-wrapper :last-child {
+	font-weight: 300;
+}
+
+.commenter-name {
+	margin-bottom: 5px;
+	font-size: 12px;
+}
+
+.comment-form {
+	height: 25px;
+	border: 1px solid #DCDCDC;
+	border-radius: 3px;
+}
+
+.comment-input {
+	width: calc(100% - 35px);
+	height: 23px;
+	float: left;
+	border: none;
+
+}
+
+.comment-btn {
+	color: #333333;
+	background: white;
+	border: none;
+	border-left: 1px solid #DCDCDC;
+	border-radius: 0px 3px 3px 0px;
+	width: 35px;
+	height: 23px;
+	float: left;
+
 }
 
 #prof-pic-wrapper {
@@ -56,19 +166,18 @@
 }
 
 #chapter-list {
-	width: 60%;
+	width: 50%;
 	display: inline-block;
-	float: right;
+	float: left;
 }
 
 .chapter-title {
 	text-align: center;
 	background: white;
-	border-radius: 8px 8px 0px 0px;
+	border-radius: 3px 3px 0px 0px;
 	max-width: 500px;
 	margin-left: auto;
 	margin-right: auto;
-	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
 	padding-bottom: 1px;
 }
 
@@ -85,9 +194,8 @@
 	background: white;
 	overflow: hidden;
 	margin-top: 10px;
-	padding: 15px;
-	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.50);
-	border-radius: 8px;
+	padding: 3px;
+	border-radius: 3px;
 }
 
 .chapter-img-wrapper > h3 {
@@ -97,14 +205,14 @@
 }
 
 .thumb-img-list {
-	width: 26.1%;
+	width: 25.2%;
 	float: left;
-	padding-right: 15px;
+	padding-right: 3px;
 }
 
 .thumb-img-wrapper img {
 	width: 100%;
-	padding-bottom: 15px;
+	padding-bottom: 3px;
 }
 
 .thumb-img-wrapper:last-child img {
@@ -112,7 +220,7 @@
 }
 
 .cover-img {
-	width: 73.9%;
+	width: 74.8%;
 	height: 100%;
 	float: left;
 }
@@ -130,7 +238,7 @@ footer {
 	.story-header {
 		position: relative;
 		width: 100%;
-		left: 0%;
+		max-width: 550px;
 	}
 	#chapter-list {
 		width: 100%;
@@ -141,7 +249,7 @@ footer {
 }
 @media(min-width:992px){
 	.story-header {
-		max-width: 330px;
+
 	}
 }
 @media(min-width:1200px){}

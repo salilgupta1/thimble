@@ -9,12 +9,6 @@
 
 {%block content%}
 	<div class="story-header">
-		<div id="name-wrapper">
-			<h1>{{design_story.title}}</h1>
-			{%if user.is_authenticated and user.username == username%}
-				<a href="{%url 'Portfolios:create_chapter' user.username design_story_id slug%}">Create Chapter</a>
-			{%endif%}
-		</div>
 		<div id="by-wrapper">
 			{%if not portfolio_data.avatar == None%}
 	          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
@@ -23,15 +17,103 @@
 	        {%endif%}
 			<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
 		</div>
+		<div id="name-wrapper">
+			<h1>{{design_story.title}}</h1>
+			{%if user.is_authenticated%}
+				<a href="{%url 'Portfolios:create_chapter' username design_story_id slug%}">Create Chapter</a>
+			{%endif%}
+		</div>
 		<div id="desc-wrapper">
-			<p class="lead">{{design_story.description}}</p>
+			<p>{{design_story.description}}</p>
+		</div>
+		<div class="like-box">
+			<div class="like-text-wrapper">
+				<p><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> LIKES (46)</p>
+			</div>
+			<div class="like-photo-row">
+
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">John</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Jane</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Abby</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Jack</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Peter</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Katelyn</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Fiona</p>
+				</div>
+			</div>
+		</div>
+		<div class="comment-box">
+			<div class="comment-text-wrapper">
+				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (12)</p>
+			</div>
+			<div class="comment-bin">
+				<div class="commenter-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="commenter-name">John</p>
+					<p class="comment">The evil queen makes brew for Jack and Jill. The quick brown fox jumped over the lazy dogs.</p>
+				</div>
+				<div class="commenter-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="commenter-name">Jane</p>
+					<p class="comment">I love cheese</p>
+				</div>
+				<div class="commenter-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="commenter-name">Abby</p>
+					<p class="comment">I love cheese</p>
+				</div>
+				<div class="commenter-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="commenter-name">Jack</p>
+					<p class="comment">I love cheese</p>
+				</div>
+				<div class="commenter-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="commenter-name">Peter</p>
+					<p class="comment">I love cheese</p>
+				</div>
+				<div class="commenter-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="commenter-name">Katelyn</p>
+					<p class="comment">I love cheese</p>
+				</div>
+				<div class="commenter-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="commenter-name">Fiona</p>
+						<p class="comment">I love cheese</p>
+				</div>
+			</div>
+			<form class="comment-form" action="" method='POST' >
+			<input class="comment-input" placeholder="Comment..."></input>
+            <button class="comment-btn" type = 'submit' class = 'btn btn-primary'>Post</button>
+        	</form>
 		</div>
 	</div>
 
 	<div id="chapter-list">
 		{%for chapter in entries%}
 			<div class="chapter-img-wrapper">
-				<h3>{{chapter.entry_title}}</h3>
+				<!-- <h3>{{chapter.entry_title}}</h3> -->
 				<div class="thumb-img-list">
 					{% for photo in chapter.photos %}
 						<div class="thumb-img-wrapper">
