@@ -3,44 +3,49 @@
 {% load cloudinary %}
 
 {%block app_css%}
-	<link rel='stylesheet' type='text/css' href ="{%static "Portfolios/css/story.css"%}"/>
+	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/story.css'%}"/>
 {%endblock%}
 
 
 {%block content%}
-	<div id="name-wrapper">
-		<h2>{{design_story.title}}</h2>
-		<a href="{%url 'Portfolios:create_chapter' username design_story_id slug%}">Create Chapter</a>
+	<div class="story-header">
+		<div id="name-wrapper">
+			<h1>{{design_story.title}}</h1>
+			<a href="{%url 'Portfolios:create_chapter' username design_story_id slug%}">Create Chapter</a>
+		</div>
+		<div id="by-wrapper">
+			{%if not portfolio_data.avatar == None%}
+	          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
+	        {%else%}
+	          <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
+	        {%endif%}
+			<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
+		</div>
+		<div id="desc-wrapper">
+			<h3>About this piece</h3>
+			<p class="lead">{{design_story.description}}</p>
+		</div>
 	</div>
-	<div id="by-wrapper">
-		{%if not portfolio_data.avatar == None%}
-          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
-        {%else%}
-          <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
-        {%endif%}
-		<p class="lead">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
-	</div>
-	<div id="desc-wrapper">
-		<h3>About this piece</h3>
-		<p class="lead">{{design_story.description}}</p>
-	</div>
+
 	<div id="chapter-list">
 		{%for chapter in entries%}
-			<div class='row'>
+			<div class="chapter-title">
 				<h3>{{chapter.entry_title}}</h3>
 			</div>
-			<div class="row">
-				<div class="col-xs-12 cover-img">
-					<!-- TODO get cover image -->
-					{%cloudinary chapter.cover_photo width='800' height='600' class='img-responsive'%}
+			<div class="chapter-img-wrapper">
+				<div class="thumb-img-list">
+					{% for i in chapter.num_photos|get_range %}
+						{% with j=i|stringformat:'s'%}
+						<div class="thumb-img-wrapper">
+			  				{%cloudinary chapter.bucket_link|add:"/"|add:j width='400' height='550' class='img-responsive'%}
+		  				</div>
+		  				{%endwith%}
+	  				{% endfor %}
 				</div>
-			</div>
-			<div class="row">
-				{% for photo in chapter.photos %}
-					<div class="col-xs-4 col-sm-3 col-lg-2">
-		  				{%cloudinary photo width='600' height='800' class='img-responsive'%}
-	  				</div>
-  				{% endfor %}
+				<div class="cover-img">
+						<!-- TODO get cover image -->
+						{%cloudinary chapter.cover_photo width='400' height='550' class='img-responsive'%}
+				</div>
 			</div>
 		{%endfor%}
 	</div>
