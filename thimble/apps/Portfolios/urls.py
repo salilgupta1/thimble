@@ -8,7 +8,7 @@ urlpatterns = patterns('',
 
 	# create 
 	url(r'^create_design_story/$', create.create_design_story, name='create_design_story'),
-	url(r'^(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/create_chapter/$', create.create_chapter, name='create_chapter'),
+	url(r'^story/(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/create_chapter/$', create.create_chapter, name='create_chapter'),
 
 	# community activites
 	# like
