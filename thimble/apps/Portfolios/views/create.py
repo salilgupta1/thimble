@@ -10,7 +10,7 @@ from cloudinary.forms import cl_init_js_callbacks
 from cloudinary.uploader import rename
 
 # utils
-from thimble.apps.Portfolios.utils import photo_rename
+from thimble.utils import photo_rename
 
 # models
 from thimble.apps.Portfolios.models.schemas.Entry import Entry

@@ -7,11 +7,11 @@ from cloudinary.models import CloudinaryField
 
 class Designer(models.Model):
 	user = models.OneToOneField(User, to_field='username', primary_key=True)
-	bio = models.TextField(blank=True)
+	bio  = models.TextField(blank=True)
 
 	# Points to a Cloudinary image
-	avatar = CloudinaryField('image', blank=True, null=True)
-	location = 	models.CharField(max_length=200, blank=True)
+	avatar	  = models.CharField(max_length=255, null=False, default='', blank=True) 
+	location  = models.CharField(max_length=200, blank=True)
 	following = models.BigIntegerField(default=0, blank=True)
 	followers = models.BigIntegerField(default=0, blank=True)
 
