@@ -1,6 +1,15 @@
 from django.db import models
 
 class DesignStoryManager(models.Manager):
+
+	def get_all_design_stories(self,):
+		try:
+			rows = self.all().values('designer','designer__avatar','designer__user__first_name','designer__user__last_name','design_story_id','title','likes','comments','date_created')
+			if len(rows) == 0:
+				return None
+			return rows
+		except:
+			raise
 	
 	def get_design_stories(self, username):
 		# get all the design stories associated with a username
