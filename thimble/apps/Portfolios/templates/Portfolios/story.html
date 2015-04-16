@@ -30,10 +30,8 @@
 
 	<div id="chapter-list">
 		{%for chapter in entries%}
-			<div class="chapter-title">
-				<h3>{{chapter.entry_title}}</h3>
-			</div>
 			<div class="chapter-img-wrapper">
+				<h3>{{chapter.entry_title}}</h3>
 				<div class="thumb-img-list">
 					{% for photo in chapter.photos %}
 						<div class="thumb-img-wrapper">
