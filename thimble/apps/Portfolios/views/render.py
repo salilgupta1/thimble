@@ -9,6 +9,8 @@ from thimble.apps.Portfolios.models.schemas.Like import Like
 from thimble.apps.Users.models.schemas.Designer import Designer
 from thimble.apps.Users.models.schemas.Follow import Follow
 
+from cloudinary.api import resources
+
 
 # username refers to portfolio 
 def render_portfolio(request, username):
@@ -72,6 +74,12 @@ def render_design_story(request, username, story_id, slug):
 
     if entries is not None:
         context['entries'] = entries
+
+        ### get entry photos public_ids from cloudinary
+        for entry in entries:
+            folder = resources(type="upload", resource_type="image", prefix=entry["bucket_link"])
+            num_photos = len(folder['resources'])
+            entry["photos"] = [folder['resources'][i]['public_id'] for i in xrange(num_photos)]
 
     return render(request, "Portfolios/story.html", context)
 

@@ -37,12 +37,10 @@
 				</div>
 			</div>
 			<div class="row">
-				{% for i in chapter.num_photos|get_range %}
-					{% with j=i|stringformat:'s'%}
+				{% for photo in chapter.photos %}
 					<div class="col-xs-4 col-sm-3 col-lg-2">
-		  				{%cloudinary chapter.bucket_link|add:"/"|add:j width='600' height='800' class='img-responsive'%}
+		  				{%cloudinary photo width='600' height='800' class='img-responsive'%}
 	  				</div>
-	  				{%endwith%}
   				{% endfor %}
 			</div>
 		{%endfor%}
