@@ -6,9 +6,10 @@ urlpatterns = patterns('',
 	url(r'^$', render.render_portfolio, name='render_portfolio'),
 	url(r'^story/(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/$', render.render_design_story, name='render_design_story'),
 
-	# create 
+	# create
 	url(r'^create_design_story/$', create.create_design_story, name='create_design_story'),
 	url(r'^story/(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/create_chapter/$', create.create_chapter, name='create_chapter'),
+    url(r'^story/(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/edit_chapter/(?P<entry_id>[0-9]+)/$', create.edit_chapter, name='edit_chapter'),
 
 	# community activites
 	# like
@@ -18,5 +19,5 @@ urlpatterns = patterns('',
 	# follow
 	url(r'^follow/$', community.follow_designer, name='follow_designer'),
 	url(r'^unfollow/$', community.unfollow_designer, name='unfollow_designer'),
-	
+
 )

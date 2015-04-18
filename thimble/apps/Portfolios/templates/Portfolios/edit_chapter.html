@@ -12,7 +12,7 @@
 	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
         <h2>Add a New Chapter</h2>
         {{error}}
-		<form method='POST' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}">
+		<form method='POST' action="{% url 'Portfolios:edit_chapter' request.user.username story_id slug entry_id%}">
 			{%csrf_token%}
             {%for field in entry_form%}
                 <div class = 'form-group'>

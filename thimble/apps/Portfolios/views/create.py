@@ -8,6 +8,7 @@ from django.core.context_processors import csrf
 # cloudinary
 from cloudinary.forms import cl_init_js_callbacks
 from cloudinary.uploader import rename
+from cloudinary.api import resources
 
 # utils
 from thimble.utils import photo_rename
@@ -111,6 +112,66 @@ def create_chapter(request, username, story_id, slug):
         return render(request, "Portfolios/create_chapter.html", context)
     else:
         raise Http404
+
+
+@login_required
+def edit_chapter(request, username, story_id, entry_id, slug):
+
+    context = {
+        "username": username,
+        "story_id": story_id,
+        "entry_id": entry_id,
+        "slug": slug
+    }
+
+    # get entries associated with story
+    print "story_id is {story_id}"
+    print "entry_id is {entry_id}"
+    entry = Entry.objects.get_entry(story_id=story_id, entry_id=entry_id)
+    print entry
+
+    if entry is not None:
+        context['entry'] = entry
+
+        ### get entry photos public_ids from cloudinary
+        folder = resources(type="upload", resource_type="image", prefix=entry["bucket_link"])
+        num_photos = len(folder['resources'])
+
+        entry["photos"] = []
+        for i in xrange(num_photos):
+            if folder['resources'][i]['public_id'] != entry['cover_photo']:
+                entry["photos"].append(folder['resources'][i]['public_id'])
+
+    #
+    # if request.method == "POST":
+    #     print "post"
+    #     edit_entry = EditEntryForm(request.POST, instance=request.user)
+    #     if edit_entry.is_valid():
+    #         # create an instance of the entry model
+    #         entry = edit_entry.save()
+    #
+    #         # get bucket link from current user
+    #
+    #         # replace cover_photo field
+    #         cover_photo = request.POST.get("cover_photo")
+    #         old_name = photo_rename(entry.bucket_link, [cover_photo])
+    #         entry.cover_photo = "%s/%s" % (entry.bucket_link, old_name)
+    #         entry.save()
+    #
+    #         # rename entry_photos, new and old
+    #         photos = request.POST.getlist('entry_photos')
+    #         photo_rename(entry.bucket_link, photos)
+    #     else:
+    #         context['error'] = edit_entry.errors.items()
+    #
+
+    #cl_init_js_callbacks(context['edit_entry'], request)
+    # else:
+    #     print "not post"
+
+
+    return render(request, "Portfolios/edit_chapter.html", context)
+
 
 @login_required
 def edit_design_story(request, username):
