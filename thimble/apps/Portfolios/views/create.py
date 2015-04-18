@@ -17,7 +17,7 @@ from thimble.apps.Portfolios.models.schemas.Entry import Entry
 from thimble.apps.Portfolios.models.schemas.DesignStory import DesignStory
 
 # forms 
-from thimble.apps.Portfolios.forms.create_forms import *
+from thimble.apps.Portfolios.forms.forms import *
 
 # ######## WORK HERE
 @login_required

@@ -28,9 +28,9 @@
 		</div>
 		<div class="like-box">
 			<div class="like-text-wrapper">
-				<p><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> LIKES (46)</p>
+				<p><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> LIKES ({{design_story.likes}})</p>
 			</div>
-			<div class="like-photo-row">
+			<!--div class="like-photo-row">
 
 				<div class="liker-wrapper">
 					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
@@ -60,13 +60,13 @@
 					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
 					<p class="liker-name">Fiona</p>
 				</div>
-			</div>
+			</div-->
 		</div>
 		<div class="comment-box">
 			<div class="comment-text-wrapper">
-				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (12)</p>
+				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (<span id="num-comments">{{design_story.comments}}</span>)</p>
 			</div>
-			<div class="comment-bin">
+			<!--div class="comment-bin">
 				<div class="commenter-wrapper">
 					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
 					<p class="commenter-name">John</p>
@@ -102,11 +102,18 @@
 					<p class="commenter-name">Fiona</p>
 						<p class="comment">I love cheese</p>
 				</div>
-			</div>
-			<form class="comment-form" action="" method='POST' >
-			<input class="comment-input" placeholder="Comment..."></input>
-            <button class="comment-btn" type = 'submit' class = 'btn btn-primary'>Post</button>
-        	</form>
+			</div-->
+			{%if user.is_authenticated%}
+				<form class="comment-form" action="" method='POST' data-username="{{username}}" data-storyid="{{story_id}}">
+					{%csrf_token%}
+	                <div class = 'form-group'>
+	                    <div></div>
+	                    <label for="id_comment">Comment</label>
+	                    <textarea class="form-control" cols="40" id="id_comment" name="comment" rows="10" required></textarea>
+	                </div>
+	            	<button class="comment-btn" type = 'submit' class = 'btn btn-primary'>Post</button>
+	        	</form>
+        	{%endif%}
 		</div>
 	</div>
 
@@ -128,4 +135,16 @@
 			</div>
 		{%endfor%}
 	</div>
+{%endblock%}
+
+{%block scripts%}
+	{{block.super}}
+
+	<script>
+	  $(document).ready(function(){
+	      CommunityActivities.authenticatedUsername = "{{user.username}}";
+	      CommunityActivities.csrftoken = $.cookie('csrftoken');
+	      CommunityActivities.init();      
+	  });
+	</script>
 {%endblock%}

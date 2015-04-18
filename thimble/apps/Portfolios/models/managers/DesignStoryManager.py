@@ -3,6 +3,7 @@ from django.db import models
 class DesignStoryManager(models.Manager):
 
 	def get_all_design_stories(self,):
+		# home page 
 		try:
 			rows = self.all().values('designer','designer__avatar','designer__user__first_name','designer__user__last_name','design_story_id','title','likes','comments','date_created')
 			if len(rows) == 0:

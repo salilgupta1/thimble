@@ -18,5 +18,7 @@ urlpatterns = patterns('',
 	# follow
 	url(r'^follow/$', community.follow_designer, name='follow_designer'),
 	url(r'^unfollow/$', community.unfollow_designer, name='unfollow_designer'),
-	
+
+	# comment
+	url(r'^comment/$', community.comment, name='comment'),
 )

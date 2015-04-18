@@ -4,6 +4,7 @@ from django.core.context_processors import csrf
 
 from thimble.apps.Portfolios.models.schemas.Like import Like
 from thimble.apps.Users.models.schemas.Follow import Follow
+from thimble.apps.Portfolios.models.schemas.Comment import Comment
 
 @login_required
 def like_design_story(request, username):
@@ -51,4 +52,12 @@ def unfollow_designer(request, username):
 
 @login_required
 def comment(request, username):
-    pass
+    if request.is_ajax():
+        commenter = request.POST['commenter']
+        design_story_id = request.POST['design_story_id']
+        comment = request.POST['comment']
+        try:
+            Comment.objects.create(commenter_id=commenter, design_story_id=design_story_id, comment=comment)
+        except:
+            raise
+    return HttpResponse(True)

@@ -111,9 +111,30 @@ var CommunityActivities = (function($){
 		});
 	},
 
-	comment = function(path){
-	
+	comment = function(self, path, e){
+		data = {
+			"commenter":CommunityActivities.authenticatedUsername,
+			"design_story_id": self.attr("data-storyid"),
+			"csrfmiddlewaretoken":CommunityActivities.csrftoken,
+			"comment":$("#id_comment").val()
+		};
+		$.ajax({
+			type:"POST",
+			data:data,
+			url:path,
+			success:function(response){
+				// update count
+				count = $("#num-comments").text();
+				count = parseInt(count) + 1;
+				$("#num-comments").text(count);
+				e.preventDefault();
+			},
+			error:function(error){
+				console.log(error);
+			}
+		});	
 	},
+
 	init = function(){
 		var path;
 
@@ -143,6 +164,10 @@ var CommunityActivities = (function($){
 		});
 
       	// comment is submitted
+      	$(".comment-form").on("submit", function(e){
+      		path="/" + $(this).attr("data-username") + "/comment/";
+      		comment($(this), path, e);
+      	});
 	};
 	return {
 		// make publically accessible 

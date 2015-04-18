@@ -65,10 +65,11 @@ def render_design_story(request, username, story_id, slug):
 
     context = {
         "design_story": design_story,
+        "story_id": story_id,
         "username": username,
         "design_story_id": story_id,
         "portfolio_data": portfolio_data,
-        "slug": slug
+        "slug": slug,
     }
 
     # get entries associated with story
