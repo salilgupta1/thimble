@@ -26,6 +26,7 @@ def create_design_story(request, username):
     if request.user.username == username:
         context = {}
         if request.method == "POST":
+
             # form is posted
             design_story_form = CreateDesignStory(request.POST)
             entry_form = CreateEntry(request.POST)
@@ -124,17 +125,19 @@ def edit_chapter(request, username, story_id, entry_id, slug):
         "slug": slug
     }
 
-    # get entries associated with story
-    print "story_id is {story_id}"
-    print "entry_id is {entry_id}"
-    entry = Entry.objects.get_entry(story_id=story_id, entry_id=entry_id)
-    print entry
+    # get entry to be edited
+    # TODO handle if raises exception
+    e_instance = Entry.objects.get(entry_id=entry_id)
+    entry = {}
+    entry['cover_photo'] = e_instance.cover_photo
+    entry['entry_title'] = e_instance.entry_title
+    print entry['cover_photo']
 
     if entry is not None:
         context['entry'] = entry
 
         ### get entry photos public_ids from cloudinary
-        folder = resources(type="upload", resource_type="image", prefix=entry["bucket_link"])
+        folder = resources(type="upload", resource_type="image", prefix=e_instance.bucket_link)
         num_photos = len(folder['resources'])
 
         entry["photos"] = []
@@ -142,33 +145,33 @@ def edit_chapter(request, username, story_id, entry_id, slug):
             if folder['resources'][i]['public_id'] != entry['cover_photo']:
                 entry["photos"].append(folder['resources'][i]['public_id'])
 
-    #
-    # if request.method == "POST":
-    #     print "post"
-    #     edit_entry = EditEntryForm(request.POST, instance=request.user)
-    #     if edit_entry.is_valid():
-    #         # create an instance of the entry model
-    #         entry = edit_entry.save()
-    #
-    #         # get bucket link from current user
-    #
-    #         # replace cover_photo field
-    #         cover_photo = request.POST.get("cover_photo")
-    #         old_name = photo_rename(entry.bucket_link, [cover_photo])
-    #         entry.cover_photo = "%s/%s" % (entry.bucket_link, old_name)
-    #         entry.save()
-    #
-    #         # rename entry_photos, new and old
-    #         photos = request.POST.getlist('entry_photos')
-    #         photo_rename(entry.bucket_link, photos)
-    #     else:
-    #         context['error'] = edit_entry.errors.items()
-    #
+    if request.method == "POST":
+        edit_entry = EditEntryForm(request.POST, instance=e_instance)
+        if edit_entry.is_valid():
+            # create an instance of the entry model
+            entry = edit_entry.save()
+            #
+            # # get bucket link from current user
+            #
+            # # replace cover_photo field
+            # cover_photo = request.POST.get("cover_photo")
+            # old_name = photo_rename(entry.bucket_link, [cover_photo])
+            # entry.cover_photo = "%s/%s" % (entry.bucket_link, old_name)
+            # entry.save()
+            #
+            # TODO make photo renamer handle existing and new photos
 
-    #cl_init_js_callbacks(context['edit_entry'], request)
-    # else:
-    #     print "not post"
+            # # rename entry_photos, new and old
+            # photos = request.POST.getlist('entry_photos')
+            # photo_rename(entry.bucket_link, photos)
+        else:
+            context['error'] = edit_entry.errors.items()
+    else:
+        edit_entry = EditEntryForm(instance=e_instance)
 
+    context['edit_entry'] = edit_entry
+    context['entry'] = entry
+    cl_init_js_callbacks(context['edit_entry'], request)
 
     return render(request, "Portfolios/edit_chapter.html", context)
 
