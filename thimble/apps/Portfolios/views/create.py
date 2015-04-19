@@ -147,25 +147,24 @@ def edit_chapter(request, username, story_id, entry_id, slug):
     if request.method == "POST":
         edit_entry = EditEntryForm(request.POST, instance=e_instance)
         if edit_entry.is_valid():
-            # create an instance of the entry model
-            edit_entry.save()
 
-            print request.POST
+            # replace cover_photo
+            # automatically makes the old cover into a supplementary photo
+            new_cover = request.POST.get("cover_photo")
+            if new_cover is not None:
+                old_name = photo_rename(e_instance.bucket_link, [new_cover])
+                e_instance.cover_photo = "%s/%s" % (e_instance.bucket_link, old_name)
 
-            # get bucket link from current user
+                # make sure the updated chapter is displayed
+                entry["photos"].append(entry["cover_photo"])
+                entry['cover_photo'] = e_instance.cover_photo
 
-            # replace cover_photo field
-            # cover_photo = request.POST.get("cover_photo")
-            # old_name = photo_rename(entry["bucket_link"], [cover_photo])
-            # print old_name
-
-            # entry.cover_photo = "%s/%s" % (entry.bucket_link, old_name)
-            # entry.save()
-
+            e_instance.save()
 
             # rename new entry_photos
             photos = request.POST.getlist('entry_photos')
-            photo_rename(e_instance.bucket_link, photos)
+            if photos is not None:
+                photo_rename(e_instance.bucket_link, photos)
         else:
             context['error'] = edit_entry.errors.items()
     else:
