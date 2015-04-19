@@ -20,7 +20,7 @@
 		<div id="name-wrapper">
 			<h1>{{design_story.title}}</h1>
 			{%if user.is_authenticated and username == user.username%}
-				<a href="{%url 'Portfolios:create_chapter' username design_story_id slug%}">Create Chapter</a>
+				<a href="{%url 'Portfolios:create_chapter' username story_id slug%}">Create Chapter</a>
 			{%endif%}
 		</div>
 		<div id="desc-wrapper">
@@ -66,50 +66,22 @@
 			<div class="comment-text-wrapper">
 				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (<span id="num-comments">{{design_story.comments}}</span>)</p>
 			</div>
-			<!--div class="comment-bin">
-				<div class="commenter-wrapper">
-					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
-					<p class="commenter-name">John</p>
-					<p class="comment">The evil queen makes brew for Jack and Jill. The quick brown fox jumped over the lazy dogs.</p>
-				</div>
-				<div class="commenter-wrapper">
-					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
-					<p class="commenter-name">Jane</p>
-					<p class="comment">I love cheese</p>
-				</div>
-				<div class="commenter-wrapper">
-					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
-					<p class="commenter-name">Abby</p>
-					<p class="comment">I love cheese</p>
-				</div>
-				<div class="commenter-wrapper">
-					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
-					<p class="commenter-name">Jack</p>
-					<p class="comment">I love cheese</p>
-				</div>
-				<div class="commenter-wrapper">
-					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
-					<p class="commenter-name">Peter</p>
-					<p class="comment">I love cheese</p>
-				</div>
-				<div class="commenter-wrapper">
-					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
-					<p class="commenter-name">Katelyn</p>
-					<p class="comment">I love cheese</p>
-				</div>
-				<div class="commenter-wrapper">
-					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
-					<p class="commenter-name">Fiona</p>
-						<p class="comment">I love cheese</p>
-				</div>
-			</div-->
+			<!-- Load comments -->
+			<div class="comment-bin">
+				{%for comment in comments%}
+					<div class="commenter-wrapper">
+						<!--img src="http://placemi.com/100x100" class="img-responsive img-circle"-->
+						<p class="commenter-name">{{comment.commenter}}</p>
+						<p class="comment">{{comment.comment}}</p>
+					</div>
+				{%endfor%}
+			</div>
 			{%if user.is_authenticated%}
 				<form class="comment-form" action="" method='POST' data-username="{{username}}" data-storyid="{{story_id}}">
 					{%csrf_token%}
 	                <div class = 'form-group'>
 	                    <div></div>
-	                    <label for="id_comment">Comment</label>
-	                    <textarea class="form-control" cols="40" id="id_comment" name="comment" rows="10" required></textarea>
+	                    <textarea class="form-control"  id="id_comment" name="comment" style="height:50px" required></textarea>
 	                </div>
 	            	<button class="comment-btn" type = 'submit' class = 'btn btn-primary'>Post</button>
 	        	</form>

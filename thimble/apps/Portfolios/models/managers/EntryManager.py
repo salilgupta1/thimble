@@ -13,6 +13,7 @@ class EntryManager(models.Manager):
 			raise
 
 	def get_cover_photos(self, story_id):
+		# get cover photos for design stories
 		try:
 			row = self.filter(design_story_id=story_id).values('cover_photo').last()
 			return row

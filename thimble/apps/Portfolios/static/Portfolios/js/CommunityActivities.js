@@ -3,7 +3,7 @@ var CommunityActivities = (function($){
 	csrftoken = "";
 
 	var like = function(self, path){
-		data = {
+		var data = {
 			"liker":CommunityActivities.authenticatedUsername, 
 			"design_story_id":self.attr("data-storyid"),
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
@@ -30,7 +30,7 @@ var CommunityActivities = (function($){
 	}, 
 
 	unlike = function(self, path){
-		data = {
+		var data = {
 			"liker":CommunityActivities.authenticatedUsername, 
 			"design_story_id":self.attr("data-storyid"),
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
@@ -57,7 +57,7 @@ var CommunityActivities = (function($){
 	},
 
 	follow = function(path){
-		data = {
+		var data = {
 			"follower":CommunityActivities.authenticatedUsername, 
 			"followee":CommunityActivities.portfolioUsername,
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
@@ -84,7 +84,7 @@ var CommunityActivities = (function($){
 	},
 
 	unfollow = function(path){
-		data = {
+		var data = {
 			"follower":CommunityActivities.authenticatedUsername, 
 			"followee":CommunityActivities.portfolioUsername,
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
@@ -112,22 +112,29 @@ var CommunityActivities = (function($){
 	},
 
 	comment = function(self, path, e){
-		data = {
-			"commenter":CommunityActivities.authenticatedUsername,
+		var data = {
+			"commenter": CommunityActivities.authenticatedUsername,
 			"design_story_id": self.attr("data-storyid"),
-			"csrfmiddlewaretoken":CommunityActivities.csrftoken,
-			"comment":$("#id_comment").val()
+			"csrfmiddlewaretoken": CommunityActivities.csrftoken,
+			"comment": $("#id_comment").val()
 		};
 		$.ajax({
 			type:"POST",
 			data:data,
 			url:path,
 			success:function(response){
-				// update count
+				// update comment count
 				count = $("#num-comments").text();
 				count = parseInt(count) + 1;
 				$("#num-comments").text(count);
-				e.preventDefault();
+				$("#id_comment").val("");
+				
+				// add comment
+				commentDiv = '<div class="commenter-wrapper">\
+								<p class="commenter-name">'+data['commenter']+'</p>\
+								<p class="comment">'+data['comment']+'</p>\
+							  </div>';
+				$(".comment-bin").prepend(commentDiv);
 			},
 			error:function(error){
 				console.log(error);
@@ -166,7 +173,8 @@ var CommunityActivities = (function($){
       	// comment is submitted
       	$(".comment-form").on("submit", function(e){
       		path="/" + $(this).attr("data-username") + "/comment/";
-      		comment($(this), path, e);
+      		comment($(this), path);
+      		e.preventDefault();
       	});
 	};
 	return {

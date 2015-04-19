@@ -3,7 +3,7 @@ from django.db import models
 class DesignStoryManager(models.Manager):
 
 	def get_all_design_stories(self,):
-		# home page 
+		# get all design stories in db 
 		try:
 			rows = self.all().values('designer','designer__avatar','designer__user__first_name','designer__user__last_name','design_story_id','title','likes','comments','date_created')
 			if len(rows) == 0:
@@ -23,8 +23,7 @@ class DesignStoryManager(models.Manager):
 			raise
 
 	def get_design_story(self, username, design_story_id):
-		# get a design story's data 
-		# make sure username and designer_story_id match up
+		# get a specific design story's data 
 		try:
 			row = self.filter(designer_id=username, design_story_id=design_story_id).values('title',"likes","comments","description")
 			if len(row) == 0:

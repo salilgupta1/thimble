@@ -52,7 +52,7 @@ def create_design_story(request, username):
                 entry.cover_photo = "%s/%s" % (bucket_link, old_name)
                 entry.save()
 
-                # rename entry_photos pushed to cloudinary
+                # rename entry_photos 
                 photos = request.POST.getlist('entry_photos')
                 photo_rename(bucket_link, photos)
 
@@ -63,7 +63,6 @@ def create_design_story(request, username):
                 context['error'] = dict(design_story_form.errors.items() + entry_form.errors.items())
         else:
 
-            # page is being "getted"
             context['entry_form'] = CreateEntry(label_suffix='')
             context['design_story_form'] = CreateDesignStory(label_suffix='')
             cl_init_js_callbacks(context['entry_form'], request)
@@ -72,7 +71,6 @@ def create_design_story(request, username):
     else:
         raise Http404
 
-# work required....
 @login_required
 def create_chapter(request, username, story_id, slug):
     context = {}
