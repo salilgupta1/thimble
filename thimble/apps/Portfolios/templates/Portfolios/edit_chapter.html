@@ -29,7 +29,9 @@
                     {% elif field.label == 'Supplementary Photos'%}
                         <br/>
                         <a href="#" id="supp_upload_widget_opener"></a>
+                        <br/>
                     	{% for photo in entry.photos %}
+                            <input name="photo_delete" type="checkbox" value="{{photo}}"/> Delete
                             <div class="thumb-img-wrapper">
                                 {%cloudinary photo width='100' height='200' class='img-responsive'%}
                             </div>

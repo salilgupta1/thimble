@@ -9,6 +9,7 @@ from django.core.context_processors import csrf
 from cloudinary.forms import cl_init_js_callbacks
 from cloudinary.uploader import rename
 from cloudinary.api import resources
+from cloudinary.api import delete_resources
 
 # utils
 from thimble.utils import photo_rename
@@ -125,8 +126,8 @@ def edit_chapter(request, username, story_id, entry_id, slug):
         "slug": slug
     }
 
+    # TODO handle exception when entry does not exist
     # get entry to be edited
-    # TODO handle if raises exception
     e_instance = Entry.objects.get(entry_id=entry_id)
     entry = {}
     entry['cover_photo'] = e_instance.cover_photo
@@ -135,7 +136,7 @@ def edit_chapter(request, username, story_id, entry_id, slug):
     if entry is not None:
         context['entry'] = entry
 
-        ### get entry photos public_ids from cloudinary
+        # get entry photos public_ids from cloudinary
         folder = resources(type="upload", resource_type="image", prefix=e_instance.bucket_link)
         num_photos = len(folder['resources'])
 
@@ -164,7 +165,19 @@ def edit_chapter(request, username, story_id, entry_id, slug):
             # rename new entry_photos
             photos = request.POST.getlist('entry_photos')
             if photos is not None:
-                photo_rename(e_instance.bucket_link, photos)
+                for p in photos:
+                    entry["photos"].append("%s/%s" % (e_instance.bucket_link, photo_rename(e_instance.bucket_link, [p])))
+
+            # delete photos marked for deletion
+            to_be_deleted = request.POST.getlist('photo_delete')
+            if len(to_be_deleted) != 0:
+                if len(entry["photos"]) - len(to_be_deleted) <= 0:
+                    context['error'] = "Could not delete images; must have at least one remaining"
+                else:
+                    delete_resources(to_be_deleted)
+                    for item in to_be_deleted:
+                        entry["photos"].remove(item)
+
         else:
             context['error'] = edit_entry.errors.items()
     else:
