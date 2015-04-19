@@ -131,7 +131,6 @@ def edit_chapter(request, username, story_id, entry_id, slug):
     entry = {}
     entry['cover_photo'] = e_instance.cover_photo
     entry['entry_title'] = e_instance.entry_title
-    print entry['cover_photo']
 
     if entry is not None:
         context['entry'] = entry
@@ -149,21 +148,24 @@ def edit_chapter(request, username, story_id, entry_id, slug):
         edit_entry = EditEntryForm(request.POST, instance=e_instance)
         if edit_entry.is_valid():
             # create an instance of the entry model
-            entry = edit_entry.save()
-            #
-            # # get bucket link from current user
-            #
-            # # replace cover_photo field
+            edit_entry.save()
+
+            print request.POST
+
+            # get bucket link from current user
+
+            # replace cover_photo field
             # cover_photo = request.POST.get("cover_photo")
-            # old_name = photo_rename(entry.bucket_link, [cover_photo])
+            # old_name = photo_rename(entry["bucket_link"], [cover_photo])
+            # print old_name
+
             # entry.cover_photo = "%s/%s" % (entry.bucket_link, old_name)
             # entry.save()
-            #
-            # TODO make photo renamer handle existing and new photos
 
-            # # rename entry_photos, new and old
-            # photos = request.POST.getlist('entry_photos')
-            # photo_rename(entry.bucket_link, photos)
+
+            # rename new entry_photos
+            photos = request.POST.getlist('entry_photos')
+            photo_rename(e_instance.bucket_link, photos)
         else:
             context['error'] = edit_entry.errors.items()
     else:

@@ -21,7 +21,6 @@
                     {% if field.label == 'Main Photo' %}
                         <br/>
                         <a href="#" id="cover_upload_widget_opener"></a>
-                        <!--<img src="{%cloudinary_url entry.cover_photo width='100' height='200' %}" class="img-responsive">-->
                         <ul class="cloudinary-thumbnails">
                             <li class="cloudinary-thumbnail cover_photo active">
                                 <img src="{%cloudinary_url entry.cover_photo width='100' height='200' %}">
@@ -41,15 +40,6 @@
                 </div>
             {%endfor%}
             <button type = 'submit' class = 'btn btn-primary' id="create-btn">Save</button>
-
-            <!--TODO
-            this form apparently requires this format for the value, and not sure how
-            to fake it because of the signature (.png#signaturenumberhere)
-            -->
-            <input type="hidden" name="cover_photo" value="image/upload/v1429426152/et6p6pdjqjxuqtgv0wnc.png#4d8d8d565cacc6479d6c68d000a48c9323b61038" class="cloudinary-hidden-field" data-cloudinary-public-id="{{entry.cover_photo}}">
-            {% for photo in entry.photos %}
-                <input type="hidden" name="entry_photos" value="image/upload/v1429426152/et6p6pdjqjxuqtgv0wnc.png#4d8d8d565cacc6479d6c68d000a48c9323b61038" class="cloudinary-hidden-field" data-cloudinary-public-id="{{ photo }}">
-            {%endfor%}
 
 		</form>
 

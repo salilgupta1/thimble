@@ -34,8 +34,8 @@ class CreateEntry(forms.ModelForm):
 
 
 class EditEntryForm(forms.ModelForm):
-    cover_photo = CloudinaryJsFileField(label='Main Photo')
-    entry_photos = CloudinaryJsFileField(attrs={'multiple': 1}, label='Supplementary Photos')
+    cover_photo = CloudinaryJsFileField(label='Main Photo', required=False)
+    entry_photos = CloudinaryJsFileField(attrs={'multiple': 1}, label='Supplementary Photos',required=False)
 
     class Meta:
         model = Entry
