@@ -49,10 +49,9 @@
       <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
         <div class="piece">
           <div class="piece-thumb-container">
-            <div class="piece-overlay">
-              <a href="{%url 'Portfolios:render_design_story' portfolio_data.user story.0.design_story_id story.0.title|slugify%}">
-                <p><strong>{{story.0.title}}</strong></p>
-              </a>
+            {%url 'Portfolios:render_design_story' portfolio_data.user story.0.design_story_id story.0.title|slugify as dest%}
+            <div class="piece-overlay" style="cursor:pointer;" onclick='goToStory("{{dest}}")' >
+              <p><strong>{{story.0.title}}</strong></p>
               <p>{{story.0.date_created}}</p>
               <br></br>
               <!--p> <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>  14,123</p-->
@@ -74,7 +73,7 @@
               {%endif%}
 
               <button type="button" class="btn btn-default btn-lg share-btn">
-                Share <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                <span class='text'>Share</span> <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
               </button>
             </div>
             <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
@@ -90,10 +89,18 @@
 {{block.super}}
 
 <script>
+
   $(document).ready(function(){
       CommunityActivities.authenticatedUsername = "{{user.username}}";
       CommunityActivities.csrftoken = $.cookie('csrftoken');
-      CommunityActivities.init();      
+      CommunityActivities.init();
   });
+
+    function goToStory(dest){
+        if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"){
+            window.location.href = dest;
+        }
+    }
+
 </script>
 {%endblock%}
