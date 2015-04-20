@@ -134,7 +134,7 @@ var CommunityActivities = (function($){
 								<p class="commenter-name">'+data['commenter']+'</p>\
 								<p class="comment">'+data['comment']+'</p>\
 							  </div>';
-				$(".comment-bin").prepend(commentDiv);
+				$(".comment-bin").append(commentDiv);
 			},
 			error:function(error){
 				console.log(error);

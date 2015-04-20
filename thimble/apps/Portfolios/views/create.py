@@ -8,6 +8,8 @@ from django.core.context_processors import csrf
 # cloudinary
 from cloudinary.forms import cl_init_js_callbacks
 from cloudinary.uploader import rename
+from cloudinary.api import resources
+from cloudinary.api import delete_resources
 
 # utils
 from thimble.utils import photo_rename
@@ -25,6 +27,7 @@ def create_design_story(request, username):
     if request.user.username == username:
         context = {}
         if request.method == "POST":
+
             # form is posted
             design_story_form = CreateDesignStory(request.POST)
             entry_form = CreateEntry(request.POST)
@@ -109,6 +112,81 @@ def create_chapter(request, username, story_id, slug):
         return render(request, "Portfolios/create_chapter.html", context)
     else:
         raise Http404
+
+
+@login_required
+def edit_chapter(request, username, story_id, entry_id, slug):
+
+    context = {
+        "username": username,
+        "story_id": story_id,
+        "entry_id": entry_id,
+        "slug": slug
+    }
+
+    # TODO handle exception when entry does not exist
+    # get entry to be edited
+    e_instance = Entry.objects.get(entry_id=entry_id)
+    entry = {}
+    entry['cover_photo'] = e_instance.cover_photo
+    entry['entry_title'] = e_instance.entry_title
+
+    if entry is not None:
+        context['entry'] = entry
+
+        # get entry photos public_ids from cloudinary
+        folder = resources(type="upload", resource_type="image", prefix=e_instance.bucket_link)
+        num_photos = len(folder['resources'])
+
+        entry["photos"] = []
+        for i in xrange(num_photos):
+            if folder['resources'][i]['public_id'] != entry['cover_photo']:
+                entry["photos"].append(folder['resources'][i]['public_id'])
+
+    if request.method == "POST":
+        edit_entry = EditEntryForm(request.POST, instance=e_instance)
+        if edit_entry.is_valid():
+
+            # replace cover_photo
+            # automatically makes the old cover into a supplementary photo
+            new_cover = request.POST.get("cover_photo")
+            if new_cover is not None:
+                old_name = photo_rename(e_instance.bucket_link, [new_cover])
+                e_instance.cover_photo = "%s/%s" % (e_instance.bucket_link, old_name)
+
+                # make sure the updated chapter is displayed
+                entry["photos"].append(entry["cover_photo"])
+                entry['cover_photo'] = e_instance.cover_photo
+
+            e_instance.save()
+
+            # rename new entry_photos
+            photos = request.POST.getlist('entry_photos')
+            if photos is not None:
+                for p in photos:
+                    entry["photos"].append("%s/%s" % (e_instance.bucket_link, photo_rename(e_instance.bucket_link, [p])))
+
+            # delete photos marked for deletion
+            to_be_deleted = request.POST.getlist('photo_delete')
+            if len(to_be_deleted) != 0:
+                if len(entry["photos"]) - len(to_be_deleted) <= 0:
+                    context['error'] = "Could not delete images; must have at least one remaining"
+                else:
+                    delete_resources(to_be_deleted)
+                    for item in to_be_deleted:
+                        entry["photos"].remove(item)
+
+        else:
+            context['error'] = edit_entry.errors.items()
+    else:
+        edit_entry = EditEntryForm(instance=e_instance)
+
+    context['edit_entry'] = edit_entry
+    context['entry'] = entry
+    cl_init_js_callbacks(context['edit_entry'], request)
+
+    return render(request, "Portfolios/edit_chapter.html", context)
+
 
 @login_required
 def edit_design_story(request, username):
