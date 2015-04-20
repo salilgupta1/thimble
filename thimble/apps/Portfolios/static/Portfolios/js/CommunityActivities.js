@@ -56,10 +56,10 @@ var CommunityActivities = (function($){
 		});
 	},
 
-	follow = function(path){
+	follow = function(self, path){
 		var data = {
 			"follower":CommunityActivities.authenticatedUsername, 
-			"followee":CommunityActivities.portfolioUsername,
+			"followee":self.attr("data-username"),
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
 		};
 
@@ -83,10 +83,10 @@ var CommunityActivities = (function($){
 		});
 	},
 
-	unfollow = function(path){
+	unfollow = function(self, path){
 		var data = {
 			"follower":CommunityActivities.authenticatedUsername, 
-			"followee":CommunityActivities.portfolioUsername,
+			"followee":self.attr("data-username"),
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
 		};
 
@@ -149,7 +149,7 @@ var CommunityActivities = (function($){
 		$(document).on('click','.like-btn',function(){
 
 			path = "/"+$(this).attr("data-username")+"/like_story/";
-			like($(this),path);
+			like($(this), path);
 		}); 
 
 		// unlike button is clicked
@@ -161,13 +161,13 @@ var CommunityActivities = (function($){
 		// follow button is clicked
 		$(document).on('click','#follow-btn',function(){
 			path = "/"+$(this).attr("data-username")+"/follow/";
-			follow(path);
+			follow($(this), path);
 		});
 
 		// unfollow button is clicked
 		$(document).on('click','#unfollow-btn',function(){
 			path = "/"+$(this).attr("data-username")+"/unfollow/";
-			unfollow(path);
+			unfollow($(this), path);
 		});
 
       	// comment is submitted
