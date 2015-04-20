@@ -43,7 +43,11 @@
               </button>
               <div>
                 <a href="{%url 'Portfolios:render_portfolio' story.0.designer%}">
-                  <img src="{%cloudinary_url story.0.designer__avatar width='200' height='200' %}" class="img-responsive img-circle">
+                  {%if not story.0.designer__avatar%}
+                     <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
+                  {%else%}
+                    <img src="{%cloudinary_url story.0.designer__avatar width='200' height='200' %}" class="img-responsive img-circle">
+                  {%endif%}
                   {{story.0.designer__user__first_name}} {{story.0.designer__user__last_name}}
                 </a>
               </div>

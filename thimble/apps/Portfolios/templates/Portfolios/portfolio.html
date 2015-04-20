@@ -15,10 +15,10 @@
     </div>
     <div class="profile-pic-block">
       <div class="profile-pic-wrapper">
-        {%if not portfolio_data.avatar == None%}
-          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
-        {%else%}
+        {% if not portfolio_data.avatar%}
           <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
+        {%else%}
+          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
         {%endif%}
       </div>
     </div>
