@@ -1,5 +1,5 @@
 .story-header {
-	right: 5%;
+	right: 7%;
 	position: fixed;
 	display: inline-block;
 	background: white;
@@ -81,8 +81,12 @@
 }
 
 .comment-bin {
+	position: absolute;
+	left: 0px;
+	right: 10px;
+	bottom: 30px;
+	top: 200px;
 	overflow-y: auto;
-	height: 270px;
 	background:
 		/* Shadow covers */
 		linear-gradient(white 30%, rgba(255,255,255,0)),
@@ -136,16 +140,27 @@
 }
 
 .comment-form {
-	height: 25px;
+	position: absolute;
+	height: 30px;
 	border: 1px solid #DCDCDC;
 	border-radius: 3px;
+	bottom: 4px;
+	width: 95%;
 }
 
-.comment-input {
+.comment-form > .form-group {
+	height: 30px;
 	width: calc(100% - 35px);
-	height: 23px;
+	float: left;
+	margin-bottom: 0px;
+}
+
+#id_comment {
+	width: calc(100% - 35px);
+	height: 27px;
 	float: left;
 	border: none;
+	resize: none;
 
 }
 
@@ -156,7 +171,7 @@
 	border-left: 1px solid #DCDCDC;
 	border-radius: 0px 3px 3px 0px;
 	width: 35px;
-	height: 23px;
+	height: 28px;
 	float: left;
 
 }
@@ -168,7 +183,6 @@
 #chapter-list {
 	width: 50%;
 	display: inline-block;
-	float: left;
 }
 
 .chapter-title {
@@ -239,6 +253,7 @@ footer {
 		position: relative;
 		width: 100%;
 		max-width: 550px;
+		right: 0%;
 	}
 	#chapter-list {
 		width: 100%;
