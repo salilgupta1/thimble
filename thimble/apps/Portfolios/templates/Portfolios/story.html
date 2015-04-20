@@ -10,10 +10,10 @@
 {%block content%}
 	<div class="story-header">
 		<div id="by-wrapper">
-			{%if not portfolio_data.avatar == None%}
-	          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
+			{%if not portfolio_data.avatar%}
+			<img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
 	        {%else%}
-	          <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
+	          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
 	        {%endif%}
 			<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
 		</div>
