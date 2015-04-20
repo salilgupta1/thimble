@@ -33,14 +33,14 @@
         <form action="{%url 'Users:edit_account' %}" method='POST' >
             {%csrf_token%}
             {% for field in edit_user %}
-                <div class='form-group'>
+                <div class='form-group det-form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
                     {{field}}
                 </div>
             {% endfor %}
             {% for field in edit_designer %}
-                <div class='form-group'>
+                <div class='form-group port-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
                     {{field}}
