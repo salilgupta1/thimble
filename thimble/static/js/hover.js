@@ -2,14 +2,14 @@ var hideoverlay = true;
 
 $(document).ready(function() 
 {
-	$(window).resize(function() {
-		if ($(this).width() > 767) {
-			hideoverlay = false;
-		}
-		else if ($(this).width() <= 767) {
-			hideoverlay = true;
-		}
-	});
+
+
+	if ($(this).width() > 767) {
+		hideoverlay = false;
+	}
+	else if ($(this).width() <= 767) {
+		hideoverlay = true;
+	}
 
 	$('.piece-thumb-container').hover(function() {
 		if (hideoverlay == false) {
