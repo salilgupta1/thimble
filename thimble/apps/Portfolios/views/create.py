@@ -8,8 +8,7 @@ from django.core.context_processors import csrf
 # cloudinary
 from cloudinary.forms import cl_init_js_callbacks
 from cloudinary.uploader import rename
-from cloudinary.api import resources
-from cloudinary.api import delete_resources
+from cloudinary.api import resources, delete_resources
 
 # utils
 from thimble.utils import photo_rename
@@ -21,7 +20,6 @@ from thimble.apps.Portfolios.models.schemas.DesignStory import DesignStory
 # forms 
 from thimble.apps.Portfolios.forms.forms import *
 
-# ######## WORK HERE
 @login_required
 def create_design_story(request, username):
     if request.user.username == username:
@@ -186,7 +184,6 @@ def edit_chapter(request, username, story_id, entry_id, slug):
     cl_init_js_callbacks(context['edit_entry'], request)
 
     return render(request, "Portfolios/edit_chapter.html", context)
-
 
 @login_required
 def edit_design_story(request, username):
