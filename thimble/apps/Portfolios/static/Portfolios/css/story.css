@@ -149,16 +149,21 @@
 }
 
 .comment-form > .form-group {
+	position: absolute;
 	height: 30px;
-	width: calc(100% - 35px);
-	float: left;
+	left: 0px;
+	right: 45px;
+	bottom: 0px;
 	margin-bottom: 0px;
+	border-right: 1px solid #DCDCDC;
 }
 
 #id_comment {
-	width: calc(100% - 35px);
-	height: 27px;
-	float: left;
+	height: 28px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	right: 45px;
 	border: none;
 	resize: none;
 
@@ -168,12 +173,12 @@
 	color: #333333;
 	background: white;
 	border: none;
-	border-left: 1px solid #DCDCDC;
 	border-radius: 0px 3px 3px 0px;
-	width: 35px;
+	width: 45px;
 	height: 28px;
-	float: left;
-
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
 }
 
 #prof-pic-wrapper {
