@@ -64,8 +64,8 @@ def edit_account(request):
 			context['error'] = "error"
 	else:
 		# create forms for displaying
-		edit_user = EditUserForm(instance=request.user)
-		edit_designer = EditDesignerForm(instance = request.user.designer)
+		edit_user = EditUserForm(instance=request.user, label_suffix="")
+		edit_designer = EditDesignerForm(instance = request.user.designer, label_suffix="")
 
 	context['edit_user'] = edit_user
 	context['edit_designer'] = edit_designer
