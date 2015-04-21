@@ -174,6 +174,8 @@ def edit_chapter(request, username, story_id, entry_id, slug):
                     for item in to_be_deleted:
                         entry["photos"].remove(item)
 
+            context['changes_saved'] = "Changes saved."
+
         else:
             context['error'] = edit_entry.errors.items()
     else:
