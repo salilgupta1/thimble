@@ -48,6 +48,7 @@
 	margin-right: auto;
 	width: 100%;
 	display: inline-block;
+	min-height: 90px;
 }
 
 #desc-wrapper > p {
@@ -85,7 +86,7 @@
 	left: 0px;
 	right: 10px;
 	bottom: 30px;
-	top: 200px;
+	top: 260px;
 	overflow-y: auto;
 	background:
 		/* Shadow covers */
