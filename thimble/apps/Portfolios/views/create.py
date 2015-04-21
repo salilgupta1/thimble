@@ -202,16 +202,57 @@ def edit_story(request, username, story_id, slug):
     story['description'] = s_instance.description
     story['wip'] = s_instance.wip
 
+    # get entries associated with story
+    entries = Entry.objects.get_entries(story_id=story_id)
+
+    if entries is not None:
+
+        for entry in entries:
+            # make api call to get public id's
+            folder = resources(type="upload", resource_type="image", prefix=entry["bucket_link"])
+            num_photos = len(folder['resources'])
+
+            # pull public id's out of json response
+            entry["photos"] = []
+            for i in xrange(num_photos):
+                if folder['resources'][i]['public_id'] != entry['cover_photo']:
+                    entry["photos"].append(folder['resources'][i]['public_id'])
+
     if request.method == "POST":
         edit_dstory = EditStoryForm(request.POST, instance=s_instance)
         if edit_dstory.is_valid():
             edit_dstory.save()
+
+            # delete chapters marked for deletion
+            to_be_deleted = request.POST.getlist('photo_delete')
+            if len(to_be_deleted) != 0:
+                if len(entries) - len(to_be_deleted) <= 0:
+                    context['error'] = "Could not delete entries; must have at least one remaining"
+                else:
+                    for i, e in enumerate(entries):
+                        if str(e['entry_id']) in to_be_deleted:
+                            # remove from context
+                            entries = entries.exclude(entry_id=e['entry_id'])
+
+                            # delete associated images from cloudinary
+                            for p in e['photos']:
+                                print p
+                                delete_resources([p])
+                                break
+
+                            print e['cover_photo']
+                            delete_resources([e['cover_photo']])
+
+                            # delete from db
+                            Entry.objects.get(entry_id=e['entry_id']).delete()
+
             context['changes_saved'] = "Changes saved."
         else:
             context['error'] = edit_dstory.errors.items()
     else:
         edit_dstory = EditStoryForm(instance=s_instance)
 
+    context['entries'] = entries
     context['edit_story'] = edit_dstory
     context['story'] = story
     cl_init_js_callbacks(context['edit_story'], request)
