@@ -1,0 +1,29 @@
+{%extends 'Portfolios/base_portfolio.html' %}
+{%load staticfiles%}
+{% load cloudinary %}
+
+{%block app_css%}
+	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/story.css'%}"/>
+{%endblock%}
+
+
+{%block content%}
+        <div class="row" style="width:50%; margin:2% auto">
+            <h2>Edit Design Story</h2>
+            <span style="color:green;font-weight:bold;">{{changes_saved}}</span>
+            <span style="color:red;font-weight:bold;">{{error}}</span>
+            <form method='post' action="{%url 'Portfolios:edit_story' username story_id slug%}">
+                {%csrf_token%}
+                {%for field in edit_story%}
+                    <div class = 'form-group'>
+                        <div>{{field.errors|striptags}}</div>
+                        {{field.label_tag}}
+                        {{field}}
+                    </div>
+                {%endfor%}
+                <button type='submit' class='btn btn-primary' id="save-btn">Save</button>
+            </form>
+        </div>
+
+    <!-- Delete chapters -->
+{%endblock%}

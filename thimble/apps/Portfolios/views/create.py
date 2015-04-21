@@ -188,5 +188,32 @@ def edit_chapter(request, username, story_id, entry_id, slug):
     return render(request, "Portfolios/edit_chapter.html", context)
 
 @login_required
-def edit_design_story(request, username):
-    pass
+def edit_story(request, username, story_id, slug):
+    context = {
+        "username": username,
+        "story_id": story_id,
+        "slug": slug
+    }
+    # TODO handle exception when story does not exist
+    # get story to be edited
+    s_instance = DesignStory.objects.get(design_story_id=story_id)
+    story = {}
+    story['title'] = s_instance.title
+    story['description'] = s_instance.description
+    story['wip'] = s_instance.wip
+
+    if request.method == "POST":
+        edit_dstory = EditStoryForm(request.POST, instance=s_instance)
+        if edit_dstory.is_valid():
+            edit_dstory.save()
+            context['changes_saved'] = "Changes saved."
+        else:
+            context['error'] = edit_dstory.errors.items()
+    else:
+        edit_dstory = EditStoryForm(instance=s_instance)
+
+    context['edit_story'] = edit_dstory
+    context['story'] = story
+    cl_init_js_callbacks(context['edit_story'], request)
+
+    return render(request, "Portfolios/edit_story.html", context)
