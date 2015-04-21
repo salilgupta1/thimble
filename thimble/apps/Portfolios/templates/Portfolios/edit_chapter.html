@@ -11,7 +11,9 @@
 {%block content%}
 	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
         <h2>Edit Chapter</h2>
-        {{error}}
+        <!--TODO make this an error/success CSS class-->
+        <span style="color:green;font-weight:bold;">{{changes_saved}}</span>
+        <span style="color:red;font-weight:bold;">{{error}}</span>
 		<form method='POST' action="{% url 'Portfolios:edit_chapter' request.user.username story_id slug entry_id%}">
 			{%csrf_token%}
             {%for field in edit_entry%}
