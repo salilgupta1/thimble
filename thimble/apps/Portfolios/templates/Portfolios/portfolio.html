@@ -50,7 +50,7 @@
         <div class="piece">
           <div class="piece-thumb-container">
             {%url 'Portfolios:render_design_story' portfolio_data.user story.0.design_story_id story.0.title|slugify as dest%}
-            <div class="piece-overlay" style="cursor:pointer;" onclick='goToStory("{{dest}}")' >
+            <div class="piece-overlay" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
               <p><strong>{{story.0.title}}</strong></p>
               <p>{{story.0.date_created}}</p>
               <br></br>
@@ -94,9 +94,10 @@
       CommunityActivities.authenticatedUsername = "{{user.username}}";
       CommunityActivities.csrftoken = $.cookie('csrftoken');
       CommunityActivities.init();
+
   });
 
-    function goToStory(dest){
+    function goToStory(dest, event){
         if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"){
             window.location.href = dest;
         }
