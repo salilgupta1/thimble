@@ -24,3 +24,25 @@
 	font-size: 20px;
 	margin-top: 8px;
 }
+
+.by-wrapper {
+	margin-bottom: 10px;
+}
+
+.by-wrapper a {
+	text-decoration: none;
+}
+
+.by-wrapper img {
+	width: 40px;
+	display: inline-block;
+}
+
+.by-wrapper .by-name {
+	display: inline-block;
+	padding-left: 7px;
+}
+
+.btn {
+	width: 100px;
+}
