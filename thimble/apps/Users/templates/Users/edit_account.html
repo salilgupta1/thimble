@@ -17,6 +17,7 @@
 
 {% block content %}
     <div class="edit-form-wrapper">
+        <span style="color:green;font-weight:bold;">{{changes_saved}}</span>
         <form action="{%url 'Users:edit_account' %}" method='POST' >
             {%csrf_token%}
             {% for field in edit_user %}

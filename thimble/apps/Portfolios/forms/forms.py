@@ -45,3 +45,15 @@ class EditEntryForm(forms.ModelForm):
         super(EditEntryForm, self).__init__(*args, **kwargs)
         for fields in self.fields.items():
             fields[1].widget.attrs.update({'class': 'form-control'})
+
+
+class EditStoryForm(forms.ModelForm):
+
+    class Meta:
+        model = DesignStory
+        fields = ("title","description",)
+
+    def __init__(self, *args, **kwargs):
+        super(EditStoryForm, self).__init__(*args, **kwargs)
+        for fields in self.fields.items():
+            fields[1].widget.attrs.update({'class': 'form-control'})
