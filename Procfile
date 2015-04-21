@@ -1,1 +1,1 @@
-web:gunicorn thimble.wsgi
+web: gunicorn thimble.wsgi
