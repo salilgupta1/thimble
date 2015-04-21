@@ -13,9 +13,9 @@ from thimble.apps.Users.models.schemas.Follow import Follow
 
 from cloudinary.api import resources
 
-
 # username refers to portfolio 
 # request.user refers to user that is logged in
+
 def render_portfolio(request, username):
     column_list = ['user', 'user__first_name', 'user__last_name', 'bio', 'avatar', 'following', 'followers']
     portfolio_data = Designer.objects.get_portfolio_data(username=username, column_list=column_list)
@@ -55,7 +55,6 @@ def render_portfolio(request, username):
             context['likes'] = likes
 
     return render(request, "Portfolios/portfolio.html", context)
-
 
 def render_design_story(request, username, story_id, slug):
     # get portfolio data

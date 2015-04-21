@@ -113,7 +113,7 @@ def create_chapter(request, username, story_id, slug):
 
 
 @login_required
-def edit_chapter(request, username, story_id, entry_id, slug):
+def edit_chapter(request, username, story_id, slug, entry_id,):
 
     context = {
         "username": username,

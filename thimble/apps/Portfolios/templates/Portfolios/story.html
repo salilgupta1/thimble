@@ -21,6 +21,7 @@
 			<h1>{{design_story.title}}</h1>
 			{%if user.is_authenticated and username == user.username%}
 				<a href="{%url 'Portfolios:create_chapter' username story_id slug%}">Create Chapter</a>
+				<a href="{%url 'Portfolios:edit_story' username story_id slug %}">Edit Story</a>
 			{%endif%}
 		</div>
 		<div id="desc-wrapper">
@@ -101,8 +102,10 @@
 	  				{% endfor %}
 				</div>
 				<div class="cover-img">
-						<!-- TODO get cover image -->
-						{%cloudinary chapter.cover_photo width='400' height='550' class='img-responsive'%}
+					{%if user.is_authenticated and username == user.username%}
+						<a href="{% url 'Portfolios:edit_chapter' username story_id slug chapter.entry_id %}">Edit Chapter</a>
+					{%endif%}
+					{%cloudinary chapter.cover_photo width='400' height='550' class='img-responsive'%}
 				</div>
 			</div>
 		{%endfor%}
