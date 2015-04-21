@@ -107,7 +107,7 @@
                                     };
 
                                 // DEVIATION FROM SOURCE to allow multiple entry photos:
-                                if(n=="cover_photo"){
+                                if(n=="cover_photo" || n=='avatar'){
                                    o = b && "input" == b.tagName && "hidden" == t(b).attr("type") ? t(b) : t(i).find('input[name="' + n + '"]'), 0 == e && o.length > 0 ? (o.val(d), o.attr("data-cloudinary-public-id", a.public_id), o.data("cloudinary", a), o.addClass("cloudinary-hidden-field")) : r()
                                 }
                                 else{
@@ -122,9 +122,11 @@
                                 if(p.field_name == "cover_photo"){
                                   $(".cloudinary-thumbnails .cover_photo").remove();
                                 }
+                                if(p.field_name == "avatar"){
+                                    console.log("removoing old avatar thumbnail")
+                                  $(".cloudinary-thumbnails .avatar").remove();
+                                }
                                 var a = t("<ul></ul>").addClass("cloudinary-thumbnails");
-                                console.log(p.field_name);
-                                console.log(a);
                                 t.each(e, function(e, i) {
                                     var n = t("<li></li>").addClass("cloudinary-thumbnail " + p.field_name).data("cloudinary", i);
                                     console.log(n);
