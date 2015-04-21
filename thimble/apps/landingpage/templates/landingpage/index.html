@@ -15,10 +15,21 @@
         <div class="piece">
           <div class="piece-thumb-container">
             {% url 'Portfolios:render_design_story' story.0.designer story.0.design_story_id story.0.title|slugify as dest%}
-            <div class="piece-overlay" style="cursor:pointer;" onclick='goToStory("{{dest}}")'>
+            <div class="piece-overlay" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
               <p><strong>{{story.0.title}}</strong></p>
               <p>{{story.0.date_created}}</p>
-              <br></br>
+              <div class="by-wrapper">
+                <a href="{%url 'Portfolios:render_portfolio' story.0.designer%}">
+                  {%if not story.0.designer__avatar%}
+                    <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
+                  {%else%}
+                    <img src="{%cloudinary_url story.0.designer__avatar width='50' height='50' %}" class="img-responsive img-circle">
+                  {%endif%}
+                  <p class="by-name">
+                  {{story.0.designer__user__first_name}} {{story.0.designer__user__last_name}}
+                  </p>
+                </a>
+              </div>
               <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{story.0.likes}}</span></p>
               <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{story.0.comments}}</span></p>
 
@@ -39,16 +50,6 @@
               <button type="button" class="btn btn-default btn-lg share-btn">
                 Share <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
               </button>
-              <div>
-                <a href="{%url 'Portfolios:render_portfolio' story.0.designer%}">
-                  {%if not story.0.designer__avatar%}
-                     <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
-                  {%else%}
-                    <img src="{%cloudinary_url story.0.designer__avatar width='200' height='200' %}" class="img-responsive img-circle">
-                  {%endif%}
-                  {{story.0.designer__user__first_name}} {{story.0.designer__user__last_name}}
-                </a>
-              </div>
             </div>
             <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
           </div>
@@ -67,7 +68,7 @@
       CommunityActivities.init();      
     });
 
-    function goToStory(dest){
+    function goToStory(dest, event){
       if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"){
           window.location.href = dest;
       }

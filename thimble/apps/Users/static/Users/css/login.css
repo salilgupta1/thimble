@@ -20,6 +20,12 @@
 .reg-form-wrapper form {
 	text-align: center;
 	max-width: 305px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+	border-radius: 3px;
+	background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.85);
+	background-repeat: repeat;
 }
 
 .reg-form-wrapper input {
