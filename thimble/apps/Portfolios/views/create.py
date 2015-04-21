@@ -236,11 +236,8 @@ def edit_story(request, username, story_id, slug):
 
                             # delete associated images from cloudinary
                             for p in e['photos']:
-                                print p
                                 delete_resources([p])
                                 break
-
-                            print e['cover_photo']
                             delete_resources([e['cover_photo']])
 
                             # delete from db
