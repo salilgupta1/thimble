@@ -9,7 +9,7 @@ def deploy_production():
 
 def deploy_staging():
 	local('heroku maintenance:on --app staging-thimble')
-	local('git push staging dev')
+	local('git push staging dev:master')
 	local('heroku run python manage.py migrate --app staging-thimble')
 	local('heroku run python manage.py collectstatic --app staging-thimble')
 	local('heroku maintenance:off --app staging-thimble')
