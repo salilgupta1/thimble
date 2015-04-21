@@ -1,1 +1,1 @@
-web: newrelic-admin run-program gunicorn thimble.wsgi
+web: gunicorn thimble.wsgi
