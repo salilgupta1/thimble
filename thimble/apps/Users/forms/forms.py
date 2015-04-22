@@ -8,8 +8,8 @@ from thimble.apps.Users.models.schemas.Designer import Designer
 
 class RegistrationForm(UserCreationForm):
     class Meta:
-        model = User
-        fields = ("first_name","last_name","email","username")
+        model   = User
+        fields  = ("first_name", "last_name", "email", "username")
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm,self).__init__(*args,**kwargs)
@@ -18,17 +18,20 @@ class RegistrationForm(UserCreationForm):
             fields[1].error_messages = {'required':"Sorry this field is required!"}
 
 class LoginForm(AuthenticationForm):
+
     def __init__(self, *args, **kwargs):
         super(LoginForm,self).__init__(*args,**kwargs)
+        self.error_messages['invalid_login'] = "Sorry your credentials were incorrect!"
+        
         for fields in self.fields.items():
-            fields[1].widget.attrs.update({'class':'form-control'})
+            fields[1].widget.attrs.update({ 'class':'form-control', 'placeholder':fields[1].label })
             fields[1].error_messages = {'required':"Sorry this field is required!"}
 
 class EditDesignerForm(forms.ModelForm):
     avatar = CloudinaryJsFileField(required=False)
 
     class Meta:
-        model = Designer
+        model  = Designer
         fields = ("bio","location")
 
     def __init__(self, *args, **kwargs):
@@ -39,7 +42,7 @@ class EditDesignerForm(forms.ModelForm):
 class EditUserForm(forms.ModelForm):
 
     class Meta:
-        model = User
+        model  = User
         fields = ("first_name","last_name","email","username")
 
     def __init__(self, *args, **kwargs):

@@ -45,11 +45,13 @@ def create_account(request):
 def edit_account(request):
     context = {}
     if request.method == "POST":
+
         # receiving form data
         edit_user = EditUserForm(request.POST, instance=request.user)
         edit_designer = EditDesignerForm(request.POST, instance=request.user.designer)
 
         if edit_user.is_valid() and edit_designer.is_valid():
+
             # save forms if valid
             updated_user = edit_user.save()
             updated_designer = edit_designer.save(commit=False)
@@ -66,7 +68,9 @@ def edit_account(request):
 
         else:
             context['error'] = "error"
-    else:  # create forms for displaying
+    else:
+      
+        # create forms for displaying
         edit_user = EditUserForm(instance=request.user, label_suffix="")
         edit_designer = EditDesignerForm(instance=request.user.designer, label_suffix="")
 
