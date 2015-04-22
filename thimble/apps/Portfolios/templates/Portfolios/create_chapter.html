@@ -23,10 +23,10 @@
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
-                    {% if field.label == 'Main Photo' %}
+                    {% if field.label == 'Cover Photo' %}
                         <br/>
                         <a href="#" id="cover_upload_widget_opener"></a>
-                    {% elif field.label == 'Supplementary Photos'%}
+                    {% elif field.label == 'Additional Photos'%}
                         <br/>
                         <a href="#" id="supp_upload_widget_opener"></a>
                     {% else %}

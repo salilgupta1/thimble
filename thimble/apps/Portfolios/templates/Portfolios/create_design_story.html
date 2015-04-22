@@ -11,7 +11,7 @@
 
 {%block content%}
 	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
-        <h2> Write a Design Story</h2>
+        <h2> Create a Design Story</h2>
         {{error}}
 		<form method='post' action="{%url 'Portfolios:create_design_story' request.user.username%}">
 			{%csrf_token%}
@@ -23,15 +23,15 @@
                 </div>
             {% endfor %}
             <hr/>
-            <h3>Write Your First Chapter</h3>
+            <h3>Create Your First Chapter</h3>
             {%for field in entry_form%}
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
-                    {% if field.label == 'Main Photo' %}
+                    {% if field.label == 'Cover Photo' %}
                         <br/>
                         <a href="#" id="cover_upload_widget_opener"></a>
-                    {% elif field.label == 'Supplementary Photos'%}
+                    {% elif field.label == 'Additional Photos'%}
                         <br/>
                         <a href="#" id="supp_upload_widget_opener"></a>
                     {% else %}
