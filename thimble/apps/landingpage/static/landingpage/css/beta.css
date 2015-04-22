@@ -8,7 +8,7 @@ html {
 }
 
 .logo-wrapper {
-	width: 3rem;
+	width: 2rem;
 	position: absolute;
 	top: 1rem;
 	right: 1rem;
@@ -23,7 +23,7 @@ html {
 .title {
 	font-size: 6rem;
 	font: 'Lato', sans-serif;
-	font-weight: 300;
+	font-weight: 100;
 	color: white;
 	text-transform: uppercase;
 	text-align: center;
