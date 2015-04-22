@@ -27,12 +27,12 @@ class CreateEntry(forms.ModelForm):
     class Meta:
         model   = Entry
         fields  = ("entry_title", "entry_desc")
-        error_messages:{
+        error_messages={
             'entry_title':{
                 'max_length':"Please limit your title to 60 characters"
-            }
+            },
         }
-    
+
     def __init__(self, *args, **kwargs):
         super(CreateEntry, self).__init__(*args, **kwargs)
         for fields in self.fields.items():
