@@ -1,6 +1,7 @@
 from django import forms      
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext_lazy as _
 
 from cloudinary.forms import CloudinaryJsFileField 
 from thimble.apps.Users.models.schemas.Designer import Designer
@@ -34,7 +35,9 @@ class EditDesignerForm(forms.ModelForm):
     class Meta:
         model  = Designer
         fields = ("bio","location")
-
+        widgets = {
+            'bio': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
+        }
     def __init__(self, *args, **kwargs):
         super(EditDesignerForm, self).__init__(*args, **kwargs)
         for fields in self.fields.items():
