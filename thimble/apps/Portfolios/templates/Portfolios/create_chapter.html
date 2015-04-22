@@ -23,10 +23,10 @@
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
-                    {% if field.label == 'Main Photo' %}
+                    {% if field.label == 'Cover Photo' %}
                         <br/>
                         <a href="#" id="cover_upload_widget_opener"></a>
-                    {% elif field.label == 'Supplementary Photos'%}
+                    {% elif field.label == 'Additional Photos'%}
                         <br/>
                         <a href="#" id="supp_upload_widget_opener"></a>
                     {% else %}
@@ -58,7 +58,7 @@
       var photos_upload = 0;
       $('#supp_upload_widget_opener').cloudinary_upload_widget(
         { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true,
-          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Supplementary", field_name:"entry_photos", theme:"minimal",
+          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Additional", field_name:"entry_photos", theme:"minimal",
             thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
         function(error, result) {
             updateNumPhotos();

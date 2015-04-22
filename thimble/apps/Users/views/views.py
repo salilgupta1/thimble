@@ -15,27 +15,26 @@ from thimble.utils import photo_rename
 
 # look into Dangling orphans (Salil Gupta)
 def create_account(request):
-    context = {}
+    reg_form = RegistrationForm(request.POST or None)
     if request.method == "POST":
-        user_form = RegistrationForm(request.POST)
-        if user_form.is_valid():
+        
+        if reg_form.is_valid():
 
             # create an instance of the user model
-            new_user = user_form.save()
+            new_user = reg_form.save()
 
             # create a designer instance
             designer = Designer.objects.create(user=new_user)
 
             # login user after account is created
-            user = authenticate(username=user_form.cleaned_data['username'],
-                                password=user_form.cleaned_data['password1'])
+            user = authenticate(username=reg_form.cleaned_data['username'],
+                                password=reg_form.cleaned_data['password1'])
             login(request, user)
 
             # send them to edit their profile
             return HttpResponseRedirect(reverse('Users:edit_account'))
-        else:
-            context['error'] = dict(user_form.errors.items())
 
+    context = {"register_form":reg_form}
     return render(request, "Users/create_account.html", context)
 
 
@@ -44,12 +43,11 @@ def create_account(request):
 @login_required
 def edit_account(request):
     context = {}
+    edit_user = EditUserForm(request.POST or None, instance=request.user, label_suffix="")
+    edit_designer = EditDesignerForm(request.POST or None, instance=request.user.designer, label_suffix="")
     if request.method == "POST":
-        # receiving form data
-        edit_user = EditUserForm(request.POST, instance=request.user)
-        edit_designer = EditDesignerForm(request.POST, instance=request.user.designer)
-
         if edit_user.is_valid() and edit_designer.is_valid():
+
             # save forms if valid
             updated_user = edit_user.save()
             updated_designer = edit_designer.save(commit=False)
@@ -64,18 +62,11 @@ def edit_account(request):
 
             context['changes_saved'] = "Changes saved."
 
-        else:
-            context['error'] = "error"
-    else:  # create forms for displaying
-        edit_user = EditUserForm(instance=request.user, label_suffix="")
-        edit_designer = EditDesignerForm(instance=request.user.designer, label_suffix="")
-
     context['edit_user'] = edit_user
     context['edit_designer'] = edit_designer
     cl_init_js_callbacks(context['edit_designer'], request)
 
     return render(request, "Users/edit_account.html", context)
-
 
 def delete_account(request):
     pass
