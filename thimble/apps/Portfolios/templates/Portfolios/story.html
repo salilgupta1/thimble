@@ -21,6 +21,7 @@
 			<h1>{{design_story.title}}</h1>
 			{%if user.is_authenticated and username == user.username%}
 				<a href="{%url 'Portfolios:create_chapter' username story_id slug%}">Create Chapter</a>
+				<span>|</span>
 				<a href="{%url 'Portfolios:edit_story' username story_id slug %}">Edit Story</a>
 			{%endif%}
 		</div>
@@ -92,6 +93,9 @@
 
 	<div id="chapter-list">
 		{%for chapter in entries%}
+			<div class='chapter-title'>
+				<h2>{{chapter.entry_title}}</h2>
+			</div>
 			<div class="chapter-img-wrapper">
 				<!-- <h3>{{chapter.entry_title}}</h3> -->
 				<div class="thumb-img-list">
@@ -107,6 +111,11 @@
 					{%endif%}
 					{%cloudinary chapter.cover_photo width='400' height='550' class='img-responsive'%}
 				</div>
+			</div>
+			<div class='chapter-description'>
+				<p>
+					{{chapter.entry_desc}}
+				</p>
 			</div>
 		{%endfor%}
 	</div>

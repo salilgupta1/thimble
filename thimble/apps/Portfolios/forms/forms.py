@@ -9,8 +9,8 @@ class CreateDesignStory(forms.ModelForm):
     wip = forms.BooleanField(initial=False, label='Work in Progress?', required=False)
 
     class Meta:
-        model = DesignStory
-        fields = ("title", "description", "wip")
+        model   = DesignStory
+        fields  = ("title", "description", "wip")
 
     def __init__(self, *args, **kwargs):
         super(CreateDesignStory, self).__init__(*args, **kwargs)
@@ -19,13 +19,14 @@ class CreateDesignStory(forms.ModelForm):
 
 
 class CreateEntry(forms.ModelForm):
-    entry_title = forms.CharField(label='Chapter Title')
-    cover_photo = CloudinaryJsFileField(label='Main Photo')
-    entry_photos = CloudinaryJsFileField(attrs={'multiple': 1}, label='Supplementary Photos')
+    entry_title     = forms.CharField(label='Chapter Title', required=True)
+    entry_desc      = forms.CharField(label='Chapter Description', required=False)
+    cover_photo     = CloudinaryJsFileField(label='Main Photo')
+    entry_photos    = CloudinaryJsFileField(attrs={'multiple': 1}, label='Additional Photos')
 
     class Meta:
-        model = Entry
-        fields = ("entry_title",)
+        model   = Entry
+        fields  = ("entry_title", "entry_desc")
 
     def __init__(self, *args, **kwargs):
         super(CreateEntry, self).__init__(*args, **kwargs)
@@ -34,12 +35,12 @@ class CreateEntry(forms.ModelForm):
 
 
 class EditEntryForm(forms.ModelForm):
-    cover_photo = CloudinaryJsFileField(label='Main Photo', required=False)
-    entry_photos = CloudinaryJsFileField(attrs={'multiple': 1}, label='Supplementary Photos',required=False)
+    cover_photo     = CloudinaryJsFileField(label='Main Photo', required=False)
+    entry_photos    = CloudinaryJsFileField(attrs={'multiple': 1}, label='Additional Photos',required=False)
 
     class Meta:
-        model = Entry
-        fields = ("entry_title",)
+        model   = Entry
+        fields  = ("entry_title", "entry_desc")
 
     def __init__(self, *args, **kwargs):
         super(EditEntryForm, self).__init__(*args, **kwargs)
@@ -50,8 +51,8 @@ class EditEntryForm(forms.ModelForm):
 class EditStoryForm(forms.ModelForm):
 
     class Meta:
-        model = DesignStory
-        fields = ("title","description",)
+        model   = DesignStory
+        fields  = ("title","description",)
 
     def __init__(self, *args, **kwargs):
         super(EditStoryForm, self).__init__(*args, **kwargs)

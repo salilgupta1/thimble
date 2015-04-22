@@ -99,3 +99,4 @@ def render_design_story(request, username, story_id, slug):
     }
 
     return render(request, "Portfolios/story.html", context)
+    
