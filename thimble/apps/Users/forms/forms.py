@@ -7,15 +7,17 @@ from thimble.apps.Users.models.schemas.Designer import Designer
 
 
 class RegistrationForm(UserCreationForm):
+
     class Meta:
         model   = User
         fields  = ("first_name", "last_name", "email", "username")
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm,self).__init__(*args,**kwargs)
+        
         for fields in self.fields.items():
-            fields[1].widget.attrs.update({'class':'form-control'})
-            fields[1].error_messages = {'required':"Sorry this field is required!"}
+            fields[1].required = True
+            fields[1].widget.attrs.update({'class':'form-control', 'placeholder':fields[1].label, 'required':True})
 
 class LoginForm(AuthenticationForm):
 
@@ -24,8 +26,7 @@ class LoginForm(AuthenticationForm):
         self.error_messages['invalid_login'] = "Sorry your credentials were incorrect!"
         
         for fields in self.fields.items():
-            fields[1].widget.attrs.update({ 'class':'form-control', 'placeholder':fields[1].label })
-            fields[1].error_messages = {'required':"Sorry this field is required!"}
+            fields[1].widget.attrs.update({ 'class':'form-control', 'placeholder':fields[1].label, 'required':True})
 
 class EditDesignerForm(forms.ModelForm):
     avatar = CloudinaryJsFileField(required=False)
@@ -48,5 +49,5 @@ class EditUserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(EditUserForm,self).__init__(*args,**kwargs)
         for fields in self.fields.items():
-            fields[1].widget.attrs.update({'class':'form-control'})
-            fields[1].error_messages = {'required':"Sorry this field is required!"} 
+            fields[1].required = True
+            fields[1].widget.attrs.update({'class':'form-control', 'required':True})
