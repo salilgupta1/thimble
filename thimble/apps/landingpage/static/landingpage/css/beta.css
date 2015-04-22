@@ -83,6 +83,7 @@ form {
 	margin-left: 20px;
 	padding: 1px 10px 1px 10px;
 	background: #95A5A6;
+	vertical-align: 0px;
 }
 
 hr {
@@ -98,7 +99,7 @@ hr {
 		margin-right: 10px;
 	}
 	.btn {
-		height: 20px;	
+		height: 22px;	
 		margin-left: 10px;
 	}
 }
