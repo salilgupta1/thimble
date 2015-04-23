@@ -95,6 +95,11 @@
 		{%for chapter in entries%}
 			<div class='chapter-title'>
 				<h2>{{chapter.entry_title}}</h2>
+				<div class='chapter-description'>
+					<p>
+						{{chapter.entry_desc}}
+					</p>
+				</div>
 				{%if user.is_authenticated and username == user.username%}
 					<a href="{% url 'Portfolios:edit_chapter' username story_id slug chapter.entry_id %}">Edit Chapter</a>
 				{%endif%}
@@ -111,11 +116,6 @@
 				<div class="cover-img">
 					{%cloudinary chapter.cover_photo width='400' height='550' class='img-responsive'%}
 				</div>
-			</div>
-			<div class='chapter-description'>
-				<p>
-					{{chapter.entry_desc}}
-				</p>
 			</div>
 		{%endfor%}
 	</div>
