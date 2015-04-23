@@ -14,7 +14,7 @@
 
 
 {%block content%}
-	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
+	<div id="direct_upload" class="row">
         <h2>Add a New Chapter</h2>
         {{error}}
 		<form method='POST' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}" class="chapter-form">
