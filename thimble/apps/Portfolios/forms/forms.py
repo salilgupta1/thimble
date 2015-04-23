@@ -6,17 +6,16 @@ from thimble.apps.Portfolios.models.schemas.Entry import Entry
 
 
 class CreateDesignStory(forms.ModelForm):
-    wip = forms.BooleanField(initial=False, label='Work in Progress?', required=False)
 
     class Meta:
         model   = DesignStory
-        fields  = ("title", "description", "wip")
+        fields  = ("title", "description")
+        widgets = {
+            'description': forms.Textarea(attrs={'cols': 40, 'rows': 10, 'class':'form-control', 
+                                                 'placeholder':'Tell the story of the piece','required':True}),
 
-    def __init__(self, *args, **kwargs):
-        super(CreateDesignStory, self).__init__(*args, **kwargs)
-        for fields in self.fields.items():
-            fields[1].widget.attrs.update({'class': 'form-control'})
-
+            'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title Your Story', 'required':True})
+        }
 
 class CreateEntry(forms.ModelForm):
     entry_title     = forms.CharField(label='Chapter Title', required=True, max_length=60)
@@ -38,7 +37,6 @@ class CreateEntry(forms.ModelForm):
         for fields in self.fields.items():
             fields[1].widget.attrs.update({'class': 'form-control'})
 
-
 class EditEntryForm(forms.ModelForm):
     cover_photo     = CloudinaryJsFileField(label='Cover Photo', required=False)
     entry_photos    = CloudinaryJsFileField(attrs={'multiple': 1}, label='Additional Photos', required=False)
@@ -51,7 +49,6 @@ class EditEntryForm(forms.ModelForm):
         super(EditEntryForm, self).__init__(*args, **kwargs)
         for fields in self.fields.items():
             fields[1].widget.attrs.update({'class': 'form-control'})
-
 
 class EditStoryForm(forms.ModelForm):
 

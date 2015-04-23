@@ -18,22 +18,33 @@
 			{%csrf_token%}
             <div class="story-det-wrapper">
                 <h3> Create a Story</h3>
-        
-                <div class="form-group">
-                    <div></div>
-                    <input class="form-control" id="id_title" maxlength="30" name="title" type="text" placeholder="Title Your Story">
-                </div>
+                    {% if design_story_form.non_field_errors %}
+                        {% for error in design_story_form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endif %}
+
+
+                    {% for field in design_story_form %}
+                        <div class="form-group">
+                            <div id="{{ field.auto_id }}_errors" class='form-error'>
+                                {{ field.errors|striptags }}
+                            </div>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+
             
-                <div class="form-group">
+<!--                 <div class="form-group">
                     <div></div>
-                    <textarea class="form-control" cols="40" id="id_description" name="description" rows="5" placeholder="Tell the piece&#39s story"></textarea>
+                    <textarea class="form-control" cols="40" id="id_description" name="description" rows="5" placeholder="Tell the stories piece"></textarea>
                 </div>
             
                 <div class="form-group">
                     <div></div>
                     <label for="id_wip">Work in Progress?</label>
                     <input class="form-control check" id="id_wip" name="wip" type="checkbox">
-                </div>
+                </div> -->
 
             </div>
 
@@ -44,7 +55,7 @@
 
                 <div class="demo-tile">
                     <div class="form-group title-group">
-                        <input class="form-control" id="id_entry_title" name="entry_title" type="text" placeholder="Title the Pieces First Chapter">
+                            <input class="form-control" id="id_entry_title" name="entry_title" type="text" placeholder="Title the Pieces First Chapter">
                     </div>
                     <div class="form-group supp-group">
                         <img class="supp-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
@@ -55,11 +66,10 @@
                             <a style="display: none;" href="#" id="cover_upload_widget_opener"></a>
                     </div>
                 </div>
-
-
             </div>
+
             <div class="btn-wrapper">
-            <button type='submit' class='btn btn-primary' id="create-btn" disabled="true">Create</button>
+                <button type='submit' class='btn btn-primary' id="create-btn" disabled="true">Create</button>
             </div>
         </form>
 
@@ -75,29 +85,27 @@
         }
         </style>
 
-        <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
-
-        <script type="text/javascript">
-            function updateNumPhotos(){
-                photos_upload++;
-                if(photos_upload > 0)
-                {
-                    $("#create-btn").attr("disabled",false);
+            <script type="text/javascript">
+                function updateNumPhotos(){
+                    photos_upload++;
+                    if(photos_upload > 0)
+                    {
+                        $("#create-btn").attr("disabled",false);
+                    }
+                    if(photos_upload > 2)
+                    {
+                        $('.supp-holder').css("display", "none");
+                    }
                 }
-                if(photos_upload > 2)
-                {
-                    $('.supp-holder').css("display", "none");
-                }
-            }
 
-            $('.cover-holder').click(function() {
-                cloudinary.openUploadWidget(
-                    { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false, form:'#create_story_form',
-                    cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal", thumbnails: '.cover-group', thumbnail_transformation: { width: 400, height: 550, crop: 'fill' }},
-                    function(error, result) {
-                        // TODO change "Upload Cover" on button to "Change cover"
-                    });
-            });
+                $('.cover-holder').click(function() {
+                    cloudinary.openUploadWidget(
+                        { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,
+                        cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal", thumbnails: '.cover-group', thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
+                        function(error, result) {
+                            // TODO change "Upload Cover" on button to "Change cover"
+                        });
+                });
 
           var photos_upload = 0;
             $('.supp-holder').click(function() {
