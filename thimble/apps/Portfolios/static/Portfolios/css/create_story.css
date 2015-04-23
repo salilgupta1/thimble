@@ -2,6 +2,16 @@ h3 {
 	text-align: center;
 }
 
+.container {
+	width: 100%;
+	color: white;
+}
+
+#direct_upload {
+	background: rgba(62, 62, 62, 0.5);
+	min-height: 100vh;
+}
+
 .story-det-wrapper, .chapter-det-wrapper {
 	width: 50%;
 	float: left;
