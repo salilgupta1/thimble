@@ -201,8 +201,10 @@
 	padding-bottom: 1px;
 }
 
-.chapter-title > h3 {
-	padding-top: 10px;
+.chapter-title > h2 {
+	margin-top: 10px;
+	margin-bottom: 0px;
+	padding-top: 3px;
 }
 
 .chapter-img-wrapper {
@@ -213,7 +215,6 @@
 	display: block;
 	background: white;
 	overflow: hidden;
-	margin-top: 10px;
 	padding: 3px;
 	border-radius: 3px;
 }
