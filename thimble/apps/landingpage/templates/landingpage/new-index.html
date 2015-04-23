@@ -47,10 +47,14 @@
         <div class="invite-wrapper">
             <p class="invite">We are currently in private beta. If you are a fashion designer or stylist, request an invite below!</p>
         </div>
-        <form>
-            <input class="email" placeholder="email"></input>
+        <form method='POST' action="{% url 'landingpage:new_landingpage' %}">
+            {%csrf_token%}
+            <input type="email" name="email" class="email" placeholder="designer@gmail.com">
              <button type="submit" class="btn btn-default">Submit</button>
         </form>
+        {{error}}
+        {{success}}
+        <!--TODO ryan style these error/success messages-->
     </div>
 
     <style type="text/css">
