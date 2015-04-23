@@ -22,14 +22,12 @@ from thimble.apps.Portfolios.forms.forms import *
 
 @login_required
 def create_design_story(request, username):
+
     if request.user.username == username:
-        context = {}
+        design_story_form = CreateDesignStory(request.POST or None)
+        entry_form = CreateEntry(request.POST or None)
+
         if request.method == "POST":
-
-            # form is posted
-            design_story_form = CreateDesignStory(request.POST)
-            entry_form = CreateEntry(request.POST)
-
             if design_story_form.is_valid() and entry_form.is_valid():
 
                 # create an instance of the of design_story_model model
@@ -60,25 +58,25 @@ def create_design_story(request, username):
                 slug = slugify(design_story.title)
                 return HttpResponseRedirect(
                     reverse('Portfolios:render_design_story', args=(username, design_story.design_story_id, slug)))
-            else:
-                context['error'] = dict(design_story_form.errors.items() + entry_form.errors.items())
-        else:
 
-            context['entry_form'] = CreateEntry(label_suffix='')
-            context['design_story_form'] = CreateDesignStory(label_suffix='')
-            cl_init_js_callbacks(context['entry_form'], request)
+        context = {
+            "design_story_form":design_story_form,
+            "entry_form":entry_form
+        }
+
+        cl_init_js_callbacks(context['entry_form'], request)
         return render(request, "Portfolios/create_design_story.html", context)
-
     else:
         raise Http404
 
 @login_required
 def create_chapter(request, username, story_id, slug):
-    context = {}
+
     if request.user.username == username:
+        entry_form = CreateEntry(request.POST or None)
         if request.method == "POST":
-            entry_form = CreateEntry(request.POST)
             if entry_form.is_valid():
+                
                 # create an instance of the entry model
                 entry = entry_form.save(commit=False)
                 entry.design_story_id = story_id
@@ -100,13 +98,14 @@ def create_chapter(request, username, story_id, slug):
                 photo_rename(bucket_link, photos)
 
                 return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(username, story_id, slug)))
-            else:
-                context['error'] = entry_form.errors.items()
-        else:
-            context['entry_form'] = CreateEntry(label_suffix='')
-            context['design_story_id'] = story_id
-            context['slug'] = slug
-            cl_init_js_callbacks(context['entry_form'], request)
+
+        context = {
+            "entry_form":entry_form,
+            "design_story_id":story_id,
+            "slug":slug
+        }
+
+        cl_init_js_callbacks(context['entry_form'], request)
         return render(request, "Portfolios/create_chapter.html", context)
     else:
         raise Http404

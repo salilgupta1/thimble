@@ -12,7 +12,6 @@ from cloudinary.forms import cl_init_js_callbacks
 
 from thimble.utils import photo_rename
 
-
 # look into Dangling orphans (Salil Gupta)
 def create_account(request):
     reg_form = RegistrationForm(request.POST or None)
@@ -36,7 +35,6 @@ def create_account(request):
 
     context = {"register_form":reg_form}
     return render(request, "Users/create_account.html", context)
-
 
 # Work on error handling (Salil Gupta)
 # provide user feedback on Image upload being complete (Salil Gupta)
