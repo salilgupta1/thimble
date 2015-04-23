@@ -19,7 +19,7 @@
         {{error}}
 		<form method='POST' id='create-chapter' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}" class="chapter-form">
 			{%csrf_token%}
-            {%for field in entry_form%}
+            <!-- {%for field in entry_form%}
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
@@ -33,41 +33,92 @@
                         {{field}}
                     {% endif %}
                 </div>
-            {%endfor%} 
+            {%endfor%}  -->
+            <div class="demo-tile">
+                    <div class="form-group title-group">
+                        <input class="form-control" id="id_entry_title" name="entry_title" type="text" placeholder="Title the Pieces First Chapter">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" id="id_entry_desc" name="entry_desc" type="text" placeholder="Tell the story of your chapter" rows="4"></textarea>
+                     </div>
+                    <div class="form-group supp-group">
+                        <img class="supp-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
+                            <a style="display: none;" href="#" id="supp_upload_widget_opener"></a>  
+                    </div>
+                    <div class="form-group cover-group">
+                        <img class="cover-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
+                            <a style="display: none;" href="#" id="cover_upload_widget_opener"></a>
+                    </div>
+            </div>
             <button type = 'submit' class = 'btn btn-primary' id="create-btn" disabled='true'>Create</button>
 		</form>
+
+        <style type="text/css">
+        body {
+            background-image: url("{%static 'Users/img/overlay.png' %}"), url("{%static 'Users/img/shirt.png' %}");
+            background-repeat: repeat, no-repeat; 
+            background-position: left top, center center;
+            background-size: auto auto, cover;
+            -webkit-background-size: auto auto, cover;
+            -moz-background-size: auto auto, cover;
+            -o-background-size: auto auto, cover;
+        }
+        </style>
 
     <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
     <script type="text/javascript">
         function updateNumPhotos(){
-            photos_upload++;
-            if(photos_upload > 0)
-            {
-                $("#create-btn").attr("disabled",false);
+                photos_upload++;
+                if(photos_upload > 0)
+                {
+                    $("#create-btn").attr("disabled",false);
+                }
+                if(photos_upload > 2)
+                {
+                    $('.supp-holder').css("display", "none");
+                }
             }
-        }
 
         var widget_options = { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false, form:'#create-chapter',
           cropping: 'server', cropping_aspect_ratio:0.73, field_name:"",theme:"minimal",thumbnails: '',
             thumbnail_transformation: { width: 400, height: 550, crop: 'fill' }};
 
+        $('.cover-holder').click(function() {
+                widget_options.field_name = 'cover_photo';
+                widget_options.thumbnails = '.cover-group';
+                cloudinary.openUploadWidget(widget_options,
+                    function(error, result) {
+                        // TODO change "Upload Cover" on button to "Change cover"
+                    });
+            });
 
-      widget_options.field_name = 'cover_photo';
-      widget_options.thumbnails = '.cover-group';
-      $('#cover_upload_widget_opener').cloudinary_upload_widget(widget_options,
-        function(error, result) {
-            // TODO change "Upload Cover" on button to "Change cover"
-        });
+          var photos_upload = 0;
+            $('.supp-holder').click(function() {
+                widget_options.field_name = 'entry_photos';
+                widget_options.thumbnails = '.supp-group';
+                cloudinary.openUploadWidget(widget_options,
+                    function(error, result) {
+                        updateNumPhotos();
+                        // TODO error handle here
+                    });
+            });
 
-      var photos_upload = 0;
+      // widget_options.field_name = 'cover_photo';
+      // widget_options.thumbnails = '.cover-group';
+      // $('#cover_upload_widget_opener').cloudinary_upload_widget(widget_options,
+      //   function(error, result) {
+      //       // TODO change "Upload Cover" on button to "Change cover"
+      //   });
 
-        widget_options.field_name = 'entry_photos';
-        widget_options.thumbnails = '.supp-group';
-      $('#supp_upload_widget_opener').cloudinary_upload_widget(widget_options,
-        function(error, result) {
-            updateNumPhotos();
-                // TODO error handle here
-        });
+      // var photos_upload = 0;
+
+      //   widget_options.field_name = 'entry_photos';
+      //   widget_options.thumbnails = '.supp-group';
+      // $('#supp_upload_widget_opener').cloudinary_upload_widget(widget_options,
+      //   function(error, result) {
+      //       updateNumPhotos();
+      //           // TODO error handle here
+      //   });
     </script>
 
 	</div>
