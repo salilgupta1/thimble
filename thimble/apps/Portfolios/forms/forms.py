@@ -11,10 +11,10 @@ class CreateDesignStory(forms.ModelForm):
         model   = DesignStory
         fields  = ("title", "description")
         widgets = {
-            'description': forms.Textarea(attrs={'cols': 40, 'rows': 10, 'class':'form-control', 
-                                                 'placeholder':'Tell the story of the piece','required':True}),
+            'description': forms.Textarea(attrs={'cols': 40, 'rows': 5, 'class':'form-control', 
+                                                 'placeholder':'Tell the story of the piece','required':"False"}),
 
-            'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title Your Story', 'required':True})
+            'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title Your Story', 'required':"True"})
         }
         error_messages = {
             "NON_FIELD_ERRORS": {
@@ -30,8 +30,8 @@ class CreateEntry(forms.ModelForm):
         model   = Entry
         fields  = ("entry_title", "entry_desc")
         widgets = {
-            'entry_title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Chapter Title', 'required':True}),
-            'entry_desc': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Chapter Description', 'cols':40, 'rows':3, 'required':False})
+            'entry_title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Chapter Title', 'required':"True"}),
+            'entry_desc': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Chapter Description', 'cols':40, 'rows':3, 'required':"False"})
         }
         error_messages = {
             "NON_FIELD_ERRORS": {
