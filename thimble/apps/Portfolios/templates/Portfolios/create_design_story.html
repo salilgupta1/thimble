@@ -14,7 +14,7 @@
 {%block content%}
 	<div id="direct_upload" class="row">
         {{error}}
-		<form method='post' action="{%url 'Portfolios:create_design_story' request.user.username%}">
+		<form method='post' id='create_story_form' action="{%url 'Portfolios:create_design_story' request.user.username%}">
 			{%csrf_token%}
             <div class="story-det-wrapper">
                 <h3> Create a Story</h3>
@@ -44,7 +44,7 @@
 
                 <div class="demo-tile">
                     <div class="form-group title-group">
-                            <input class="form-control" id="id_entry_title" name="entry_title" type="text" placeholder="Title the Pieces First Chapter">
+                        <input class="form-control" id="id_entry_title" name="entry_title" type="text" placeholder="Title the Pieces First Chapter">
                     </div>
                     <div class="form-group supp-group">
                         <img class="supp-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
@@ -75,67 +75,42 @@
         }
         </style>
 
-            <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
+        <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
 
-            <script type="text/javascript">
-                function updateNumPhotos(){
-                    photos_upload++;
-                    if(photos_upload > 0)
-                    {
-                        $("#create-btn").attr("disabled",false);
-                    }
-                    if(photos_upload > 2)
-                    {
-                        $('.supp-holder').css("display", "none");
-                    }
+        <script type="text/javascript">
+            function updateNumPhotos(){
+                photos_upload++;
+                if(photos_upload > 0)
+                {
+                    $("#create-btn").attr("disabled",false);
                 }
+                if(photos_upload > 2)
+                {
+                    $('.supp-holder').css("display", "none");
+                }
+            }
 
-                $('.cover-holder').click(function() {
-                    cloudinary.openUploadWidget(
-                        { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,
-                        cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal", thumbnails: '.cover-group', thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
-                        function(error, result) {
-                            // TODO change "Upload Cover" on button to "Change cover"
-                        });
-                });
-
-              var photos_upload = 0;
-                    $('.supp-holder').click(function() {
-                        cloudinary.openUploadWidget(
-                            { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true,
-                            cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Supplementary", field_name:"entry_photos", theme:"minimal", thumbnails: '.supp-group', thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
-                            function(error, result) {
-                                updateNumPhotos();
-                                            // TODO error handle here
-                                        });
+            $('.cover-holder').click(function() {
+                cloudinary.openUploadWidget(
+                    { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false, form:'#create_story_form',
+                    cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal", thumbnails: '.cover-group', thumbnail_transformation: { width: 400, height: 550, crop: 'fill' }},
+                    function(error, result) {
+                        // TODO change "Upload Cover" on button to "Change cover"
                     });
+            });
 
+          var photos_upload = 0;
+            $('.supp-holder').click(function() {
+                cloudinary.openUploadWidget(
+                    { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true, form:'#create_story_form',
+                    cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Supplementary", field_name:"entry_photos", theme:"minimal", thumbnails: '.supp-group', thumbnail_transformation: { width: 400, height: 550, crop: 'fill' }},
+                    function(error, result) {
+                        updateNumPhotos();
+                        // TODO error handle here
+                    });
+            });
 
-
-            //   $('#cover_upload_widget_opener').cloudinary_upload_widget(
-            //     { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,
-            //       cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal",
-            // thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
-            //     function(error, result) {
-            //         // TODO change "Upload Cover" on button to "Change cover"
-            //     });
-
-
-            //   var photos_upload = 0;
-            //   $('#supp_upload_widget_opener').cloudinary_upload_widget(
-            //     { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true,
-            //       cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Supplementary", field_name:"entry_photos", theme:"minimal",
-            // thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
-            //     function(error, result) {
-            //         updateNumPhotos();
-            //             // TODO error handle here
-            //     });
-            </script>
-
-		
-        <div class='status' hidden='true'>
-            <h3>Photo Upload Status</h3>
-        </div>
+        </script>
 	</div>
 
 {%endblock%}
