@@ -85,7 +85,7 @@ form {
 	margin-left: 20px;
 	padding: 1px 10px 1px 10px;
 	background: #95A5A6;
-	vertical-align: 0px;
+	vertical-align: initial;
 }
 
 hr {
