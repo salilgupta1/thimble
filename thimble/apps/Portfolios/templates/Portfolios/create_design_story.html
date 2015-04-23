@@ -14,7 +14,7 @@
 {%block content%}
 	<div id="direct_upload" class="row">
         {{error}}
-		<form method='post' id='create_story_form' action="{%url 'Portfolios:create_design_story' request.user.username%}">
+		<form method='post' id='create-story' action="{%url 'Portfolios:create_design_story' request.user.username%}">
 			{%csrf_token%}
             <div class="story-det-wrapper">
                 <h3> Create a Story</h3>
@@ -89,11 +89,13 @@
                     $('.supp-holder').css("display", "none");
                 }
             }
+            var widget_options = { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false, form:'#create-story',
+                    cropping: 'server', cropping_aspect_ratio:0.73, field_name:"",theme:"minimal", thumbnails: '', thumbnail_transformation: { width: 400, height: 550, crop: 'fill' }};
 
             $('.cover-holder').click(function() {
-                cloudinary.openUploadWidget(
-                    { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false, form:'#create_story_form',
-                    cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal", thumbnails: '.cover-group', thumbnail_transformation: { width: 400, height: 550, crop: 'fill' }},
+                widget_options.field_name = 'cover_photo';
+                widget_options.thumbnails = '.cover-group';
+                cloudinary.openUploadWidget(widget_options,
                     function(error, result) {
                         // TODO change "Upload Cover" on button to "Change cover"
                     });
@@ -101,9 +103,9 @@
 
           var photos_upload = 0;
             $('.supp-holder').click(function() {
-                cloudinary.openUploadWidget(
-                    { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true, form:'#create_story_form',
-                    cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Supplementary", field_name:"entry_photos", theme:"minimal", thumbnails: '.supp-group', thumbnail_transformation: { width: 400, height: 550, crop: 'fill' }},
+                widget_options.field_name = 'entry_photos';
+                widget_options.thumbnails = '.supp-group';
+                cloudinary.openUploadWidget(widget_options,
                     function(error, result) {
                         updateNumPhotos();
                         // TODO error handle here

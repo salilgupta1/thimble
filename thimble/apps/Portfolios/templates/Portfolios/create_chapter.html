@@ -17,7 +17,7 @@
 	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
         <h2>Add a New Chapter</h2>
         {{error}}
-		<form method='POST' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}" class="chapter-form">
+		<form method='POST' id='create-chapter' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}" class="chapter-form">
 			{%csrf_token%}
             {%for field in entry_form%}
                 <div class = 'form-group'>
@@ -47,19 +47,23 @@
             }
         }
 
-      $('#cover_upload_widget_opener').cloudinary_upload_widget(
-        { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,
-          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal",
-            thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
+        var widget_options = { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false, form:'#create-chapter',
+          cropping: 'server', cropping_aspect_ratio:0.73, field_name:"",theme:"minimal",thumbnails: '',
+            thumbnail_transformation: { width: 400, height: 550, crop: 'fill' }};
+
+
+      widget_options.field_name = 'cover_photo';
+      widget_options.thumbnails = '.cover-group';
+      $('#cover_upload_widget_opener').cloudinary_upload_widget(widget_options,
         function(error, result) {
             // TODO change "Upload Cover" on button to "Change cover"
         });
 
       var photos_upload = 0;
-      $('#supp_upload_widget_opener').cloudinary_upload_widget(
-        { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true,
-          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Additional", field_name:"entry_photos", theme:"minimal",
-            thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
+
+        widget_options.field_name = 'entry_photos';
+        widget_options.thumbnails = '.supp-group';
+      $('#supp_upload_widget_opener').cloudinary_upload_widget(widget_options,
         function(error, result) {
             updateNumPhotos();
                 // TODO error handle here

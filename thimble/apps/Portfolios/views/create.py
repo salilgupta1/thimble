@@ -102,11 +102,11 @@ def create_chapter(request, username, story_id, slug):
                 return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(username, story_id, slug)))
             else:
                 context['error'] = entry_form.errors.items()
-        else:
-            context['entry_form'] = CreateEntry(label_suffix='')
-            context['design_story_id'] = story_id
-            context['slug'] = slug
-            cl_init_js_callbacks(context['entry_form'], request)
+
+        context['entry_form'] = CreateEntry(label_suffix='')
+        context['design_story_id'] = story_id
+        context['slug'] = slug
+        cl_init_js_callbacks(context['entry_form'], request)
         return render(request, "Portfolios/create_chapter.html", context)
     else:
         raise Http404
