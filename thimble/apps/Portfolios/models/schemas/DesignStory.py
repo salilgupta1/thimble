@@ -9,7 +9,7 @@ class DesignStory(models.Model):
 	likes 			= models.BigIntegerField(default=0, blank=True)
 	comments 		= models.BigIntegerField(default=0, blank=True)
 	wip 			= models.BooleanField(default=False, blank=True)
-	description 	= models.TextField(max_length=255)
+	description 	= models.TextField(max_length=255, blank=True)
 	date_created 	= models.DateField(auto_now_add=True)
 
 	# connect the manager

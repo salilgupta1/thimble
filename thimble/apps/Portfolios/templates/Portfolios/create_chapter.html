@@ -19,37 +19,32 @@
         {{error}}
 		<form method='POST' id='create-chapter' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}" class="chapter-form">
 			{%csrf_token%}
-            <!-- {%for field in entry_form%}
-                <div class = 'form-group'>
-                    <div>{{field.errors|striptags}}</div>
-                    {{field.label_tag}}
-                    {% if field.label == 'Cover Photo' %}
-                        <br/>
-                        <a href="#" id="cover_upload_widget_opener"></a>
-                    {% elif field.label == 'Additional Photos'%}
-                        <br/>
-                        <a href="#" id="supp_upload_widget_opener"></a>
-                    {% else %}
-                        {{field}}
-                    {% endif %}
-                </div>
-            {%endfor%}  -->
             <div class="demo-tile">
-                    <div class="form-group title-group">
-                        <input class="form-control" id="id_entry_title" name="entry_title" type="text" placeholder="Title the Pieces First Chapter">
+                <div class="form-group title-group">
+                    <div id="{{edit_entry.entry_title.auto_id}}_errors" class='form-error'>
+                        {{edit_entry.entry_title.errors|striptags}}
                     </div>
-                    <div class="form-group">
-                        <textarea class="form-control" id="id_entry_desc" name="entry_desc" type="text" placeholder="Tell the story of your chapter" rows="4"></textarea>
-                     </div>
-                    <div class="form-group supp-group">
-                        <img class="supp-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
-                            <a style="display: none;" href="#" id="supp_upload_widget_opener"></a>  
-                    </div>
-                    <div class="form-group cover-group">
-                        <img class="cover-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
-                            <a style="display: none;" href="#" id="cover_upload_widget_opener"></a>
-                    </div>
+                    {{edit_entry.entry_title}}
+                </div>
+
+                <div class="form-group description-group">
+                    <div id="{{edit_entry.entry_desc.auto_id}}_errors" class='form-error'>
+                        {{edit_entry.entry_desc.errors|striptags}}
+                    </div>    
+                    {{edit_entry.entry_desc}}
+                </div>
+                
+                <div class="form-group supp-group">
+                    <img class="supp-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
+                        <a style="display: none;" href="#" id="supp_upload_widget_opener"></a>  
+                </div>
+
+                <div class="form-group cover-group">
+                    <img class="cover-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
+                        <a style="display: none;" href="#" id="cover_upload_widget_opener"></a>
+                </div>
             </div>
+
             <button type = 'submit' class = 'btn btn-primary' id="create-btn" disabled='true'>Create</button>
 		</form>
 
@@ -64,7 +59,11 @@
             -o-background-size: auto auto, cover;
         }
         </style>
+	</div>
 
+{%endblock%}
+
+{%block scripts%}
     <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
     <script type="text/javascript">
         function updateNumPhotos(){
@@ -103,24 +102,5 @@
                     });
             });
 
-      // widget_options.field_name = 'cover_photo';
-      // widget_options.thumbnails = '.cover-group';
-      // $('#cover_upload_widget_opener').cloudinary_upload_widget(widget_options,
-      //   function(error, result) {
-      //       // TODO change "Upload Cover" on button to "Change cover"
-      //   });
-
-      // var photos_upload = 0;
-
-      //   widget_options.field_name = 'entry_photos';
-      //   widget_options.thumbnails = '.supp-group';
-      // $('#supp_upload_widget_opener').cloudinary_upload_widget(widget_options,
-      //   function(error, result) {
-      //       updateNumPhotos();
-      //           // TODO error handle here
-      //   });
     </script>
-
-	</div>
-
 {%endblock%}

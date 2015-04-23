@@ -141,7 +141,7 @@ def edit_chapter(request, username, story_id, slug, entry_id,):
                 entry["photos"].append(folder['resources'][i]['public_id'])
 
     if request.method == "POST":
-        edit_entry = EditEntryForm(request.POST, instance=e_instance)
+        edit_entry = EditEntry(request.POST, instance=e_instance)
         if edit_entry.is_valid():
 
             # replace cover_photo
@@ -178,7 +178,7 @@ def edit_chapter(request, username, story_id, slug, entry_id,):
         else:
             context['error'] = edit_entry.errors.items()
     else:
-        edit_entry = EditEntryForm(instance=e_instance)
+        edit_entry = EditEntry(instance=e_instance)
 
     context['edit_entry'] = edit_entry
     context['entry'] = entry
@@ -218,7 +218,7 @@ def edit_story(request, username, story_id, slug):
                     entry["photos"].append(folder['resources'][i]['public_id'])
 
     if request.method == "POST":
-        edit_dstory = EditStoryForm(request.POST, instance=s_instance)
+        edit_dstory = EditDesignStory(request.POST, instance=s_instance)
         if edit_dstory.is_valid():
             edit_dstory.save()
 
@@ -246,7 +246,7 @@ def edit_story(request, username, story_id, slug):
         else:
             context['error'] = edit_dstory.errors.items()
     else:
-        edit_dstory = EditStoryForm(instance=s_instance)
+        edit_dstory = EditDesignStory(instance=s_instance)
 
     context['entries'] = entries
     context['edit_story'] = edit_dstory
