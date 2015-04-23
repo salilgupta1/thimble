@@ -17,7 +17,7 @@ class RegistrationForm(UserCreationForm):
         
         for fields in self.fields.items():
             fields[1].required = True
-            fields[1].widget.attrs.update({'class':'form-control', 'placeholder':fields[1].label, 'required':True})
+            fields[1].widget.attrs.update({'class':'form-control', 'placeholder':fields[1].label, 'required':"True"})
 
 class LoginForm(AuthenticationForm):
 
@@ -26,7 +26,7 @@ class LoginForm(AuthenticationForm):
         self.error_messages['invalid_login'] = "Sorry your credentials were incorrect!"
         
         for fields in self.fields.items():
-            fields[1].widget.attrs.update({ 'class':'form-control', 'placeholder':fields[1].label, 'required':True})
+            fields[1].widget.attrs.update({ 'class':'form-control', 'placeholder':fields[1].label, 'required':"True"})
 
 class EditDesignerForm(forms.ModelForm):
     avatar = CloudinaryJsFileField(required=False)
@@ -52,4 +52,4 @@ class EditUserForm(forms.ModelForm):
         super(EditUserForm,self).__init__(*args,**kwargs)
         for fields in self.fields.items():
             fields[1].required = True
-            fields[1].widget.attrs.update({'class':'form-control', 'required':True})
+            fields[1].widget.attrs.update({'class':'form-control', 'required':"True"})

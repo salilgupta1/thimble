@@ -8,9 +8,9 @@ from cloudinary.models import CloudinaryField
 
 class Designer(models.Model):
 	user = models.OneToOneField(User, to_field='username', primary_key=True)
-	bio  = models.TextField(max_length=255, blank=True)
+	bio  = models.TextField(max_length=250, blank=True)
 	avatar	  = models.CharField(max_length=255, null=False, default='', blank=True) 
-	location  = models.CharField(max_length=200, blank=True)
+	location  = models.CharField(max_length=100, blank=True)
 	following = models.BigIntegerField(default=0, blank=True)
 	followers = models.BigIntegerField(default=0, blank=True)
 
