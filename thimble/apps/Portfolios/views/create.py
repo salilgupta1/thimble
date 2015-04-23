@@ -56,6 +56,7 @@ def create_design_story(request, username):
                 photo_rename(bucket_link, photos)
 
                 slug = slugify(design_story.title)
+
                 return HttpResponseRedirect(
                     reverse('Portfolios:render_design_story', args=(username, design_story.design_story_id, slug)))
 
@@ -63,7 +64,7 @@ def create_design_story(request, username):
             "design_story_form":design_story_form,
             "entry_form":entry_form
         }
-
+        
         cl_init_js_callbacks(context['entry_form'], request)
         return render(request, "Portfolios/create_design_story.html", context)
     else:
@@ -109,7 +110,6 @@ def create_chapter(request, username, story_id, slug):
         return render(request, "Portfolios/create_chapter.html", context)
     else:
         raise Http404
-
 
 @login_required
 def edit_chapter(request, username, story_id, slug, entry_id,):

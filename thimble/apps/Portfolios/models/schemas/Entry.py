@@ -5,11 +5,11 @@ from cloudinary.models import CloudinaryField
 class Entry(models.Model):
 	design_story	= models.ForeignKey('Portfolios.DesignStory', on_delete=models.CASCADE)
 	entry_id		= models.AutoField(primary_key=True)
-	entry_title		= models.CharField(max_length=255)	
+	entry_title		= models.CharField(max_length=60)	
 	date_created	= models.DateField(auto_now_add=True)
 	bucket_link		= models.CharField(max_length=255, null=False, default='', blank=True) 
 	cover_photo		= models.CharField(max_length=255, null=False, default='', blank=True)
-	entry_desc		= models.TextField(default='', blank=True) 
+	entry_desc		= models.TextField(default='', blank=True, max_length=200) 
 
 	# connect the manager
 	objects = EntryManager()

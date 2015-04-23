@@ -6,7 +6,6 @@ from django.utils.translation import ugettext_lazy as _
 from cloudinary.forms import CloudinaryJsFileField 
 from thimble.apps.Users.models.schemas.Designer import Designer
 
-
 class RegistrationForm(UserCreationForm):
 
     class Meta:
