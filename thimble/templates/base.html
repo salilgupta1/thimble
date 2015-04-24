@@ -4,103 +4,104 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
-    <head>
-        <title>Thimble</title>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <head>
+      <title>Thimble</title>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"/>
 
-        {%block cloudinary%}{%endblock%}
+      <link rel="stylesheet" href="{%static 'css/global.css' %}"/>
+      <link rel="stylesheet" href="{%static 'css/navbar.css' %}"/>
+      <link rel="stylesheet" href="{%static 'css/tile.css' %}"/>
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"/>
+      <link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'/>
+      <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
 
-        <link rel="stylesheet" href="{%static 'css/global.css' %}"/>
-        <link rel="stylesheet" href="{%static 'css/navbar.css' %}"/>
-        <link rel="stylesheet" href="{%static 'css/tile.css' %}"/>
+      {%block app_css%}{%endblock%}
 
-        <link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'/>
-        <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
-
-        {%block app_css%}{%endblock%}
-
-        <!--Favicon-->
-    </head>
-    <body>
-        <!--[if lt IE 8]>
-          <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{%url 'landingpage:home' %}">Thimble</a>
-              </div>
-              <div id="navbar" class="navbar-collapse collapse">
-                <!--ul class="nav navbar-nav">
-                  <li><a href="#">Popular</a></li>
-                  <li><a href="#">Newest</a></li>
-                  <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Best <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                      <li><a href="#">of today</a></li>
-                      <li><a href="#">of this week</a></li>
-                      <li><a href="#">of this year</a></li>
-                      <li><a href="#">of all time</a></li>
-                    </ul>
-                  </li>
-                </ul-->
-                <ul class="nav navbar-nav navbar-right">
-                    {%if user.is_authenticated %} 
-                        <li>
-                          <a href="{%url 'Portfolios:create_design_story' user.username%}">Create Story</a>
-                        </li>
-                        <li class="dropdown">
-                          <a href="{%url 'Portfolios:render_portfolio' user.username%}" role="button" aria-expanded="false">{{user.first_name}} {{user.last_name}} <span class="caret"></span></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="{%url 'Users:edit_account'%}">Edit Account</a></li>
-                            <li><a href="{%url 'Users:logout'%}">Sign Out</a></li>
-                          </ul>
-                        </li>
-                    {% else %}   
-                        <li><a href="{%url 'Users:create_account'%}">Sign up</a></li>
-                        <li><a href="{%url 'Users:login'%}">Sign in</a></li>
-                    {%endif%}
-                </ul>
-              </div><!--/.navbar-collapse -->
+      <!--Favicon-->
+  </head>
+  <body>
+      <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="{%url 'landingpage:home' %}">Thimble</a>
             </div>
-        </nav>
+            <div id="navbar" class="navbar-collapse collapse">
+              <!--ul class="nav navbar-nav">
+                <li><a href="#">Popular</a></li>
+                <li><a href="#">Newest</a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Best <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">of today</a></li>
+                    <li><a href="#">of this week</a></li>
+                    <li><a href="#">of this year</a></li>
+                    <li><a href="#">of all time</a></li>
+                  </ul>
+                </li>
+              </ul-->
+              <ul class="nav navbar-nav navbar-right">
+                  {%if user.is_authenticated %} 
+                      <li>
+                        <a href="{%url 'Portfolios:create_design_story' user.username%}">Create Story</a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="{%url 'Portfolios:render_portfolio' user.username%}" role="button" aria-expanded="false">{{user.first_name}} {{user.last_name}} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="{%url 'Users:edit_account'%}">Edit Account</a></li>
+                          <li><a href="{%url 'Users:logout'%}">Sign Out</a></li>
+                        </ul>
+                      </li>
+                  {% else %}   
+                      <li><a href="{%url 'Users:create_account'%}">Sign up</a></li>
+                      <li><a href="{%url 'Users:login'%}">Sign in</a></li>
+                  {%endif%}
+              </ul>
+            </div><!--/.navbar-collapse -->
+          </div>
+      </nav>
 
-        <div class="container">
-            {%block content%}{%endblock%}
+      <div class="container">
+          {%block content%}{%endblock%}
 
-            {%block footer%}
-              <footer>
-                <!-- <p>&copy; Thimble 2015</p> -->
-              </footer>
-            {%endblock%}
-        </div> <!-- /container --> 
-    </body>
+          {%block footer%}
+            <footer>
+              <!-- <p>&copy; Thimble 2015</p> -->
+            </footer>
+          {%endblock%}
+      </div> <!-- /container --> 
+  </body>
 
-        <!-- Google analytics -->
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      <!-- Google analytics -->
+  <script type="text/javascript">
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-58523890-2', 'auto');
-        ga('send', 'pageview');
-    </script>
-    <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-    {%block scripts%}{%endblock%}
+      ga('create', 'UA-58523890-2', 'auto');
+      ga('send', 'pageview');
+  </script>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+  {%block cloudinary%}{%endblock%}
+
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+  {%block scripts%}{%endblock%}
 </html>

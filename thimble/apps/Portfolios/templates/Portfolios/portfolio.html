@@ -86,22 +86,22 @@
 {%endblock%}
 
 {%block scripts%}
-{{block.super}}
+  {{block.super}}
 
-<script>
+  <script>
 
-  $(document).ready(function(){
-      CommunityActivities.authenticatedUsername = "{{user.username}}";
-      CommunityActivities.csrftoken = $.cookie('csrftoken');
-      CommunityActivities.init();
+    $(document).ready(function(){
+        CommunityActivities.authenticatedUsername = "{{user.username}}";
+        CommunityActivities.csrftoken = $.cookie('csrftoken');
+        CommunityActivities.init();
 
-  });
+    });
 
-    function goToStory(dest, event){
-        if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"){
-            window.location.href = dest;
-        }
-    }
+      function goToStory(dest, event){
+          if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"){
+              window.location.href = dest;
+          }
+      }
 
-</script>
+  </script>
 {%endblock%}
