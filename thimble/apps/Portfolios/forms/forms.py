@@ -16,15 +16,10 @@ class CreateDesignStory(forms.ModelForm):
 
             'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title Your Story', 'required':True})
         }
-        error_messages = {
-            "NON_FIELD_ERRORS": {
-                'unique_together':"Sorry, you are already using this Story Title"
-            }
-        }
 
 class CreateEntry(forms.ModelForm):
     cover_photo     = CloudinaryJsFileField(required=True)
-    entry_photos    = CloudinaryJsFileField(attrs={'multiple': 1})
+    entry_photos    = CloudinaryJsFileField(attrs={'multiple': 1}, required=False)
 
     class Meta:
         model   = Entry
@@ -32,11 +27,6 @@ class CreateEntry(forms.ModelForm):
         widgets = {
             'entry_title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Chapter Title', 'required':True}),
             'entry_desc': forms.Textarea(attrs={'class':'form-control', 'placeholder':'Chapter Description', 'cols':40, 'rows':3})
-        }
-        error_messages = {
-            "NON_FIELD_ERRORS": {
-                'unique_together':"Sorry, you are already using this Chapter Title"
-            }
         }
 
 class EditEntry(CreateEntry):

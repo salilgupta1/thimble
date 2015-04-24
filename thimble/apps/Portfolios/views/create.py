@@ -187,7 +187,7 @@ def edit_chapter(request, username, story_id, slug, entry_id,):
     return render(request, "Portfolios/edit_chapter.html", context)
 
 @login_required
-def edit_story(request, username, story_id, slug):
+def edit_story_s(request, username, story_id, slug):
     context = {
         "username": username,
         "story_id": story_id,
@@ -199,7 +199,7 @@ def edit_story(request, username, story_id, slug):
     story = {}
     story['title'] = s_instance.title
     story['description'] = s_instance.description
-    story['wip'] = s_instance.wip
+
 
     # get entries associated with story
     entries = Entry.objects.get_entries(story_id=story_id)
@@ -254,3 +254,23 @@ def edit_story(request, username, story_id, slug):
     cl_init_js_callbacks(context['edit_story'], request)
 
     return render(request, "Portfolios/edit_story.html", context)
+
+@login_required
+def edit_story(request, username, story_id, slug):
+    if request.user.username == username:
+        context = {
+            "username":username,
+            "story_id":story_id,
+            "slug":slug
+        }
+        story = DesignStory.objects.get(design_story_id=story_id)
+        edit_dstory = EditDesignStory(request.POST or None, instance = story)
+        if edit_dstory.is_valid():
+            edit_dstory.save()
+            context['changes_saved'] = "Changes saved."
+        context['edit_story'] = edit_dstory
+        cl_init_js_callbacks(context['edit_story'], request)
+        return render(request, "Portfolios/edit_story.html", context)
+
+    else:
+        raise Http404
