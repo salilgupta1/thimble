@@ -187,7 +187,7 @@ def edit_chapter(request, username, story_id, slug, entry_id,):
     return render(request, "Portfolios/edit_chapter.html", context)
 
 @login_required
-def edit_story_s(request, username, story_id, slug):
+def edit_story(request, username, story_id, slug):
     context = {
         "username": username,
         "story_id": story_id,
@@ -256,7 +256,7 @@ def edit_story_s(request, username, story_id, slug):
     return render(request, "Portfolios/edit_story.html", context)
 
 @login_required
-def edit_story(request, username, story_id, slug):
+def edit_story_temp(request, username, story_id, slug):
     if request.user.username == username:
         context = {
             "username":username,
