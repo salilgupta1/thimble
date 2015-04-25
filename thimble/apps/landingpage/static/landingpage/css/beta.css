@@ -15,7 +15,7 @@ html {
 }
 
 .title-wrapper {
-	margin-top: 8rem;
+	margin-top: 2rem;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -88,8 +88,29 @@ form {
 	vertical-align: initial;
 }
 
+.form-message {
+	color: white;
+	max-width: 550px;
+	width: 100%;
+	text-align: center;
+	font-size: 1rem;
+	font-weight: 300;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 hr {
 	width: 50px;
+}
+
+.video-wrapper {
+	max-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.embed-responsive {
+
 }
 
 @media(max-width:767px){
