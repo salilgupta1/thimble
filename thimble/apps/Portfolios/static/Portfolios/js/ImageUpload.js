@@ -2,7 +2,7 @@ var ImageUpload = (function($){
 
 	var photoUploads = 0, 
 	widgetOptions = {
-		cloud_name: 'thimbleapp', 
+		cloud_name: "", 
 		upload_preset: 'orphans', 
 		multiple:false, 
 		form:'',
@@ -26,7 +26,12 @@ var ImageUpload = (function($){
 	setForm = function(form){
 		widgetOptions['form'] = form;
 	},
-	init = function(form){
+	setCloudName = function(cloudName){
+		widgetOptions['cloud_name'] = cloudName;
+	},
+	init = function(cloudName,form){
+		
+		setCloudName(cloudName);
 		setForm(form);
 
 		$('.cover-holder').click(function() {
