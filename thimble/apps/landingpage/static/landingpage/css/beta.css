@@ -15,7 +15,7 @@ html {
 }
 
 .title-wrapper {
-	margin-top: 8rem;
+	margin-top: 2rem;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -90,6 +90,16 @@ form {
 
 hr {
 	width: 50px;
+}
+
+.video-wrapper {
+	max-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.embed-responsive {
+
 }
 
 @media(max-width:767px){
