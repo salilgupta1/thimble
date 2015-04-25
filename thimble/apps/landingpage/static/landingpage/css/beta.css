@@ -88,6 +88,17 @@ form {
 	vertical-align: initial;
 }
 
+.form-message {
+	color: white;
+	max-width: 550px;
+	width: 100%;
+	text-align: center;
+	font-size: 1rem;
+	font-weight: 300;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 hr {
 	width: 50px;
 }
