@@ -37,7 +37,7 @@
 
 /*Enable touch and hover for dropdown menu*/
 .dropdown:hover .dropdown-menu {
-    display: block;
+    /*display: block;*/
  }
 
  .navbar-default .navbar-nav > .open > a {
