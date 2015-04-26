@@ -48,6 +48,23 @@ var ImageUpload = (function($){
 				// TODO error handle here
 			});
 		});
+
+		$("#avatar_upload_widget").cloudinary_upload_widget(
+			{
+                cloud_name:cloudName, 
+                upload_preset:"orphans", 
+                multiple:false,
+                cropping: 'server', 
+                cropping_aspect_ratio:1.0, 
+                button_caption:"Change Avatar", 
+                field_name:"avatar",theme:"minimal",
+                thumbnail_transformation:
+                {
+                    width: 100, 
+                    height: 133,
+                    crop: 'limit' 
+                }
+            },function(error, result){});
 	};
 
 	return {
