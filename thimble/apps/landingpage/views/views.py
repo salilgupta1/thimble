@@ -1,13 +1,34 @@
 from django.shortcuts import render
 from django.core.context_processors import csrf
-import os
-import chimpy
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
+import os, chimpy
+
+from thimble.apps.Portfolios.models.schemas.DesignStory import DesignStory
+from thimble.apps.Portfolios.models.schemas.Entry import Entry
+from thimble.apps.Portfolios.models.schemas.Like import Like
 
 def home(request):
-	return render(request, "landingpage/index.html", {})
+	context = {}
+	design_stories = DesignStory.objects.get_all_design_stories()
+
+	story_ids = []
+
+	# get cover photos
+	if design_stories is not None:
+		cover_photos = []
+		for story in design_stories:
+			story_ids.append(story['design_story_id'])
+			cover_photo = Entry.objects.get_cover_photos(story['design_story_id'])
+			cover_photos.append(cover_photo)
+
+	context['stories'] = zip(design_stories, cover_photos)
+
+	# get likes and follow
+	if request.user.is_authenticated():
+		if design_stories is not None:
+			likes = Like.objects.get_likes(liker=request.user, story_ids=story_ids)
+			context['likes'] = likes
+
+	return render(request, "landingpage/index.html", context)
 
 def landingpage(request):
 	context = {}

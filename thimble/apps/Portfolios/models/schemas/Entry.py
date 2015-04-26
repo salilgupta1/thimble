@@ -9,8 +9,7 @@ class Entry(models.Model):
 	entry_title = models.CharField(max_length=255)	
 	date_created = models.DateField(auto_now_add=True)
 	bucket_link = models.CharField(max_length=255, null=False, default='', blank=True) 
-	cover_photo = CloudinaryField('image') 
-	num_photos = models.IntegerField(default=0)
+	cover_photo = models.CharField(max_length=255, null=False, default='', blank=True) 
 
 	# connect the manager
 	objects = EntryManager()

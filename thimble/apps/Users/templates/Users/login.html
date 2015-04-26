@@ -1,13 +1,38 @@
 {%extends 'Users/base_users.html'%}
-    {%block content%}
-                    <form role='form' action="{%url 'Users:login' %}" method='POST'>        {%csrf_token%}
-                    {% for field in form %}
-                    <div class = 'form-group'>
-                            <div>{{field.errors|striptags}}</div>
-                    {{field.label_tag}}
-                    {{field}}
+
+{% load staticfiles %}
+
+{%block app_css%}
+    {{block.super}}
+    <link rel='stylesheet' type='text/css' href ="{%static 'Users/css/login.css'%}"/>
+{%endblock%}
+
+{%block content%}
+    <div class="reg-form-wrapper">
+        <form role='form' action="{%url 'Users:login' %}" method='POST'>        
+            {%csrf_token%}
+            <div class="form-group">
+                <div></div>
+                <input class="form-control" id="id_username" maxlength="254" name="username" type="text" placeholder="Username">
             </div>
-                    {% endfor %}
-                    <button type = 'submit' class = 'btn btn-primary'>Login</button>
+            <div class="form-group">
+                <div></div>
+                <input class="form-control" id="id_password" name="password" type="password" placeholder="Password">
+            </div>
+            <button type = 'submit' class = 'btn btn-primary'>Login</button>
         </form>
-    {%endblock%}
+    </div>
+
+    <style type="text/css">
+    body {
+        background: url("{%static 'Users/img/shirt.png' %}") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+    .reg-form-wrapper form {
+        background-image: url("{%static 'Users/img/overlay.png' %}");
+    }
+    </style>
+{%endblock%}

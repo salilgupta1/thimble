@@ -8,33 +8,41 @@
 
 {% endblock %}
 
-{%block app_css%}
-  <link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/create_chapter.css'%}"/>
-{%endblock%}
-
-
 {%block content%}
 	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
-        <h2>Add a New Chapter</h2>
+        <h2>Edit Chapter</h2>
         {{error}}
-		<form method='POST' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}" class="chapter-form">
+		<form method='POST' action="{% url 'Portfolios:edit_chapter' request.user.username story_id slug entry_id%}">
 			{%csrf_token%}
-            {%for field in entry_form%}
+            {%for field in edit_entry%}
                 <div class = 'form-group'>
                     <div>{{field.errors|striptags}}</div>
                     {{field.label_tag}}
                     {% if field.label == 'Main Photo' %}
                         <br/>
                         <a href="#" id="cover_upload_widget_opener"></a>
+                        <ul class="cloudinary-thumbnails">
+                            <li class="cloudinary-thumbnail cover_photo active">
+                                <img src="{%cloudinary_url entry.cover_photo width='100' height='200' %}">
+                            </li>
+                        </ul>
                     {% elif field.label == 'Supplementary Photos'%}
                         <br/>
                         <a href="#" id="supp_upload_widget_opener"></a>
+                        <br/>
+                    	{% for photo in entry.photos %}
+                            <input name="photo_delete" type="checkbox" value="{{photo}}"/> Delete
+                            <div class="thumb-img-wrapper">
+                                {%cloudinary photo width='100' height='200' class='img-responsive'%}
+                            </div>
+	  				    {% endfor %}
                     {% else %}
                         {{field}}
                     {% endif %}
                 </div>
-            {%endfor%} 
-            <button type = 'submit' class = 'btn btn-primary' id="create-btn" disabled='true'>Create</button>
+            {%endfor%}
+            <button type = 'submit' class = 'btn btn-primary' id="create-btn">Save</button>
+
 		</form>
 
     <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
@@ -49,17 +57,17 @@
 
       $('#cover_upload_widget_opener').cloudinary_upload_widget(
         { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,
-          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal",
-            thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
+          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Change Cover", field_name:"cover_photo",theme:"minimal",
+            thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }
+        },
         function(error, result) {
-            // TODO change "Upload Cover" on button to "Change cover"
         });
 
       var photos_upload = 0;
       $('#supp_upload_widget_opener').cloudinary_upload_widget(
         { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true,
-          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Supplementary", field_name:"entry_photos", theme:"minimal",
-            thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
+          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Add Supplementary", field_name:"entry_photos", theme:"minimal",
+        thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
         function(error, result) {
             updateNumPhotos();
                 // TODO error handle here

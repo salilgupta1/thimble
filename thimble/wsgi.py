@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/1.7/howto/deployment/wsgi/
 """
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "thimble.settings.production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", os.environ['APP_SETTING'])
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

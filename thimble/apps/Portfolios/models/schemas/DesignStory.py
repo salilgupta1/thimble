@@ -8,7 +8,7 @@ class DesignStory(models.Model):
 	title = models.CharField(max_length=30)
 	likes = models.BigIntegerField(default=0, blank=True)
 	comments = models.BigIntegerField(default=0, blank=True)
-	wip = models.BooleanField(default=False)
+	wip = models.BooleanField(default=False, blank=True)
 	description = models.TextField(null=False)
 	date_created = models.DateField(auto_now_add=True)
 

@@ -1,0 +1,17 @@
+body {
+	text-align: center;
+}
+
+.chapter-form {
+	max-width: 550px;
+	width: 95%;
+	margin-left: auto;
+	margin-right: auto;
+	background: white;
+	border-radius: 3px;
+	padding: 3px;
+}
+
+.formgroup:nth-of-type(2) {
+
+}

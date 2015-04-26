@@ -1,77 +1,277 @@
-#name-wrapper {
-	padding-bottom: 15px;
+.story-header {
+	right: 7%;
+	position: fixed;
+	display: inline-block;
+	background: white;
+	margin-top: 15px;
+	padding: 10px;
+	border-radius: 3px;
+	width: 40%;
+	text-align: left;
+	height: calc(100vh - 80px);
+}
+
+
+#name-wrapper {	
+	width: 100%;
+	display: inline-block;
+}
+
+#name-wrapper h1 {
+	font-size: 27px;	
+}
+
+#by-wrapper {
+	width: 100%;
+	display: inline-block;
 }
 
 #by-wrapper > img {
-	width: 100px;
+	width: 30px;
 	margin-left: auto;
 	margin-right: auto;
+	display: inline-block;
+}
+
+#by-wrapper > p {
+	display: inline-block;
+	margin-bottom: 0px;
+	font-size: 14px;
+}
+
+#by-wrapper > a {
+	font-size: 14px;
 }
 
 #desc-wrapper {
-
-}
-
-#portfolio-header {
+	margin-left: auto;
+	margin-right: auto;
 	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	padding-left: 5px;
-	padding-right: 5px;
+	display: inline-block;
+	min-height: 90px;
+}
+
+#desc-wrapper > p {
+	font-size: 14px;
+	font-weight: 300;
+}
+
+.like-text-wrapper > p {
+	margin-bottom: 0px;
+}
+
+.like-photo-row {
+	display: inline-block;
+}
+
+.liker-wrapper {
+	display: inherit;
+	width: 10%
+}
+
+.liker-wrapper > img {
+	width: 100%;
+	float: left;
+	padding: 5px;
+}
+
+.liker-wrapper > p {
+	width: 100%;
 	text-align: center;
+	font-size: 10px;
+}
+
+.comment-bin {
+	position: absolute;
+	left: 0px;
+	right: 10px;
+	bottom: 30px;
+	top: 260px;
+	overflow-y: auto;
+	background:
+		/* Shadow covers */
+		linear-gradient(white 30%, rgba(255,255,255,0)),
+		linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+		
+		/* Shadows */
+		radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
+		radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+	background:
+		/* Shadow covers */
+		linear-gradient(white 30%, rgba(255,255,255,0)),
+		linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+		
+		/* Shadows */
+		radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)),
+		radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
+	background-repeat: no-repeat;
+	background-color: white;
+	background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+	
+	/* Opera doesn't support this in the shorthand */
+	background-attachment: local, local, scroll, scroll;
+	/*height: calc(100% - 500px);*/
+}
+
+.commenter-wrapper {
+	display: block;
+	width: 100%;
+	margin-bottom: 12px;
+}
+
+.commenter-wrapper > img {
+	width: 35px;
+	float: left;
+	margin-right: 4px;
+}
+
+.commenter-wrapper > p {
+	width: 100%;
+	padding-left: 43px;
+	margin-bottom: 0px;
+}
+
+.commenter-wrapper :last-child {
+	font-weight: 300;
+}
+
+.commenter-name {
+	margin-bottom: 5px;
+	font-size: 12px;
+}
+
+.comment-form {
+	position: absolute;
+	height: 30px;
+	border: 1px solid #DCDCDC;
+	border-radius: 3px;
+	bottom: 4px;
+	width: 95%;
+}
+
+.comment-form > .form-group {
+	position: absolute;
+	height: 30px;
+	left: 0px;
+	right: 45px;
+	bottom: 0px;
+	margin-bottom: 0px;
+	border-right: 1px solid #DCDCDC;
+}
+
+#id_comment {
+	height: 28px;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	right: 45px;
+	border: none;
+	resize: none;
 
 }
 
-#portfolio-header > div {
-	margin-left: auto;
-	margin-right: auto;
+.comment-btn {
+	color: #333333;
+	background: white;
+	border: none;
+	border-radius: 0px 3px 3px 0px;
+	width: 45px;
+	height: 28px;
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
 }
 
 #prof-pic-wrapper {
 	max-width: 150px;	
 }
 
-.row {
-	margin-left: -3px;
-	margin-right: -3px;
+#chapter-list {
+	width: 50%;
+	display: inline-block;
 }
 
-.row > div {
-	padding-bottom: 6px;
-	padding-left: 3px;
+.chapter-title {
+	text-align: center;
+	background: white;
+	border-radius: 3px 3px 0px 0px;
+	max-width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 1px;
+}
+
+.chapter-title > h3 {
+	padding-top: 10px;
+}
+
+.chapter-img-wrapper {
+	position: relative;
+	max-width: 550px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	background: white;
+	overflow: hidden;
+	margin-top: 10px;
+	padding: 3px;
+	border-radius: 3px;
+}
+
+.chapter-img-wrapper > h3 {
+	padding-top: 0px;
+	margin-top: 0px;
+	text-align: center;
+}
+
+.thumb-img-list {
+	width: 25.2%;
+	float: left;
 	padding-right: 3px;
 }
 
-.row > div > img {
-	margin-left: auto;
-	margin-right: auto;
+.thumb-img-wrapper img {
+	width: 100%;
+	padding-bottom: 3px;
 }
 
-#portfolio-content {
-	padding-top: 30px;
-	padding-bottom: 30px;
-	margin-left: auto;
-	margin-right: auto;
+.thumb-img-wrapper:last-child img {
+	padding-bottom: 0px;
 }
 
-@media (min-width: 992px) {
-	#portfolio-header {
-		position: fixed;
-		width: 30%;
-		padding-left: 30px;
-		padding-right: 30px;
-	}
-	#portfolio-content {
-		float: right;
-		width: 70%;
+.cover-img {
+	width: 74.8%;
+	height: 100%;
+	float: left;
+}
+
+.cover-img img {
+	width: 100%;
+}
+
+footer {
+	clear: both;
+}
+
+@media(max-width:767px){}
+@media(max-width:991px){
+	.story-header {
+		position: relative;
+		width: 100%;
+		max-width: 550px;
+		right: 0%;
 	}
 	#chapter-list {
-		margin-left: auto;
-		margin-right: auto;
-		max-width: 800px;
+		width: 100%;
+	}
+	.container {
+		text-align: center;
 	}
 }
+@media(min-width:992px){
+	.story-header {
 
+	}
+}
+@media(min-width:1200px){}
 

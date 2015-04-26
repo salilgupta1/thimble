@@ -1,14 +1,13 @@
 var CommunityActivities = (function($){
-	var portfolioUsername = "",
-	authenticatedUsername = "",
+	var authenticatedUsername = "",
 	csrftoken = "";
 
 	var like = function(self, path){
-		data = {
-					"liker":CommunityActivities.authenticatedUsername, 
-					"design_story_id":self.attr("data-storyid"),
-					"csrfmiddlewaretoken":CommunityActivities.csrftoken
-				};
+		var data = {
+			"liker":CommunityActivities.authenticatedUsername, 
+			"design_story_id":self.attr("data-storyid"),
+			"csrfmiddlewaretoken":CommunityActivities.csrftoken
+		};
 
 		$.ajax({
 			type:"POST",
@@ -31,7 +30,7 @@ var CommunityActivities = (function($){
 	}, 
 
 	unlike = function(self, path){
-		data = {
+		var data = {
 			"liker":CommunityActivities.authenticatedUsername, 
 			"design_story_id":self.attr("data-storyid"),
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
@@ -48,8 +47,8 @@ var CommunityActivities = (function($){
 				self.siblings("p").children(".likes-count").text(count);
 
 				// change button to like
-				self.children(".text").text("Unlike");
-				self.removeClass("like-btn").addClass("unlike-btn");
+				self.children(".text").text("Like");
+				self.removeClass("unlike-btn").addClass("like-btn");
 			},
 			error:function(error){
 				console.log(error);
@@ -57,10 +56,10 @@ var CommunityActivities = (function($){
 		});
 	},
 
-	follow = function(path){
-		data = {
+	follow = function(self, path){
+		var data = {
 			"follower":CommunityActivities.authenticatedUsername, 
-			"followee":CommunityActivities.portfolioUsername,
+			"followee":self.attr("data-username"),
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
 		};
 
@@ -84,10 +83,10 @@ var CommunityActivities = (function($){
 		});
 	},
 
-	unfollow = function(path){
-		data = {
+	unfollow = function(self, path){
+		var data = {
 			"follower":CommunityActivities.authenticatedUsername, 
-			"followee":CommunityActivities.portfolioUsername,
+			"followee":self.attr("data-username"),
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
 		};
 
@@ -102,7 +101,9 @@ var CommunityActivities = (function($){
 				$(".text-followers").children("span").text(count);
 
 				// change button text
-				$("#follow-btn").text("Follow");
+				$("#unfollow-btn").text("Follow");
+				$("#unfollow-btn").attr("id","follow-btn");
+
 			},
 			error:function(error){
 				console.log(error);
@@ -110,13 +111,74 @@ var CommunityActivities = (function($){
 		});
 	},
 
-	comment = function(path){
+	comment = function(self, path, e){
+		var data = {
+			"commenter": CommunityActivities.authenticatedUsername,
+			"design_story_id": self.attr("data-storyid"),
+			"csrfmiddlewaretoken": CommunityActivities.csrftoken,
+			"comment": $("#id_comment").val()
+		};
+		$.ajax({
+			type:"POST",
+			data:data,
+			url:path,
+			success:function(response){
+				// update comment count
+				count = $("#num-comments").text();
+				count = parseInt(count) + 1;
+				$("#num-comments").text(count);
+				$("#id_comment").val("");
+				
+				// add comment
+				commentDiv = '<div class="commenter-wrapper">\
+								<p class="commenter-name">'+data['commenter']+'</p>\
+								<p class="comment">'+data['comment']+'</p>\
+							  </div>';
+				$(".comment-bin").append(commentDiv);
+			},
+			error:function(error){
+				console.log(error);
+			}
+		});	
+	},
 
+	init = function(){
+		var path;
+
+		// like button is clicked
+		$(document).on('click','.like-btn',function(){
+
+			path = "/"+$(this).attr("data-username")+"/like_story/";
+			like($(this), path);
+		}); 
+
+		// unlike button is clicked
+		$(document).on('click','.unlike-btn',function(){
+			path = "/"+$(this).attr("data-username")+"/unlike_story/";
+			unlike($(this), path);
+		});
+
+		// follow button is clicked
+		$(document).on('click','#follow-btn',function(){
+			path = "/"+$(this).attr("data-username")+"/follow/";
+			follow($(this), path);
+		});
+
+		// unfollow button is clicked
+		$(document).on('click','#unfollow-btn',function(){
+			path = "/"+$(this).attr("data-username")+"/unfollow/";
+			unfollow($(this), path);
+		});
+
+      	// comment is submitted
+      	$(".comment-form").on("submit", function(e){
+      		path="/" + $(this).attr("data-username") + "/comment/";
+      		comment($(this), path);
+      		e.preventDefault();
+      	});
 	};
-
 	return {
 		// make publically accessible 
-		like:like,
-		follow:follow,
+		init:init,
 	};
 }(jQuery));

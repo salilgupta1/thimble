@@ -3,3 +3,51 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.reg-form-wrapper {
+	margin-top: 50px;
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.reg-form-wrapper .form-group {
+	margin-bottom: 0px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.reg-form-wrapper form {
+	text-align: center;
+	max-width: 305px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 10px;
+	border-radius: 3px;
+	background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.85);
+	background-repeat: repeat;
+}
+
+.reg-form-wrapper input {
+	width: 100%;
+}
+
+.reg-form-wrapper #id_first_name {
+	width: 50%;
+	float: left;
+}
+
+.reg-form-wrapper #id_last_name {
+	width: 50%;
+	float: left;
+}
+
+.reg-form-wrapper #id_email {
+	display: inline-block;
+}
+
+.reg-form-wrapper .btn {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+}

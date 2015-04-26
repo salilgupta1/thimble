@@ -1,49 +1,122 @@
 {%extends 'Portfolios/base_portfolio.html' %}
 {%load staticfiles%}
 {% load cloudinary %}
-{% load get_range %}
 
-{%block portfolio_css%}
-	<link rel='stylesheet' type='text/css' href ="{%static "Portfolios/css/story.css"%}"/>
-{%endblock%}
-
-{%block portfolio_header%}
-	<div id="name-wrapper">
-		<h2>{{design_story.title}}</h2>
-	</div>
-	<div id="by-wrapper">
-		<img src="{%cloudinary_url user.designer.prof_pic width='200' height='200'%}" class="img-responsive img-circle" nopin='nopin'>
-		<p class="lead">By <a href="{%url 'Portfolios:render_portfolio' user.username%}">{{user.first_name}} {{user.last_name}}</a></p>
-	</div>
-	<div id="desc-wrapper">
-		<h3>About this piece</h3>
-		<p class="lead">{{design_story.description}}</p>
-	</div>
-	</div>
+{%block app_css%}
+	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/story.css'%}"/>
 {%endblock%}
 
 
-{%block portfolio_content%}
+{%block content%}
+	<div class="story-header">
+		<div id="by-wrapper">
+			{%if not portfolio_data.avatar%}
+			<img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
+	        {%else%}
+	          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
+	        {%endif%}
+			<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
+		</div>
+		<div id="name-wrapper">
+			<h1>{{design_story.title}}</h1>
+			{%if user.is_authenticated and username == user.username%}
+				<a href="{%url 'Portfolios:create_chapter' username story_id slug%}">Create Chapter</a>
+			{%endif%}
+		</div>
+		<div id="desc-wrapper">
+			<p>{{design_story.description}}</p>
+		</div>
+		<div class="like-box">
+			<div class="like-text-wrapper">
+				<p><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> LIKES ({{design_story.likes}})</p>
+			</div>
+			<!--div class="like-photo-row">
+
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">John</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Jane</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Abby</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Jack</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Peter</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Katelyn</p>
+				</div>
+				<div class="liker-wrapper">
+					<img src="http://placemi.com/100x100" class="img-responsive img-circle">
+					<p class="liker-name">Fiona</p>
+				</div>
+			</div-->
+		</div>
+		<div class="comment-box">
+			<div class="comment-text-wrapper">
+				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (<span id="num-comments">{{design_story.comments}}</span>)</p>
+			</div>
+			<!-- Load comments -->
+			<div class="comment-bin">
+				{%for comment in comments%}
+					<div class="commenter-wrapper">
+						<!--img src="http://placemi.com/100x100" class="img-responsive img-circle"-->
+						<p class="commenter-name">{{comment.commenter}}</p>
+						<p class="comment">{{comment.comment}}</p>
+					</div>
+				{%endfor%}
+			</div>
+			{%if user.is_authenticated%}
+				<form class="comment-form" action="" method='POST' data-username="{{username}}" data-storyid="{{story_id}}">
+					{%csrf_token%}
+	                <div class = 'form-group'>
+	                    <div></div>
+	                    <input class="form-control"  id="id_comment" name="comment" required></input>
+	                </div>
+	            	<button class="comment-btn" type = 'submit' class = 'btn btn-primary'>Post</button>
+	        	</form>
+        	{%endif%}
+		</div>
+	</div>
+
 	<div id="chapter-list">
 		{%for chapter in entries%}
-			<div class='row'>
-				<h3>{{chapter.entry_title}}</h3>
-			</div>
-			<div class="row">
-				<div class="col-xs-12 cover-img">
-					<!-- TODO get cover image -->
-					{%cloudinary chapter.cover_photo width='800' height='600' class='img-responsive'%}
+			<div class="chapter-img-wrapper">
+				<!-- <h3>{{chapter.entry_title}}</h3> -->
+				<div class="thumb-img-list">
+					{% for photo in chapter.photos %}
+						<div class="thumb-img-wrapper">
+			  				{%cloudinary photo width='400' height='550' class='img-responsive'%}
+		  				</div>
+	  				{% endfor %}
 				</div>
-			</div>
-			<div class="row">
-				{% for i in chapter.num_photos|get_range %}
-					{% with j=i|stringformat:'s'%}
-					<div class="col-xs-4 col-sm-3 col-lg-2">
-		  				{%cloudinary chapter.bucket_link|add:"/"|add:j width='600' height='800' class='img-responsive'%}
-	  				</div>
-	  				{%endwith%}
-  				{% endfor %}
+				<div class="cover-img">
+						<!-- TODO get cover image -->
+						{%cloudinary chapter.cover_photo width='400' height='550' class='img-responsive'%}
+				</div>
 			</div>
 		{%endfor%}
 	</div>
+{%endblock%}
+
+{%block scripts%}
+	{{block.super}}
+
+	<script>
+	  $(document).ready(function(){
+	      CommunityActivities.authenticatedUsername = "{{user.username}}";
+	      CommunityActivities.csrftoken = $.cookie('csrftoken');
+	      CommunityActivities.init();      
+	  });
+	</script>
 {%endblock%}

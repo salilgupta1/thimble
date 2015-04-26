@@ -25,11 +25,11 @@ class LoginForm(AuthenticationForm):
             fields[1].error_messages = {'required':"Sorry this field is required!"}
 
 class EditDesignerForm(forms.ModelForm):
-    avatar = CloudinaryJsFileField(attrs={'multiple':1}, required=False)
+    avatar = CloudinaryJsFileField(required=False)
 
     class Meta:
         model = Designer
-        fields = ("bio","location","avatar")
+        fields = ("bio","location")
 
     def __init__(self, *args, **kwargs):
         super(EditDesignerForm, self).__init__(*args, **kwargs)

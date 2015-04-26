@@ -10,6 +10,8 @@ from thimble.apps.Users.models.schemas.Designer import Designer
 
 from cloudinary.forms import cl_init_js_callbacks
 
+from thimble.utils import photo_rename
+
 
 # look into Dangling orphans (Salil Gupta)
 def create_account(request):
@@ -32,9 +34,6 @@ def create_account(request):
 			return HttpResponseRedirect(reverse('Users:edit_account'))
 		else:
 			context['error'] = dict(user_form.errors.items())
-	else:
-		user_form = RegistrationForm()
-		context = {'user_form':user_form}
 
 	return render(request, "Users/create_account.html", context)
 
@@ -51,16 +50,26 @@ def edit_account(request):
 		if edit_user.is_valid() and edit_designer.is_valid():
 			# save forms if valid
 			updated_user = edit_user.save()
-			updated_designer = edit_designer.save()
+			updated_designer = edit_designer.save(commit=False)
+
+			# rename avatar link to a folder
+			if request.POST.get("avatar") is not None:
+				avatar_link = request.user.username
+				old_name = photo_rename(avatar_link, [request.POST.get("avatar")])
+				updated_designer.avatar = "%s/%s" % (avatar_link, old_name)
+
+			updated_designer.save()
+
 		else:
 			context['error'] = "error"
 	else:
 		# create forms for displaying
-		edit_user = EditUserForm(instance=request.user)
-		edit_designer = EditDesignerForm(instance = request.user.designer)
+		edit_user = EditUserForm(instance=request.user, label_suffix="")
+		edit_designer = EditDesignerForm(instance = request.user.designer, label_suffix="")
 
 	context['edit_user'] = edit_user
 	context['edit_designer'] = edit_designer
+	cl_init_js_callbacks(context['edit_designer'], request)
 
 	return render(request, "Users/edit_account.html", context)
 

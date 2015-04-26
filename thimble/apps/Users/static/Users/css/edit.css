@@ -1,0 +1,50 @@
+#direct_upload {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.edit-form-wrapper {
+	margin-top: 40px;
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.85);
+	border-radius: 3px;
+	padding: 10px;
+	text-align: center;
+	background-repeat: repeat;
+}
+
+.edit-form-wrapper textarea {
+	max-height: 100px;
+	width: 100%;
+}
+
+.det-form-group {
+	float: left;
+	margin-right: 3px;
+	margin-left: 3px;
+	width: 48%;
+}
+
+.port-group:nth-child(7) {
+	float: left;
+	width: 48%;
+}
+
+.port-group:nth-child(8) {
+	float: left;
+	width: 48%;
+}
+
+.port-group:nth-child(8) > input {
+	border: none;
+	box-shadow: none;
+	padding-top: 0px;
+	padding-left: 55px;
+	padding-right: 0px;
+	width: 140px;
+	height: 35px;
+	background: none;
+}
