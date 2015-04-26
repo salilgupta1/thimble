@@ -1,3 +1,28 @@
+.social-wrapper {
+	float: left;
+	max-width: 40px;
+	position: fixed;
+	left: 0px;
+	top: 35%;
+	background: white;
+	border-radius: 0px 3px 3px 0px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.social-wrapper span {
+	font-size: 30px;
+	cursor: pointer;
+}
+
+.twitter, .tumblr, .pinterest {
+	color: #333;
+}
+
+.twitter :hover, .tumblr :hover, .pinterest :hover {
+	color: #333;
+}
+
 .story-header {
 	right: 7%;
 	position: fixed;
