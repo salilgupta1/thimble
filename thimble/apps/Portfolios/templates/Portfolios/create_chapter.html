@@ -11,7 +11,9 @@
 {%block content%}
 	<div id="direct_upload" class="row">
         <h2>Add a New Chapter</h2>
-        {{error}}
+        {%if error%}
+            {{error}}
+        {%endif%}
 		<form method='POST' id='create-chapter' action="{% url 'Portfolios:create_chapter' request.user.username design_story_id slug%}" class="chapter-form">
 			{%csrf_token%}
             <div class="demo-tile">
@@ -31,12 +33,12 @@
                 
                 <div class="form-group supp-group">
                     <img class="supp-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
-                        <a style="display: none;" href="#" id="supp_upload_widget_opener"></a>  
+                        <!--a style="display: none;" href="#" id="supp_upload_widget_opener"></a-->  
                 </div>
 
                 <div class="form-group cover-group">
                     <img class="cover-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
-                        <a style="display: none;" href="#" id="cover_upload_widget_opener"></a>
+                        <!--a style="display: none;" href="#" id="cover_upload_widget_opener"></a-->
                 </div>
             </div>
 

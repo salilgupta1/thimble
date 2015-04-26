@@ -11,7 +11,11 @@
     <div class="row">
         <h2>Edit Design Story</h2>
         <span style="color:green;font-weight:bold;">{{changes_saved}}</span>
-        <span style="color:red;font-weight:bold;">{{error}}</span>
+        <span style="color:red;font-weight:bold;">
+            {%if error%}
+                {{error}}
+            {%endif%}
+        </span>
         <form method='post' action="{%url 'Portfolios:edit_story' username story_id slug%}">
             {%csrf_token%}
             <button type='submit' class='btn btn-primary' id="save-btn">Save</button>

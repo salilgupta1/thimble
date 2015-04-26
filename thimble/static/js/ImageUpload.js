@@ -94,7 +94,7 @@ var ImageUpload = (function($){
 				multiple:true,
 				cropping: 'server', 
 				cropping_aspect_ratio:0.73, 
-				button_caption:"Add Supplementary", 
+				button_caption:"Add Additional", 
 				field_name:"entry_photos", 
 				theme:"minimal",
 				thumbnail_transformation: 

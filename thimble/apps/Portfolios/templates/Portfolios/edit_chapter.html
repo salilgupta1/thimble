@@ -10,8 +10,8 @@
 	<div id="direct_upload" class="row">
         <h2>Edit Chapter</h2>
         <!--TODO make this an error/success CSS class-->
-        <span style="color:green;font-weight:bold;text-align:center;display:block;">{{changes_saved}}</span>
-        <span style="color:red;font-weight:bold;text-align:center;display:block;">{{error}}</span>
+        <span style="color:green;font-weight:bold;">{{changes_saved}}</span>
+        <span style="color:red;font-weight:bold;">{%if error%}{{error}}{%endif%}</span>
 		<form method='POST' action="{% url 'Portfolios:edit_chapter' request.user.username story_id slug entry_id%}">
 			{%csrf_token%}
 
