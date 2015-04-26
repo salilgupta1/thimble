@@ -1,4 +1,4 @@
-{% extends 'Users/base_users.html' %}
+{% extends 'form.html' %}
 
 {% load staticfiles %}
 {% load cloudinary %}
@@ -18,11 +18,6 @@
         }
     </style>
 {%endblock%}
-
-{%block cloudinary%}
-    {% cloudinary_includes %}
-    {% cloudinary_js_config %}
-{% endblock %}
 
 {% block content %}
     <div class="edit-form-wrapper">
@@ -55,7 +50,7 @@
 {% endblock %}
 
 {%block scripts%}
-    <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
+    {{block.super}}
     <script>
       $('#avatar_upload_widget').cloudinary_upload_widget(
         { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,

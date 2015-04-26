@@ -1,4 +1,4 @@
-{%extends 'Portfolios/base_portfolio.html' %}
+{%extends 'base.html' %}
 {% load cloudinary %}
 {%load staticfiles%}
 
@@ -25,6 +25,6 @@
 {%endblock%}
 
 {%block scripts%}
-    <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
-    <script src="{%static 'Portfolios/js/ImageUpload.js'%}"></script>
+    <script src="{%static 'js/uploadwidget.js' %}"></script>
+    <script src="{%static 'js/ImageUpload.js'%}"></script>
 {%endblock%}
