@@ -70,7 +70,7 @@
     {{block.super}}
 
     <script>
-        ImageUpload.init("#create-story");
+        ImageUpload.init($.cloudinary.config().cloud_name, "#create-story");
     </script>
 
 {%endblock%}

@@ -19,7 +19,7 @@
       <link rel="stylesheet" href="{%static 'css/tile.css' %}"/>
 
       <link href='https://fonts.googleapis.com/css?family=Nunito:400,300,700' rel='stylesheet' type='text/css'/>
-      <link href='http://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
 
       {%block app_css%}{%endblock%}
 
@@ -38,7 +38,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="{%url 'landingpage:home' %}">Thimble</a>
+              <a class="navbar-brand" href="{%url 'landingpage:home' %}"><img class="img-responsive" src="{%static 'landingpage/img/thimble_logo.png'%}" alt="Thimble">Thimble</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
               <!--ul class="nav navbar-nav">
@@ -60,7 +60,7 @@
                         <a href="{%url 'Portfolios:create_design_story' user.username%}">Create Story</a>
                       </li>
                       <li class="dropdown">
-                        <a href="{%url 'Portfolios:render_portfolio' user.username%}" role="button" aria-expanded="false">{{user.first_name}} {{user.last_name}} <span class="caret"></span></a>
+                        <a href="{%url 'Portfolios:render_portfolio' user.username%}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{user.first_name}} {{user.last_name}} <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                           <li><a href="{%url 'Users:edit_account'%}">Edit Account</a></li>
                           <li><a href="{%url 'Users:logout'%}">Sign Out</a></li>
