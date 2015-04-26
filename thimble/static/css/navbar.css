@@ -29,21 +29,16 @@
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-    background-color: #031926;
-    color: white;
-    background-image: none;
-    box-shadow: none;
+	background-color: #031926;
+	color: white;
+	background-image: none;
+	box-shadow: none;
 }
 
-/*Enable touch and hover for dropdown menu*/
-.dropdown:hover .dropdown-menu {
-    /*display: block;*/
- }
-
- .navbar-default .navbar-nav > .open > a {
- 	color: white;
- 	background-color: #031926;
- }
+.navbar-default .navbar-nav > .open > a {
+	color: white;
+	background-color: #031926;
+}
 
 .dropdown-menu {
 	background-color: #031926;
@@ -54,8 +49,8 @@
 }
 
 .dropdown-menu li a:hover :focus {
-    color: #031926;
-    background: none;           
+	color: #031926;
+	background: none;           
 }
 
 .navbar-default .navbar-toggle {
@@ -74,4 +69,22 @@
 	border-color: #031926;
 	box-shadow: none;
 }
+
+
+@media(max-width:767px){
+
+}
+@media(min-width:768px){
+	.dropdown:hover .dropdown-menu {
+		display: block;
+	}
+
+}
+@media(min-width:992px){
+
+}
+@media(min-width:1200px){
+
+}
+
 /* navbar-style end */
