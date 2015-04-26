@@ -2,14 +2,20 @@
 {%load staticfiles%}
 {% load cloudinary %}
 
+{%block app_css%}
+    <link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/edit_chapter.css'%}"/>
+{%endblock%}
+
 {%block content%}
-	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
+	<div id="direct_upload" class="row">
         <h2>Edit Chapter</h2>
         <!--TODO make this an error/success CSS class-->
-        <span style="color:green;font-weight:bold;">{{changes_saved}}</span>
-        <span style="color:red;font-weight:bold;">{{error}}</span>
+        <span style="color:green;font-weight:bold;text-align:center;display:block;">{{changes_saved}}</span>
+        <span style="color:red;font-weight:bold;text-align:center;display:block;">{{error}}</span>
 		<form method='POST' action="{% url 'Portfolios:edit_chapter' request.user.username story_id slug entry_id%}">
 			{%csrf_token%}
+
+            <button type = 'submit' class = 'btn btn-primary' id="create-btn">Save</button>
 
             <div class="form-group title-group">
                 <div id="{{edit_entry.entry_title.auto_id}}_errors" class='form-error'>
@@ -17,6 +23,7 @@
                 </div>
                 {{edit_entry.entry_title}}
             </div>
+
 
             <div class="form-group description-group">
                 <div id="{{edit_entry.entry_desc.auto_id}}_errors" class='form-error'>
@@ -27,27 +34,21 @@
 
             <div class = 'form-group'>
                 <div>{{edit_entry.cover_photo.errors|striptags}}</div>
-                
-                <br/>
                 <a href="#" id="cover_upload_widget_opener"></a>
                 <ul class="cloudinary-thumbnails">
                     <li class="cloudinary-thumbnail cover_photo active">
-                        <img src="{%cloudinary_url entry.cover_photo width='100' height='200' %}">
+                        <img src="{%cloudinary_url entry.cover_photo width='400' height='550' %}" class="img-responsive">
                     </li>
                 </ul>
-
-                <br/>
                 <a href="#" id="supp_upload_widget_opener"></a>
-                <br/>
             	{% for photo in entry.photos %}
-                    <input name="photo_delete" type="checkbox" value="{{photo}}"/> Delete
                     <div class="thumb-img-wrapper">
-                        {%cloudinary photo width='100' height='200' class='img-responsive'%}
+                        <input name="photo_delete" type="checkbox" value="{{photo}}"/> Delete
+                   
+                        {%cloudinary photo width='400' height='550' class='img-responsive'%}
                     </div>
 				{% endfor %}
             </div>
-
-            <button type = 'submit' class = 'btn btn-primary' id="create-btn">Save</button>
 
 		</form>
 
