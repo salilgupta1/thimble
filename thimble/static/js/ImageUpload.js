@@ -64,7 +64,52 @@ var ImageUpload = (function($){
                     height: 133,
                     crop: 'limit' 
                 }
-            },function(error, result){});
+            },function(error, result){}
+		);
+
+		$('#cover_upload_widget_opener').cloudinary_upload_widget(
+			{
+				cloud_name: cloudName, 
+				upload_preset: 'orphans', 
+				multiple:false,
+				cropping: 'server', 
+				cropping_aspect_ratio:0.73, 
+				button_caption:"Change Cover", 
+				field_name:"cover_photo",
+				theme:"minimal",
+				thumbnail_transformation: 
+				{ 
+					width: 400, 
+					height: 550, 
+					crop: 'limit' 
+				}
+			},
+			function(error, result) {}
+		);
+
+		$('#supp_upload_widget_opener').cloudinary_upload_widget(
+			{ 
+				cloud_name: $cloudName, 
+				upload_preset: 'orphans', 
+				multiple:true,
+				cropping: 'server', 
+				cropping_aspect_ratio:0.73, 
+				button_caption:"Add Supplementary", 
+				field_name:"entry_photos", 
+				theme:"minimal",
+				thumbnail_transformation: 
+				{ 
+					width: 400, 
+					height: 550, 
+					crop: 'limit' 
+				}
+			},
+			function(error, result) {
+				updateNumPhotos();
+				// TODO error handle here
+			}
+		);
+
 	};
 
 	return {
