@@ -8,6 +8,7 @@ from thimble.apps.Portfolios.models.schemas.Like import Like
 
 
 def home(request):
+    # new-home-page
     context = {}
     design_stories = DesignStory.objects.get_all_design_stories()
 
@@ -47,9 +48,9 @@ def landingpage(request):
         else:
             context['success'] = "Thank you for your interest in Thimble!"
 
-    return render(request, "landingpage/new-index.html", context)
+    return render(request, "landingpage/beta.html", context)
 
-
+# about/
 def oldlandingpage(request):
     context = {}
     if request.method == "POST":
@@ -65,5 +66,5 @@ def oldlandingpage(request):
         else:
             context['success'] = "Thank you for your interest in Thimble!"
 
-    return render(request, "landingpage/old-index.html", context)
+    return render(request, "landingpage/about.html", context)
 

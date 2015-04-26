@@ -89,12 +89,12 @@ var ImageUpload = (function($){
 
 		$('#supp_upload_widget_opener').cloudinary_upload_widget(
 			{ 
-				cloud_name: $cloudName, 
+				cloud_name: cloudName, 
 				upload_preset: 'orphans', 
 				multiple:true,
 				cropping: 'server', 
 				cropping_aspect_ratio:0.73, 
-				button_caption:"Add Supplementary", 
+				button_caption:"Add Additional", 
 				field_name:"entry_photos", 
 				theme:"minimal",
 				thumbnail_transformation: 

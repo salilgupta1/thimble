@@ -5,6 +5,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 
+#
+from django.db import IntegrityError
 # cloudinary
 from cloudinary.forms import cl_init_js_callbacks
 from cloudinary.uploader import rename
@@ -22,7 +24,7 @@ from thimble.apps.Portfolios.forms.forms import *
 
 @login_required
 def create_design_story(request, username):
-
+    error = None
     if request.user.username == username:
         design_story_form = CreateDesignStory(request.POST or None)
         entry_form = CreateEntry(request.POST or None)
@@ -33,36 +35,42 @@ def create_design_story(request, username):
                 # create an instance of the of design_story_model model
                 design_story = design_story_form.save(commit=False)
                 design_story.designer = request.user.designer
-                design_story.save()
 
-                # create an instance of the entry model
-                entry = entry_form.save(commit=False)
-                entry.design_story = design_story
-                entry.save()
+                try:
+                    design_story.save()
+                except IntegrityError:
+                    error = "Sorry! You are already using this title for another story"
 
-                # update the bucket link
-                bucket_link = "%s/%s/%s" % (username, design_story.design_story_id, entry.entry_id)
-                entry.bucket_link = bucket_link
+                if not error:
+                    # create an instance of the entry model
+                    entry = entry_form.save(commit=False)
+                    entry.design_story = design_story
+                    entry.save()
 
-                # rename cover_photo
-                cover_photo = request.POST.get("cover_photo")
-                old_name = photo_rename(bucket_link, [cover_photo])
+                    # update the bucket link
+                    bucket_link = "%s/%s/%s" % (username, design_story.design_story_id, entry.entry_id)
+                    entry.bucket_link = bucket_link
 
-                entry.cover_photo = "%s/%s" % (bucket_link, old_name)
-                entry.save()
+                    # rename cover_photo
+                    cover_photo = request.POST.get("cover_photo")
+                    old_name = photo_rename(bucket_link, [cover_photo])
 
-                # rename entry_photos 
-                photos = request.POST.getlist('entry_photos')
-                photo_rename(bucket_link, photos)
+                    entry.cover_photo = "%s/%s" % (bucket_link, old_name)
+                    entry.save()
 
-                slug = slugify(design_story.title)
+                    # rename entry_photos 
+                    photos = request.POST.getlist('entry_photos')
+                    photo_rename(bucket_link, photos)
 
-                return HttpResponseRedirect(
-                    reverse('Portfolios:render_design_story', args=(username, design_story.design_story_id, slug)))
+                    slug = slugify(design_story.title)
+
+                    return HttpResponseRedirect(
+                        reverse('Portfolios:render_design_story', args=(username, design_story.design_story_id, slug)))
 
         context = {
             "design_story_form":design_story_form,
-            "entry_form":entry_form
+            "entry_form":entry_form,
+            "error":error or None
         }
         
         cl_init_js_callbacks(context['entry_form'], request)
@@ -73,6 +81,7 @@ def create_design_story(request, username):
 @login_required
 def create_chapter(request, username, story_id, slug):
 
+    error = None
     if request.user.username == username:
         entry_form = CreateEntry(request.POST or None)
         if request.method == "POST":
@@ -81,29 +90,35 @@ def create_chapter(request, username, story_id, slug):
                 # create an instance of the entry model
                 entry = entry_form.save(commit=False)
                 entry.design_story_id = story_id
-                entry.save()
+                try:
+                    entry.save()
+                except IntegrityError:
+                    error = "Sorry! You are already using this title for another chapter in this story"
+                    
 
-                # update the bucket link
-                bucket_link = "%s/%s/%s" % (username, story_id, entry.entry_id)
-                entry.bucket_link = bucket_link
+                if not error:
+                    # update the bucket link
+                    bucket_link = "%s/%s/%s" % (username, story_id, entry.entry_id)
+                    entry.bucket_link = bucket_link
 
-                # rename cover_photo
-                cover_photo = request.POST.get("cover_photo")
-                old_name = photo_rename(bucket_link, [cover_photo])
+                    # rename cover_photo
+                    cover_photo = request.POST.get("cover_photo")
+                    old_name = photo_rename(bucket_link, [cover_photo])
 
-                entry.cover_photo = "%s/%s" % (bucket_link, old_name)
-                entry.save()
+                    entry.cover_photo = "%s/%s" % (bucket_link, old_name)
+                    entry.save()
 
-                # rename entry_photos pushed to cloudinary
-                photos = request.POST.getlist('entry_photos')
-                photo_rename(bucket_link, photos)
+                    # rename entry_photos pushed to cloudinary
+                    photos = request.POST.getlist('entry_photos')
+                    photo_rename(bucket_link, photos)
 
-                return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(username, story_id, slug)))
+                    return HttpResponseRedirect(reverse('Portfolios:render_design_story', args=(username, story_id, slug)))
 
         context = {
             "entry_form":entry_form,
             "design_story_id":story_id,
-            "slug":slug
+            "slug":slug,
+            "error":error or None
         }
 
         cl_init_js_callbacks(context['entry_form'], request)
@@ -118,7 +133,8 @@ def edit_chapter(request, username, story_id, slug, entry_id,):
         "username": username,
         "story_id": story_id,
         "entry_id": entry_id,
-        "slug": slug
+        "slug": slug,
+        "error": None
     }
 
     # TODO handle exception when entry does not exist
@@ -144,39 +160,43 @@ def edit_chapter(request, username, story_id, slug, entry_id,):
         edit_entry = EditEntry(request.POST, instance=e_instance)
         if edit_entry.is_valid():
 
-            # replace cover_photo
-            # automatically makes the old cover into a supplementary photo
-            new_cover = request.POST.get("cover_photo")
-            if new_cover is not None:
-                old_name = photo_rename(e_instance.bucket_link, [new_cover])
-                e_instance.cover_photo = "%s/%s" % (e_instance.bucket_link, old_name)
+            try:
+                e_instance.save()
+            except IntegrityError:
+                context['error'] = "Sorry! You are already using this title for another chapter in this story"
 
-                # make sure the updated chapter is displayed
-                entry["photos"].append(entry["cover_photo"])
-                entry['cover_photo'] = e_instance.cover_photo
+            if context['error'] is None:
+                # replace cover_photo
+                # automatically makes the old cover into a supplementary photo
+                new_cover = request.POST.get("cover_photo")
+                if new_cover is not None:
+                    old_name = photo_rename(e_instance.bucket_link, [new_cover])
+                    e_instance.cover_photo = "%s/%s" % (e_instance.bucket_link, old_name)
 
-            e_instance.save()
+                    # make sure the updated chapter is displayed
+                    entry["photos"].append(entry["cover_photo"])
+                    entry['cover_photo'] = e_instance.cover_photo
 
-            # rename new entry_photos
-            photos = request.POST.getlist('entry_photos')
-            if photos is not None:
-                for p in photos:
-                    entry["photos"].append("%s/%s" % (e_instance.bucket_link, photo_rename(e_instance.bucket_link, [p])))
+                e_instance.save()
 
-            # delete photos marked for deletion
-            to_be_deleted = request.POST.getlist('photo_delete')
-            if len(to_be_deleted) != 0:
-                if len(entry["photos"]) - len(to_be_deleted) <= 0:
-                    context['error'] = "Could not delete images; must have at least one remaining"
-                else:
-                    delete_resources(to_be_deleted)
-                    for item in to_be_deleted:
-                        entry["photos"].remove(item)
+                # rename new entry_photos
+                photos = request.POST.getlist('entry_photos')
+                if photos is not None:
+                    for p in photos:
+                        entry["photos"].append("%s/%s" % (e_instance.bucket_link, photo_rename(e_instance.bucket_link, [p])))
 
-            context['changes_saved'] = "Changes saved."
+                # delete photos marked for deletion
+                to_be_deleted = request.POST.getlist('photo_delete')
+                if len(to_be_deleted) != 0:
+                    if len(entry["photos"]) - len(to_be_deleted) <= 0:
+                        context['error'] = "Sorry you must have at least one Additional Photo in a Chapter"
+                    else:
+                        delete_resources(to_be_deleted)
+                        for item in to_be_deleted:
+                            entry["photos"].remove(item)
+                if context['error'] is None:            
+                    context['changes_saved'] = "Changes saved."
 
-        else:
-            context['error'] = edit_entry.errors.items()
     else:
         edit_entry = EditEntry(instance=e_instance)
 
@@ -191,7 +211,8 @@ def edit_story(request, username, story_id, slug):
     context = {
         "username": username,
         "story_id": story_id,
-        "slug": slug
+        "slug": slug,
+        "error":None
     }
     # TODO handle exception when story does not exist
     # get story to be edited
@@ -220,31 +241,34 @@ def edit_story(request, username, story_id, slug):
     if request.method == "POST":
         edit_dstory = EditDesignStory(request.POST, instance=s_instance)
         if edit_dstory.is_valid():
-            edit_dstory.save()
+            try:
+                edit_dstory.save()
+            except IntegrityError:
+                context['error'] = "Sorry! You are already using this title for another story"
 
-            # delete chapters marked for deletion
-            to_be_deleted = request.POST.getlist('photo_delete')
-            if len(to_be_deleted) != 0:
-                if len(entries) - len(to_be_deleted) <= 0:
-                    context['error'] = "Could not delete entries; must have at least one remaining"
-                else:
-                    for i, e in enumerate(entries):
-                        if str(e['entry_id']) in to_be_deleted:
-                            # remove from context
-                            entries = entries.exclude(entry_id=e['entry_id'])
+            if not context['error']:
+                 
+                # delete chapters marked for deletion
+                to_be_deleted = request.POST.getlist('photo_delete')
+                if len(to_be_deleted) != 0:
+                    if len(entries) - len(to_be_deleted) <= 0:
+                        context['error'] = "Could not delete entries; must have at least one remaining"
+                    else:
+                        for i, e in enumerate(entries):
+                            if str(e['entry_id']) in to_be_deleted:
+                                # remove from context
+                                entries = entries.exclude(entry_id=e['entry_id'])
 
-                            # delete associated images from cloudinary
-                            for p in e['photos']:
-                                delete_resources([p])
-                                break
-                            delete_resources([e['cover_photo']])
+                                # delete associated images from cloudinary
+                                for p in e['photos']:
+                                    delete_resources([p])
+                                    break
+                                delete_resources([e['cover_photo']])
 
-                            # delete from db
-                            Entry.objects.get(entry_id=e['entry_id']).delete()
+                                # delete from db
+                                Entry.objects.get(entry_id=e['entry_id']).delete()
 
-            context['changes_saved'] = "Changes saved."
-        else:
-            context['error'] = edit_dstory.errors.items()
+                context['changes_saved'] = "Changes saved."
     else:
         edit_dstory = EditDesignStory(instance=s_instance)
 
