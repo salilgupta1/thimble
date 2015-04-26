@@ -60,7 +60,7 @@
                         <a href="{%url 'Portfolios:create_design_story' user.username%}">Create Story</a>
                       </li>
                       <li class="dropdown">
-                        <a href="{%url 'Portfolios:render_portfolio' user.username%}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{user.first_name}} {{user.last_name}} <span class="caret"></span></a>
+                        <a href="{%url 'Portfolios:render_portfolio' user.username%}" role="button" aria-expanded="false">{{user.first_name}} {{user.last_name}} <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                           <li><a href="{%url 'Users:edit_account'%}">Edit Account</a></li>
                           <li><a href="{%url 'Users:logout'%}">Sign Out</a></li>
@@ -99,6 +99,8 @@
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="{%static 'js/dropdown.js' %}"></script>
 
   {%block cloudinary%}{%endblock%}
 
