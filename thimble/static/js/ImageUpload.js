@@ -89,7 +89,7 @@ var ImageUpload = (function($){
 
 		$('#supp_upload_widget_opener').cloudinary_upload_widget(
 			{ 
-				cloud_name: $cloudName, 
+				cloud_name: cloudName, 
 				upload_preset: 'orphans', 
 				multiple:true,
 				cropping: 'server', 
