@@ -22,7 +22,7 @@ def home(request):
             cover_photo = Entry.objects.get_cover_photos(story['design_story_id'])
             cover_photos.append(cover_photo)
 
-    context['stories'] = zip(design_stories, cover_photos)
+        context['stories'] = zip(design_stories, cover_photos)
 
     # get likes and follow
     if request.user.is_authenticated():
