@@ -1,0 +1,30 @@
+{%extends 'base.html' %}
+{% load cloudinary %}
+{%load staticfiles%}
+
+{%block cloudinary%}
+    {% cloudinary_includes %}
+    {% cloudinary_js_config %}
+{% endblock %}
+
+{%block app_css%}
+    <style type="text/css">
+        body {
+            background-image: url("{%static 'Users/img/overlay.png' %}"), url("{%static 'Users/img/shirt.png' %}");
+            background-repeat: repeat, no-repeat; 
+            background-position: left top, center center;
+            background-size: auto auto, cover;
+            -webkit-background-size: auto auto, cover;
+            -moz-background-size: auto auto, cover;
+            -o-background-size: auto auto, cover;
+        }
+    </style>
+{%endblock%}
+
+{%block content%}
+{%endblock%}
+
+{%block scripts%}
+    <script src="{%static 'js/uploadwidget.js' %}"></script>
+    <script src="{%static 'js/ImageUpload.js'%}"></script>
+{%endblock%}

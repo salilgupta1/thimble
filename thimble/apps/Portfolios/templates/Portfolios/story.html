@@ -4,10 +4,23 @@
 
 {%block app_css%}
 	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/story.css'%}"/>
+	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/fontello.css'%}"/>
 {%endblock%}
 
 
 {%block content%}
+	<div class="social-wrapper">
+		<span class="icon-facebook"></span>
+		<a class="twitter popup" href="http://twitter.com/share?text={{design_story.title}} by {{portfolio_data.user__first_name}} on @ThimbleApp">
+			<span class="icon-twitter"></span>
+		</a>
+		<a class="tumblr" href="#">
+			<span class="icon-tumblr"></span>
+		</a>
+		<a class="pinterest" href="javascript:pinIt();">
+			<span class="icon-pinterest"></span>
+		</a>
+	</div>
 	<div class="story-header">
 		<div id="by-wrapper">
 			{%if not portfolio_data.avatar%}
@@ -21,6 +34,8 @@
 			<h1>{{design_story.title}}</h1>
 			{%if user.is_authenticated and username == user.username%}
 				<a href="{%url 'Portfolios:create_chapter' username story_id slug%}">Create Chapter</a>
+				<span>|</span>
+				<a href="{%url 'Portfolios:edit_story' username story_id slug %}">Edit Story</a>
 			{%endif%}
 		</div>
 		<div id="desc-wrapper">
@@ -91,6 +106,17 @@
 
 	<div id="chapter-list">
 		{%for chapter in entries%}
+			<div class='chapter-title'>
+				<h2>{{chapter.entry_title}}</h2>
+				<div class='chapter-description'>
+					<p>
+						{{chapter.entry_desc}}
+					</p>
+				</div>
+				{%if user.is_authenticated and username == user.username%}
+					<a href="{% url 'Portfolios:edit_chapter' username story_id slug chapter.entry_id %}">Edit Chapter</a>
+				{%endif%}
+			</div>
 			<div class="chapter-img-wrapper">
 				<!-- <h3>{{chapter.entry_title}}</h3> -->
 				<div class="thumb-img-list">
@@ -101,8 +127,7 @@
 	  				{% endfor %}
 				</div>
 				<div class="cover-img">
-						<!-- TODO get cover image -->
-						{%cloudinary chapter.cover_photo width='400' height='550' class='img-responsive'%}
+					{%cloudinary chapter.cover_photo width='400' height='550' class='img-responsive'%}
 				</div>
 			</div>
 		{%endfor%}
@@ -111,12 +136,78 @@
 
 {%block scripts%}
 	{{block.super}}
-
 	<script>
-	  $(document).ready(function(){
-	      CommunityActivities.authenticatedUsername = "{{user.username}}";
-	      CommunityActivities.csrftoken = $.cookie('csrftoken');
-	      CommunityActivities.init();      
-	  });
+	function pinIt()
+	{
+	  var e = document.createElement('script');
+	  e.setAttribute('type','text/javascript');
+	  e.setAttribute('charset','UTF-8');
+	  e.setAttribute('src','https://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);
+	  document.body.appendChild(e);
+	}
 	</script>
+	<script>
+	$(document).ready(function(){
+		CommunityActivities.authenticatedUsername = "{{user.username}}";
+		CommunityActivities.csrftoken = $.cookie('csrftoken');
+		CommunityActivities.init();   
+
+		function fbShare(url, title, descr, image, winWidth, winHeight) {
+			var winTop = (screen.height / 2) - (winHeight / 2);
+			var winLeft = (screen.width / 2) - (winWidth / 2);
+			window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
+		}
+		$('.icon-facebook').click(function() {
+			fbShare(window.location.href, '{{design_story.title}}', '{{design_story.description}}', 'http://goo.gl/dS52U', 520, 350);
+		});   
+
+		$('.popup').click(function(event) {
+			var width  = 575,
+			height = 400,
+			left   = ($(window).width()  - width)  / 2,
+			top    = ($(window).height() - height) / 2,
+			url    = this.href,
+			opts   = 'status=1' +
+			',width='  + width  +
+			',height=' + height +
+			',top='    + top    +
+			',left='   + left;
+
+			window.open(url, 'twitter', opts);
+
+			return false;
+		});
+
+		$('.tumblr').click(function(event) {
+			var width  = 575,
+			height = 400,
+			left   = ($(window).width()  - width)  / 2,
+			top    = ($(window).height() - height) / 2,
+			url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
+			opts   = 'status=1' +
+			',width='  + width  +
+			',height=' + height +
+			',top='    + top    +
+			',left='   + left;
+			var now = window.location.href;
+			url += '?shareSource=legacy&canonicalUrl=&posttype=link'
+			// url += '&content=';
+			// url += now;
+			url += '&title=';
+			url += '&caption={{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble';
+			url += '&content=';
+			url += window.location.host;
+			url += window.location.pathname;
+			// url += encodeURIComponent('{{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble');
+
+			window.open(url, 'tumblr', opts);
+
+			return false;
+		});
+
+	});
+	</script>
+	<script src="{%static 'Portfolios/js/social.js' %}"></script>
+<!-- Please call pinit.js only once per page -->
+<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
 {%endblock%}

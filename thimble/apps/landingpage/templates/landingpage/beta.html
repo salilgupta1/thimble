@@ -1,0 +1,98 @@
+{%load staticfiles%}
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Thimble</title>
+
+    <link href="{%static 'css/bootstrap.css'%}" rel='stylesheet'/>
+    <link href="{%static 'landingpage/css/beta.css' %}" rel="stylesheet"/>
+
+    <!--Favicon-->
+    <link rel="icon" href="{%static 'favicon.ico'%}"/>
+
+    <!-- Custom Fonts -->
+    <link href="{%static 'landingpage/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,100,300,700,900' rel='stylesheet' type='text/css'>
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="logo-wrapper">
+            <img class="img-responsive" src="{%static 'landingpage/img/thimble_logo.png'%}" alt="Thimble">
+        </div>
+        <div class="title-wrapper">
+            <h1 class="title">Thimble</h1>
+        </div>
+        <div class="desc-wrapper">
+            <p class="desc">Storytelling for independent fashion designers</p>
+        </div>
+        <hr>
+        <div class="invite-wrapper">
+            <p class="invite">We are currently in private beta. If you are a fashion designer or stylist, request an invite below!</p>
+        </div>
+        <form method='POST' action="{% url 'landingpage:new_landingpage' %}">
+            {%csrf_token%}
+            <input type="email" name="email" class="email" placeholder="designer@gmail.com">
+             <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <p class="form-message">{{error}}{{success}}</p>
+        <!--TODO ryan style these error/success messages-->
+        <div class="video-wrapper">
+        <div class="embed-responsive embed-responsive-16by9">
+          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/7IJy834p7gQ?rel=0" allowfullscreen></iframe>
+        </div>
+    </div>
+    </div>
+
+    <style type="text/css">
+    body {
+        background: url("{%static 'Users/img/shirt.png' %}") no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+    .container-fluid {
+        background-image: url("{%static 'Users/img/overlay.png' %}");
+    }
+    </style>
+
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-58523890-2', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+</body>
+
+</html>

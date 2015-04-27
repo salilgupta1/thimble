@@ -95,6 +95,7 @@
                         var i = p.form;
                         !i && i !== !1 && b && (i = t(b).parents("form")[0]);
 
+
                         var n = p.field_name || "image";
                         if (i && t.each(e, function(e, a) {
                                 var o, d = [a.resource_type, a.type, a.path].join("/") + "#" + a.signature,
@@ -123,16 +124,14 @@
                                   $(".cloudinary-thumbnails .cover_photo").remove();
                                 }
                                 if(p.field_name == "avatar"){
-                                    console.log("removoing old avatar thumbnail")
                                   $(".cloudinary-thumbnails .avatar").remove();
                                 }
                                 var a = t("<ul></ul>").addClass("cloudinary-thumbnails");
                                 t.each(e, function(e, i) {
                                     var n = t("<li></li>").addClass("cloudinary-thumbnail " + p.field_name).data("cloudinary", i);
-                                    console.log(n);
                                     n.append(i.thumbnail_url ? t("<img></img>").attr("src", i.thumbnail_url) : t("<span></span>").text(i.public_id)), i.delete_token && n.append(t("<a></a>").addClass("cloudinary-delete").attr("href", "#").text("\xd7")), n.find("img").on("load", function() {
                                         n.addClass("active")
-                                    }), a.append(n), console.log("appended")
+                                    }), a.append(n)
                                 }), a.find("li").length > 0 && (p.thumbnails ? t(p.thumbnails).append(a) : t(b).after(a)),
                                     a.find(".cloudinary-delete").click(function(e) {
                                     e.preventDefault();

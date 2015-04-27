@@ -1,26 +1,53 @@
-body {
+h3 {
 	text-align: center;
+}
+
+.container {
+	width: 100%;
 	color: white;
 }
 
-.chapter-form {
-	max-width: 350px;
-	width: 95%;
-	margin-left: auto;
-	margin-right: auto;
-	background: white;
-	border-radius: 3px;
-	padding: 3px;
-}
-
-.formgroup:nth-of-type(2) {
-
-}
-
 #direct_upload {
-	width: 100%;
+	background: rgba(62, 62, 62, 0.5);
+	min-height: 100vh;
+}
+
+.story-det-wrapper, .chapter-det-wrapper {
+	width: 50%;
+	float: left;
+	padding: 10px;
+	text-align: center;
+}
+
+
+.chapter-det-wrapper {
+	width: 50%;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.story-det-wrapper {
+	padding-left: 5%;
+	padding-right: 5%;
+}
+
+@media(max-width:767px){
+	.story-det-wrapper, .chapter-det-wrapper{
+		width: 100%;
+		float: none;
+	}
+
+}
+
+.story-det-wrapper label {
+	margin-top: 10px;
+}
+
+.form-group .check {
+	width: 15px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 20px;
 }
 
 .demo-tile {
@@ -38,13 +65,6 @@ body {
 	max-width: 300px;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-.demo-tile textarea {
-	max-width: 300px;
-	margin-left: auto;
-	margin-right: auto;
-
 }
 
 .supp-group {
@@ -105,3 +125,9 @@ body {
 	margin: 0px;
 }
 
+.btn-wrapper {
+	text-align: center;
+	width: 100%;
+	display: block;
+	padding-bottom: 20px;
+}

@@ -28,23 +28,19 @@
 	width: 48%;
 }
 
+.form-group:nth-child(4) {
+	float: none;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.port-group:nth-child(6) {
+	float: left;
+	width: 40%;
+	margin-right: 10%;
+}
+
 .port-group:nth-child(7) {
 	float: left;
 	width: 48%;
-}
-
-.port-group:nth-child(8) {
-	float: left;
-	width: 48%;
-}
-
-.port-group:nth-child(8) > input {
-	border: none;
-	box-shadow: none;
-	padding-top: 0px;
-	padding-left: 55px;
-	padding-right: 0px;
-	width: 140px;
-	height: 35px;
-	background: none;
 }
