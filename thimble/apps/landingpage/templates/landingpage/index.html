@@ -50,7 +50,7 @@
 
                 <div class="social-wrapper">
                     <span class="icon-facebook"></span>
-                    <a class="twitter popup" href="http://twitter.com/share?text={{design_story.title}} by {{portfolio_data.user__first_name}} on @ThimbleApp">
+                    <a class="twitter popup" href="http://twitter.com/share?text={{story.0.designer__user__first_name}} {{story.0.designer__user__last_name}} on @ThimbleApp">
                         <span class="icon-twitter"></span>
                     </a>
                     <a class="tumblr" href="#">
@@ -71,6 +71,16 @@
 {%block scripts%}
   <script src="{%static 'js/hover.js' %}"></script>
   <script src="{%static 'Portfolios/js/CommunityActivities.js' %}"></script>
+  <script>
+  function pinIt()
+  {
+    var e = document.createElement('script');
+    e.setAttribute('type','text/javascript');
+    e.setAttribute('charset','UTF-8');
+    e.setAttribute('src','https://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);
+    document.body.appendChild(e);
+  }
+  </script>
   <script type="text/javascript">
     $(document).ready(function(){
         CommunityActivities.authenticatedUsername = "{{user.username}}";
@@ -119,10 +129,10 @@
 			// url += '&content=';
 			// url += now;
 			url += '&title=';
-			url += '&caption={{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble';
+			url += '&caption={{story.0.designer__user__first_name}} {{story.0.designer__user__last_name}} on Thimble';
 			url += '&content=';
-			url += window.location.host;
-			url += window.location.pathname;
+      url += window.location.host;
+      url += window.location.pathname;
 			// url += encodeURIComponent('{{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble');
 
 			window.open(url, 'tumblr', opts);
