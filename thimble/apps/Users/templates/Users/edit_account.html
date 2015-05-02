@@ -1,22 +1,27 @@
-{% extends 'Users/base_users.html' %}
+{% extends 'form.html' %}
 
 {% load staticfiles %}
+{% load cloudinary %}
 
 {%block app_css%}
     <link rel='stylesheet' type='text/css' href ="{%static 'Users/css/edit.css'%}"/>
+    <style type="text/css">
+        body {
+            background: url("{%static 'Users/img/shirt.png' %}") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+        .edit-form-wrapper {
+            background-image: url("{%static 'Users/img/overlay.png' %}");
+        }
+    </style>
 {%endblock%}
-
-{% load cloudinary %}
-
-{%block cloudinary%}
-    {% cloudinary_includes %}
-    {% cloudinary_js_config %}
-
-    
-{% endblock %}
 
 {% block content %}
     <div class="edit-form-wrapper">
+        <span style="color:green;font-weight:bold;">{{changes_saved}}</span>
         <form action="{%url 'Users:edit_account' %}" method='POST' >
             {%csrf_token%}
             {% for field in edit_user %}
@@ -42,29 +47,11 @@
         </form>
         
     </div>
-
-    <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
-    <script>
-      $('#avatar_upload_widget').cloudinary_upload_widget(
-        { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,
-          cropping: 'server', cropping_aspect_ratio:1.0, button_caption:"Change Avatar", field_name:"avatar",theme:"minimal",
-            thumbnail_transformation: { width: 100, height: 133, crop: 'limit' }},
-        function(error, result) {
-            // TODO change "Upload Cover" on button to "Change cover"
-        });
-    </script>
-
-    <style type="text/css">
-    body {
-        background: url("{%static 'Users/img/shirt.png' %}") no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-    }
-    .edit-form-wrapper {
-        background-image: url("{%static 'Users/img/overlay.png' %}");
-    }
-    </style>
-
 {% endblock %}
+
+{%block scripts%}
+    {{block.super}}
+    <script>
+        ImageUpload.init($.cloudinary.config().cloud_name, "");
+    </script>
+{%endblock%}

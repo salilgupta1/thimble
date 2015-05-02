@@ -1,5 +1,4 @@
 {%extends 'Users/base_users.html'%}
-
 {% load staticfiles %}
 
 {%block app_css%}
@@ -11,14 +10,19 @@
     <div class="reg-form-wrapper">
         <form role='form' action="{%url 'Users:login' %}" method='POST'>        
             {%csrf_token%}
-            <div class="form-group">
-                <div></div>
-                <input class="form-control" id="id_username" maxlength="254" name="username" type="text" placeholder="Username">
-            </div>
-            <div class="form-group">
-                <div></div>
-                <input class="form-control" id="id_password" name="password" type="password" placeholder="Password">
-            </div>
+            {% if form.non_field_errors %}
+                  {% for error in form.non_field_errors %}
+                    {{ error }}
+                  {% endfor %}
+            {% endif %}
+            {% for field in form %}
+                <div class="form-group">
+                    <div id="{{ field.auto_id }}_errors" class='form-error'>
+                        {{ field.errors|striptags }}
+                    </div>
+                    {{ field }}
+                </div>
+            {% endfor %}
             <button type = 'submit' class = 'btn btn-primary'>Login</button>
         </form>
     </div>

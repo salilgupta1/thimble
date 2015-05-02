@@ -1,6 +1,8 @@
 /* GLOBAL STYLING */
 body {
-	font-family: 'Nunito', 'Open Sans', 'Arial', 'sans serif';
+	font-family: 'Lato', 'Nunito', 'Open Sans', 'Arial', 'sans serif';
+	font-weight: 300;
+	-webkit-font-smoothing: subpixel-antialiased;
 	background-color: #dcdcdc;
 	padding-top: 50px;
 }

@@ -148,13 +148,13 @@ var CommunityActivities = (function($){
 		// like button is clicked
 		$(document).on('click','.like-btn',function(){
 
-			path = "/"+$(this).attr("data-username")+"/like_story/";
+			path = "/"+$(this).attr("data-username")+"/like-story/";
 			like($(this), path);
 		}); 
 
 		// unlike button is clicked
 		$(document).on('click','.unlike-btn',function(){
-			path = "/"+$(this).attr("data-username")+"/unlike_story/";
+			path = "/"+$(this).attr("data-username")+"/unlike-story/";
 			unlike($(this), path);
 		});
 

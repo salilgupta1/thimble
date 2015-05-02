@@ -50,3 +50,21 @@
 	padding-bottom: 10px;
 	position: relative;
 }
+
+
+
+.social-wrapper {
+}
+
+.social-wrapper span {
+	font-size: 30px;
+	cursor: pointer;
+}
+
+.twitter, .tumblr, .pinterest {
+	color: #333;
+}
+
+.twitter :hover, .tumblr :hover, .pinterest :hover {
+	color: #333;
+}

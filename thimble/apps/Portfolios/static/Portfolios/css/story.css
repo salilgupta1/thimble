@@ -1,3 +1,28 @@
+.social-wrapper {
+	float: left;
+	max-width: 40px;
+	position: fixed;
+	left: 0px;
+	top: 35%;
+	background: white;
+	border-radius: 0px 3px 3px 0px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.social-wrapper span {
+	font-size: 30px;
+	cursor: pointer;
+}
+
+.twitter, .tumblr, .pinterest {
+	color: #333;
+}
+
+.twitter :hover, .tumblr :hover, .pinterest :hover {
+	color: #333;
+}
+
 .story-header {
 	right: 7%;
 	position: fixed;
@@ -201,21 +226,22 @@
 	padding-bottom: 1px;
 }
 
-.chapter-title > h3 {
-	padding-top: 10px;
+.chapter-title > h2 {
+	margin-top: 10px;
+	margin-bottom: 0px;
+	padding-top: 3px;
 }
 
 .chapter-img-wrapper {
 	position: relative;
-	max-width: 550px;
+	max-width: 500px;
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
 	background: white;
 	overflow: hidden;
-	margin-top: 10px;
 	padding: 3px;
-	border-radius: 3px;
+	border-radius: 0px 0px 3px 3px;
 }
 
 .chapter-img-wrapper > h3 {

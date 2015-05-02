@@ -5,6 +5,7 @@
 {%block app_css%}
 
   <link rel="stylesheet" href="{%static 'landingpage/css/index.css' %}"/>
+  <link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/fontello.css'%}"/>
 
 {%endblock%}
 
@@ -47,9 +48,18 @@
                 {%endif%}
               {%endif%}
 
-              <button type="button" class="btn btn-default btn-lg share-btn">
-                Share <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-              </button>
+                <div class="social-wrapper">
+                    <span class="icon-facebook"></span>
+                    <a class="twitter popup" href="http://twitter.com/share?text={{design_story.title}} by {{portfolio_data.user__first_name}} on @ThimbleApp">
+                        <span class="icon-twitter"></span>
+                    </a>
+                    <a class="tumblr" href="#">
+                        <span class="icon-tumblr"></span>
+                    </a>
+                    <a class="pinterest" href="javascript:pinIt();">
+                        <span class="icon-pinterest"></span>
+                    </a>
+                </div>
             </div>
             <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
           </div>
@@ -63,15 +73,78 @@
   <script src="{%static 'Portfolios/js/CommunityActivities.js' %}"></script>
   <script type="text/javascript">
     $(document).ready(function(){
-      CommunityActivities.authenticatedUsername = "{{user.username}}";
-      CommunityActivities.csrftoken = $.cookie('csrftoken');
-      CommunityActivities.init();      
+        CommunityActivities.authenticatedUsername = "{{user.username}}";
+        CommunityActivities.csrftoken = $.cookie('csrftoken');
+        CommunityActivities.init();
+
+		function fbShare(url, title, descr, image, winWidth, winHeight) {
+			var winTop = (screen.height / 2) - (winHeight / 2);
+			var winLeft = (screen.width / 2) - (winWidth / 2);
+			window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
+		}
+		$('.icon-facebook').click(function() {
+			fbShare(window.location.href, '{{design_story.title}}', '{{design_story.description}}', 'http://goo.gl/dS52U', 520, 350);
+		});
+
+		$('.popup').click(function(event) {
+			var width  = 575,
+			height = 400,
+			left   = ($(window).width()  - width)  / 2,
+			top    = ($(window).height() - height) / 2,
+			url    = this.href,
+			opts   = 'status=1' +
+			',width='  + width  +
+			',height=' + height +
+			',top='    + top    +
+			',left='   + left;
+
+			window.open(url, 'twitter', opts);
+
+			return false;
+		});
+
+		$('.tumblr').click(function(event) {
+			var width  = 575,
+			height = 400,
+			left   = ($(window).width()  - width)  / 2,
+			top    = ($(window).height() - height) / 2,
+			url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
+			opts   = 'status=1' +
+			',width='  + width  +
+			',height=' + height +
+			',top='    + top    +
+			',left='   + left;
+			var now = window.location.href;
+			url += '?shareSource=legacy&canonicalUrl=&posttype=link'
+			// url += '&content=';
+			// url += now;
+			url += '&title=';
+			url += '&caption={{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble';
+			url += '&content=';
+			url += window.location.host;
+			url += window.location.pathname;
+			// url += encodeURIComponent('{{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble');
+
+			window.open(url, 'tumblr', opts);
+
+			return false;
+		});
+
     });
 
-    function goToStory(dest, event){
-      if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"){
-          window.location.href = dest;
+      function goToStory(dest, event){
+          // don't have time to make a nice fancy solution, but this works
+          // checks if target element of click is like or share buttons, if so it doesn't go to the profile
+          if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"
+                  && event.target.classList[0] != "social-wrapper" &&
+                  event.target.parentElement.classList[0] != "social-wrapper" &&
+                  event.target.parentElement.parentElement.classList[0] != "social-wrapper"){
+              window.location.href = dest;
+          }
       }
-    }
+
   </script>
+    <script src="{%static 'Portfolios/js/social.js' %}"></script>
+    <!-- Please call pinit.js only once per page -->
+    <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
 {%endblock%}

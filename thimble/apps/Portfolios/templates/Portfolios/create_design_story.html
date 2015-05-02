@@ -1,81 +1,77 @@
-{%extends 'Portfolios/base_portfolio.html' %}
-{%load staticfiles%}
+{% extends 'form.html' %}
+{% load staticfiles %}
 {% load cloudinary %}
 
-{%block cloudinary%}
-    {% cloudinary_includes %}
-    {% cloudinary_js_config %}
-{% endblock %}
-
-
+{%block app_css%}
+    <link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/create_story.css'%}"/>
+    {{block.super}}
+{%endblock%}
 
 {%block content%}
-	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
-        <h2> Write a Design Story</h2>
-        {{error}}
-		<form method='post' action="{%url 'Portfolios:create_design_story' request.user.username%}">
+	<div id="direct_upload" class="row">
+		<form method='post' id='create-story' action="{%url 'Portfolios:create_design_story' request.user.username%}">
 			{%csrf_token%}
-            {% for field in design_story_form %}
-                <div class = 'form-group'>
-                    <div>{{field.errors|striptags}}</div>
-                    {{field.label_tag}}
-                    {{field}}
+            <div class="story-det-wrapper">
+                <h3> Create a Story</h3>
+                {%if error%}
+                    {{error}}
+                {%endif%}
+
+                {% if design_story_form.non_field_errors %}
+                    {% for error in design_story_form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+
+                {% for field in design_story_form %}
+                    <div class="form-group">
+                        <div id="{{ field.auto_id }}_errors" class='form-error'>
+                            {{ field.errors|striptags }}
+                        </div>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="chapter-det-wrapper">
+                <h3>Create Your First Chapter</h3>
+                <div class="demo-tile">
+                    <div class="form-group title-group">
+                        <div id="{{entry_form.entry_title.auto_id}}_errors" class='form-error'>
+                            {{entry_form.entry_title.errors|striptags}}
+                        </div>
+                        {{entry_form.entry_title}}
+                    </div>
+
+                    <div class="form-group description-group">
+                        <div id="{{entry_form.entry_desc.auto_id}}_errors" class='form-error'>
+                            {{entry_form.entry_desc.errors|striptags}}
+                        </div>    
+                        {{entry_form.entry_desc}}
+                    </div>
+                    
+                    <div class="form-group supp-group">
+                        <img class="supp-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
+                    </div>
+
+                    <div class="form-group cover-group">
+                        <img class="cover-holder" src="{%static 'Portfolios/img/placeholder.png' %}">
+                    </div>
+
                 </div>
-            {% endfor %}
-            <hr/>
-            <h3>Write Your First Chapter</h3>
-            {%for field in entry_form%}
-                <div class = 'form-group'>
-                    <div>{{field.errors|striptags}}</div>
-                    {{field.label_tag}}
-                    {% if field.label == 'Main Photo' %}
-                        <br/>
-                        <a href="#" id="cover_upload_widget_opener"></a>
-                    {% elif field.label == 'Supplementary Photos'%}
-                        <br/>
-                        <a href="#" id="supp_upload_widget_opener"></a>
-                    {% else %}
-                        {{field}}
-                    {% endif %}
-                </div>
-            {%endfor%} 
-            <button type='submit' class='btn btn-primary' id="create-btn" disabled="true">Create</button>
+            </div>
+            <div class="btn-wrapper">
+                <button type='submit' class='btn btn-primary' id="create-btn" disabled="true">Create</button>
+            </div>
         </form>
-
-            <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
-
-            <script type="text/javascript">
-                function updateNumPhotos(){
-                    photos_upload++;
-                    if(photos_upload > 0)
-                    {
-                        $("#create-btn").attr("disabled",false);
-                    }
-                }
-
-              $('#cover_upload_widget_opener').cloudinary_upload_widget(
-                { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,
-                  cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Cover", field_name:"cover_photo",theme:"minimal",
-            thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
-                function(error, result) {
-                    // TODO change "Upload Cover" on button to "Change cover"
-                });
-
-              var photos_upload = 0;
-              $('#supp_upload_widget_opener').cloudinary_upload_widget(
-                { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true,
-                  cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Upload Supplementary", field_name:"entry_photos", theme:"minimal",
-            thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
-                function(error, result) {
-                    updateNumPhotos();
-                        // TODO error handle here
-                });
-            </script>
-
-		
-        <div class='status' hidden='true'>
-            <h3>Photo Upload Status</h3>
-        </div>
 	</div>
+{%endblock%}
+
+{%block scripts%}
+    {{block.super}}
+
+    <script>
+        ImageUpload.init($.cloudinary.config().cloud_name, "#create-story");
+    </script>
 
 {%endblock%}

@@ -1,79 +1,65 @@
-{%extends 'Portfolios/base_portfolio.html' %}
+{%extends 'form.html' %}
 {%load staticfiles%}
 {% load cloudinary %}
 
-{%block cloudinary%}
-    {% cloudinary_includes %}
-    {% cloudinary_js_config %}
-
-{% endblock %}
+{%block app_css%}
+    <link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/edit_chapter.css'%}"/>
+{%endblock%}
 
 {%block content%}
-	<div id="direct_upload" class="row" style="width:50%; margin:2% auto">
+	<div id="direct_upload" class="row">
         <h2>Edit Chapter</h2>
-        {{error}}
+        <!--TODO make this an error/success CSS class-->
+        <span style="color:green;font-weight:bold;">{{changes_saved}}</span>
+        <span style="color:red;font-weight:bold;">{%if error%}{{error}}{%endif%}</span>
 		<form method='POST' action="{% url 'Portfolios:edit_chapter' request.user.username story_id slug entry_id%}">
 			{%csrf_token%}
-            {%for field in edit_entry%}
-                <div class = 'form-group'>
-                    <div>{{field.errors|striptags}}</div>
-                    {{field.label_tag}}
-                    {% if field.label == 'Main Photo' %}
-                        <br/>
-                        <a href="#" id="cover_upload_widget_opener"></a>
-                        <ul class="cloudinary-thumbnails">
-                            <li class="cloudinary-thumbnail cover_photo active">
-                                <img src="{%cloudinary_url entry.cover_photo width='100' height='200' %}">
-                            </li>
-                        </ul>
-                    {% elif field.label == 'Supplementary Photos'%}
-                        <br/>
-                        <a href="#" id="supp_upload_widget_opener"></a>
-                        <br/>
-                    	{% for photo in entry.photos %}
-                            <input name="photo_delete" type="checkbox" value="{{photo}}"/> Delete
-                            <div class="thumb-img-wrapper">
-                                {%cloudinary photo width='100' height='200' class='img-responsive'%}
-                            </div>
-	  				    {% endfor %}
-                    {% else %}
-                        {{field}}
-                    {% endif %}
-                </div>
-            {%endfor%}
+
             <button type = 'submit' class = 'btn btn-primary' id="create-btn">Save</button>
+
+            <div class="form-group title-group">
+                <div id="{{edit_entry.entry_title.auto_id}}_errors" class='form-error'>
+                    {{edit_entry.entry_title.errors|striptags}}
+                </div>
+                {{edit_entry.entry_title}}
+            </div>
+
+
+            <div class="form-group description-group">
+                <div id="{{edit_entry.entry_desc.auto_id}}_errors" class='form-error'>
+                    {{edit_entry.entry_desc.errors|striptags}}
+                </div>    
+                {{edit_entry.entry_desc}}
+            </div>
+
+            <div class = 'form-group'>
+                <div>{{edit_entry.cover_photo.errors|striptags}}</div>
+                <a href="#" id="cover_upload_widget_opener"></a>
+                <ul class="cloudinary-thumbnails">
+                    <li class="cloudinary-thumbnail cover_photo active">
+                        <img src="{%cloudinary_url entry.cover_photo width='400' height='550' %}" class="img-responsive">
+                    </li>
+                </ul>
+                <a href="#" id="supp_upload_widget_opener"></a>
+            	{% for photo in entry.photos %}
+                    <div class="thumb-img-wrapper">
+                        <input name="photo_delete" type="checkbox" value="{{photo}}"/> Delete
+                   
+                        {%cloudinary photo width='400' height='550' class='img-responsive'%}
+                    </div>
+				{% endfor %}
+            </div>
 
 		</form>
 
-    <script src="{%static 'Portfolios/js/uploadwidget.js' %}"></script>
-    <script type="text/javascript">
-        function updateNumPhotos(){
-            photos_upload++;
-            if(photos_upload > 0)
-            {
-                $("#create-btn").attr("disabled",false);
-            }
-        }
-
-      $('#cover_upload_widget_opener').cloudinary_upload_widget(
-        { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:false,
-          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Change Cover", field_name:"cover_photo",theme:"minimal",
-            thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }
-        },
-        function(error, result) {
-        });
-
-      var photos_upload = 0;
-      $('#supp_upload_widget_opener').cloudinary_upload_widget(
-        { cloud_name: 'thimbleapp', upload_preset: 'orphans', multiple:true,
-          cropping: 'server', cropping_aspect_ratio:0.73, button_caption:"Add Supplementary", field_name:"entry_photos", theme:"minimal",
-        thumbnail_transformation: { width: 400, height: 550, crop: 'limit' }},
-        function(error, result) {
-            updateNumPhotos();
-                // TODO error handle here
-        });
-    </script>
-
 	</div>
 
+{%endblock%}
+
+{%block scripts%}
+    {{block.super}}
+    <script type="text/javascript">
+        ImageUpload.init($.cloudinary.config().cloud_name,"");
+
+    </script>
 {%endblock%}
