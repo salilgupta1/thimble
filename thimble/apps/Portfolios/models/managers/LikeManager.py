@@ -2,10 +2,10 @@ from django.db import models
 
 class LikeManager(models.Manager):
 	
-	def get_likes(self, liker, story_ids):
+	def get_likes(self, liker, collection_ids):
 		# return which design stories a user has liked 
 		try:
-			rows = self.filter(design_story_id__in=story_ids, liker=liker).values_list("design_story_id", flat=True)
+			rows = self.filter(collection_id__in=collection_ids, liker=liker).values_list("collection_id", flat=True)
 			return rows
 		except:
 			raise

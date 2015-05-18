@@ -5,7 +5,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 
-#
 from django.db import IntegrityError
 # cloudinary
 from cloudinary.forms import cl_init_js_callbacks
@@ -278,23 +277,3 @@ def edit_story(request, username, story_id, slug):
     cl_init_js_callbacks(context['edit_story'], request)
 
     return render(request, "Portfolios/edit_story.html", context)
-
-@login_required
-def edit_story_temp(request, username, story_id, slug):
-    if request.user.username == username:
-        context = {
-            "username":username,
-            "story_id":story_id,
-            "slug":slug
-        }
-        story = DesignStory.objects.get(design_story_id=story_id)
-        edit_dstory = EditDesignStory(request.POST or None, instance = story)
-        if edit_dstory.is_valid():
-            edit_dstory.save()
-            context['changes_saved'] = "Changes saved."
-        context['edit_story'] = edit_dstory
-        cl_init_js_callbacks(context['edit_story'], request)
-        return render(request, "Portfolios/edit_story.html", context)
-
-    else:
-        raise Http404

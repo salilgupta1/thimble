@@ -5,7 +5,7 @@ var CommunityActivities = (function($){
 	var like = function(self, path){
 		var data = {
 			"liker":CommunityActivities.authenticatedUsername, 
-			"design_story_id":self.attr("data-storyid"),
+			"collection_id":self.attr("data-collectionid"),
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
 		};
 
@@ -32,7 +32,7 @@ var CommunityActivities = (function($){
 	unlike = function(self, path){
 		var data = {
 			"liker":CommunityActivities.authenticatedUsername, 
-			"design_story_id":self.attr("data-storyid"),
+			"collection_id":self.attr("data-collectionid"),
 			"csrfmiddlewaretoken":CommunityActivities.csrftoken
 		};
 
@@ -114,7 +114,7 @@ var CommunityActivities = (function($){
 	comment = function(self, path, e){
 		var data = {
 			"commenter": CommunityActivities.authenticatedUsername,
-			"design_story_id": self.attr("data-storyid"),
+			"collection_id": self.attr("data-collectionid"),
 			"csrfmiddlewaretoken": CommunityActivities.csrftoken,
 			"comment": $("#id_comment").val()
 		};
@@ -148,13 +148,13 @@ var CommunityActivities = (function($){
 		// like button is clicked
 		$(document).on('click','.like-btn',function(){
 
-			path = "/"+$(this).attr("data-username")+"/like-story/";
+			path = "/"+$(this).attr("data-username")+"/like-collection/";
 			like($(this), path);
 		}); 
 
 		// unlike button is clicked
 		$(document).on('click','.unlike-btn',function(){
-			path = "/"+$(this).attr("data-username")+"/unlike-story/";
+			path = "/"+$(this).attr("data-username")+"/unlike-collection/";
 			unlike($(this), path);
 		});
 
