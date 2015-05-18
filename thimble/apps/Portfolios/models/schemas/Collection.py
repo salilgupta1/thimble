@@ -1,6 +1,5 @@
 from django.db import models
 from thimble.apps.Portfolios.models.managers.CollectionManager import CollectionManager
-from cloudinary.models import CloudinaryField
 
 class Collection(models.Model):
 	designer 		= models.ForeignKey('Users.Designer', to_field='user', on_delete=models.CASCADE)
