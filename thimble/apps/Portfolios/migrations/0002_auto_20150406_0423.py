@@ -12,33 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='Comment',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('date', models.DateField(auto_now_add=True)),
-                ('commenter', models.ForeignKey(to='Users.Designer')),
-                ('design_story', models.ForeignKey(to='Portfolios.DesignStory')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='Like',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('design_story', models.ForeignKey(to='Portfolios.DesignStory')),
-                ('liker', models.ForeignKey(to='Users.Designer')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.AlterUniqueTogether(
-            name='like',
-            unique_together=set([('liker', 'design_story')]),
-        ),
         migrations.AddField(
             model_name='designstory',
             name='comments',
