@@ -1,12 +1,16 @@
 from django import forms      
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
+#from django.utils.translation import ugettext_lazy as _
 
 from cloudinary.forms import CloudinaryJsFileField 
 from thimble.apps.Users.models.schemas.Designer import Designer
+from thimble.apps.Users.models.schemas.Buyer import Buyer
+
+CHOICES = (('Designer', 'Designer'), ('Buyer', 'Buyer'))
 
 class RegistrationForm(UserCreationForm):
+    user_type = forms.ChoiceField(choices = CHOICES, widget = forms.RadioSelect())
 
     class Meta:
         model   = User
@@ -28,19 +32,28 @@ class LoginForm(AuthenticationForm):
         for fields in self.fields.items():
             fields[1].widget.attrs.update({ 'class':'form-control', 'placeholder':fields[1].label, 'required':"True"})
 
-class EditDesignerForm(forms.ModelForm):
+class EditAbstractUserForm(forms.ModelForm):
     avatar = CloudinaryJsFileField(required=False)
-
     class Meta:
-        model  = Designer
-        fields = ("bio","location")
+        fields = ("bio", "location")
         widgets = {
             'bio': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
         }
     def __init__(self, *args, **kwargs):
-        super(EditDesignerForm, self).__init__(*args, **kwargs)
+        super(EditAbstractUserForm, self).__init__(*args, **kwargs)
         for fields in self.fields.items():
             fields[1].widget.attrs.update({'class':'form-control'})
+
+class EditDesignerForm(EditAbstractUserForm):
+
+    class Meta(EditAbstractUserForm.Meta):
+        model = Designer
+
+class EditBuyerForm(EditAbstractUserForm):
+
+    class Meta(EditAbstractUserForm.Meta):
+        model = Buyer
+        fields = EditAbstractUserForm.Meta.fields + ("boutique_name",)
 
 class EditUserForm(forms.ModelForm):
 
