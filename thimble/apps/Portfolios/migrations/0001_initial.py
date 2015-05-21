@@ -2,28 +2,27 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
         ('Users', '0001_initial'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('contenttypes', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Collection',
             fields=[
-                ('collection_id', models.AutoField(serialize=False, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('title', models.CharField(max_length=70)),
                 ('likes', models.BigIntegerField(default=0, blank=True)),
                 ('comments', models.BigIntegerField(default=0, blank=True)),
                 ('wip', models.BooleanField(default=False)),
                 ('description', models.TextField(max_length=255, blank=True)),
                 ('date_created', models.DateField(auto_now_add=True)),
-                ('designer', models.ForeignKey(to='Users.Designer')),
+                ('designer', models.ForeignKey(to='Users.Designer', to_field=b'user')),
             ],
             options={
             },
@@ -33,10 +32,11 @@ class Migration(migrations.Migration):
             name='Comment',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('object_id', models.PositiveIntegerField()),
                 ('comment', models.TextField()),
                 ('date', models.DateField(auto_now_add=True)),
                 ('collection', models.ForeignKey(to='Portfolios.Collection')),
-                ('commenter', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
             ],
             options={
             },
@@ -60,8 +60,9 @@ class Migration(migrations.Migration):
             name='Like',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('object_id', models.PositiveIntegerField()),
                 ('collection', models.ForeignKey(to='Portfolios.Collection')),
-                ('liker', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('content_type', models.ForeignKey(to='contenttypes.ContentType')),
             ],
             options={
             },
@@ -83,7 +84,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterUniqueTogether(
             name='like',
-            unique_together=set([('liker', 'collection')]),
+            unique_together=set([('content_type', 'object_id', 'collection')]),
         ),
         migrations.AlterUniqueTogether(
             name='collection',
