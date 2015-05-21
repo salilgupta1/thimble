@@ -2,23 +2,41 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import cloudinary.models
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Users', '0011_auto_20150404_2309'),
+        ('Users', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='DesignStory',
+            name='Collection',
             fields=[
-                ('design_story_id', models.AutoField(serialize=False, primary_key=True)),
-                ('name', models.CharField(max_length=30)),
+                ('collection_id', models.AutoField(serialize=False, primary_key=True)),
+                ('title', models.CharField(max_length=70)),
+                ('likes', models.BigIntegerField(default=0, blank=True)),
+                ('comments', models.BigIntegerField(default=0, blank=True)),
+                ('wip', models.BooleanField(default=False)),
+                ('description', models.TextField(max_length=255, blank=True)),
                 ('date_created', models.DateField(auto_now_add=True)),
                 ('designer', models.ForeignKey(to='Users.Designer')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Comment',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('comment', models.TextField()),
+                ('date', models.DateField(auto_now_add=True)),
+                ('collection', models.ForeignKey(to='Portfolios.Collection')),
+                ('commenter', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
             },
@@ -28,19 +46,47 @@ class Migration(migrations.Migration):
             name='Entry',
             fields=[
                 ('entry_id', models.AutoField(serialize=False, primary_key=True)),
-                ('context', models.TextField(blank=True)),
-                ('date', models.DateField(blank=True)),
-                ('bucket_link', models.CharField(default=b'dummy', max_length=255)),
-                ('cover_photo', cloudinary.models.CloudinaryField(max_length=100, verbose_name=b'image')),
-                ('num_photos', models.IntegerField(default=0)),
-                ('design_story', models.ForeignKey(to='Portfolios.DesignStory')),
+                ('entry_title', models.CharField(max_length=60)),
+                ('date_created', models.DateField(auto_now_add=True)),
+                ('bucket_link', models.CharField(default=b'', max_length=255, blank=True)),
+                ('cover_photo', models.CharField(default=b'', max_length=255, blank=True)),
+                ('entry_desc', models.TextField(default=b'', max_length=200, blank=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Like',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('collection', models.ForeignKey(to='Portfolios.Collection')),
+                ('liker', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Piece',
+            fields=[
+                ('piece_id', models.AutoField(serialize=False, primary_key=True)),
+                ('piece_title', models.CharField(default=b'', max_length=60, blank=True)),
+                ('date_created', models.DateField(auto_now_add=True)),
+                ('front_view', models.CharField(default=b'', max_length=255, blank=True)),
+                ('back_view', models.CharField(default=b'', max_length=255, blank=True)),
+                ('collection', models.ForeignKey(to='Portfolios.Collection')),
             ],
             options={
             },
             bases=(models.Model,),
         ),
         migrations.AlterUniqueTogether(
-            name='designstory',
-            unique_together=set([('designer', 'name')]),
+            name='like',
+            unique_together=set([('liker', 'collection')]),
+        ),
+        migrations.AlterUniqueTogether(
+            name='collection',
+            unique_together=set([('designer', 'title')]),
         ),
     ]

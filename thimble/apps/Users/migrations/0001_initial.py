@@ -8,23 +8,53 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('auth', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Designer',
+            name='Buyer',
             fields=[
-                ('designer_id', models.AutoField(serialize=False, primary_key=True)),
-                ('text_bio', models.TextField()),
-                ('prof_pic', models.URLField(blank=True)),
-                ('gender', models.CharField(default=b'M', max_length=2, choices=[(b'M', b'Male'), (b'F', b'Female'), ((b'NA',), b'Prefer not to Disclose'), (b'OT', b'Other')])),
-                ('age', models.PositiveSmallIntegerField(null=True, blank=True)),
-                ('location', models.CharField(max_length=200, blank=True)),
-                ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(primary_key=True, to_field=b'username', serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('avatar', models.CharField(default=b'', max_length=255, blank=True)),
+                ('bio', models.TextField(max_length=250, blank=True)),
+                ('location', models.CharField(max_length=100, blank=True)),
+                ('following', models.BigIntegerField(default=0, blank=True)),
+                ('followers', models.BigIntegerField(default=0, blank=True)),
+                ('boutique_name', models.CharField(max_length=100)),
             ],
             options={
             },
             bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Designer',
+            fields=[
+                ('user', models.OneToOneField(primary_key=True, to_field=b'username', serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('avatar', models.CharField(default=b'', max_length=255, blank=True)),
+                ('bio', models.TextField(max_length=250, blank=True)),
+                ('location', models.CharField(max_length=100, blank=True)),
+                ('following', models.BigIntegerField(default=0, blank=True)),
+                ('followers', models.BigIntegerField(default=0, blank=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Follow',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('followee', models.ForeignKey(related_name='follow_followee', to=settings.AUTH_USER_MODEL)),
+                ('follower', models.ForeignKey(related_name='follow_follower', to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AlterUniqueTogether(
+            name='follow',
+            unique_together=set([('follower', 'followee')]),
         ),
     ]
