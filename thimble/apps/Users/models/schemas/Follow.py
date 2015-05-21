@@ -1,10 +1,11 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from thimble.apps.Users.models.managers.FollowManager import FollowManager
+from django.contrib.auth.models import User
 
 class Follow(models.Model):
-	follower = models.ForeignKey("Users.Designer", related_name="follow_follower", on_delete = models.CASCADE)
-	followee = models.ForeignKey("Users.Designer", related_name="follow_followee", on_delete = models.CASCADE)
+	follower = models.ForeignKey(User, related_name="follow_follower", on_delete = models.CASCADE)
+	followee = models.ForeignKey(User, related_name="follow_followee", on_delete = models.CASCADE)
 
 	# connect the manager
 	objects = FollowManager()
