@@ -2,8 +2,8 @@ from django.db import models
 from thimble.apps.Portfolios.models.managers.CollectionManager import CollectionManager
 
 class Collection(models.Model):
+
 	designer 		= models.ForeignKey('Users.Designer', to_field='user', on_delete=models.CASCADE)
-	collection_id 	= models.AutoField(primary_key=True)
 	title 			= models.CharField(max_length=70)
 	likes 			= models.BigIntegerField(default=0, blank=True)
 	comments 		= models.BigIntegerField(default=0, blank=True)
@@ -16,5 +16,4 @@ class Collection(models.Model):
 
 	class Meta:
 		app_label = 'Portfolios'
-		
 		unique_together = ("designer","title")
