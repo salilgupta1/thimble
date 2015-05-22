@@ -21,7 +21,7 @@ class Follow(models.Model):
 	objects = FollowManager()
 
 	def save(self, *args, **kwargs):
-		if self.follower.user_id == self.followee.user_id:
+		if self.follower_content_type == self.followee_content_type and self.follower_object_id == self.followee_object_id:
 			raise ValidationError("Follower and Followee must be different people")
 		super(Follow, self).save(*args, **kwargs)
 

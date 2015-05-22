@@ -2,10 +2,10 @@ from thimble.apps.Users.models.managers.AbstractUserManager import AbstractUserM
 from django.db import models
 
 class DesignerManager(AbstractUserManager):
-	def get_portfolio_data(self, username, column_list):
+	def get_designer_info(self, username):
 		try:
 			# get the designer information
-			row = self.filter(user=username).values(*column_list)
+			row = self.filter(user=username)
 			if len(row) == 0:
 				return None
 			return row[0]

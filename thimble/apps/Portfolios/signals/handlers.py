@@ -11,13 +11,13 @@ def change_likes(sender, instance, **kwargs):
 	
 	signal = kwargs.get("signal", None)
 	increment = True if signal == post_save else False
-	Collection.objects.update_likes(collection_id = instance.collection_id, increment = increment) 
+	Collection.objects.update_likes(id = instance.collection_id, increment = increment) 
 
 
 # change Comments counts
-@receiver(post_save, sender = Comment)
+@receiver([post_save, post_delete], sender = Comment)
 def change_comments(sender, instance, **kwargs):
 	
 	signal = kwargs.get("signal", None)
 	increment = True if signal == post_save else False
-	Collection.objects.update_comments(collection_id = instance.collection_id, increment = increment) 
+	Collection.objects.update_comments(id = instance.collection_id, increment = increment) 

@@ -23,7 +23,7 @@ class CollectionManager(models.Manager):
 	def get_collections(self, username):
 		# get all the design stories associated with a username
 		try:
-			rows = self.filter(designer_id=username).values('collection_id','title','likes','comments','date_created')
+			rows = self.filter(designer_id=username).values('id','title','likes','comments','date_created')
 			if len(rows) == 0:
 				return None
 		except:
@@ -33,7 +33,7 @@ class CollectionManager(models.Manager):
 	def get_design_story(self, username, collection_id):
 		# get a specific design story's data 
 		try:
-			row = self.filter(designer_id=username, collection_id=collection_id).values('title',"likes","comments","description")
+			row = self.filter(designer_id=username, id=collection_id).values('title',"likes","comments","description")
 			if len(row) == 0:
 				return None
 			return row[0]

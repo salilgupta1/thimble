@@ -13,39 +13,47 @@ from thimble.apps.Users.models.schemas.Follow import Follow
 
 from cloudinary.api import resources
 
-# username refers to portfolio 
-# request.user refers to user that is logged in
-
 def render_portfolio(request, username):
-    column_list = ['user', 'user__first_name', 'user__last_name', 'bio', 'avatar', 'following', 'followers']
-    portfolio_data = Designer.objects.get_portfolio_data(username=username, column_list=column_list)
+    designer = Designer.objects.get_designer_info(username=username)
 
     # if portfolio isn't real then raise error
-    if portfolio_data is None:
+    if designer is None:
         raise Http404
 
-    context = {"portfolio_data": portfolio_data, "num_pieces": 0}
-    context['favorites'] = Like.objects.get_favorites(liker=username)
+    context = {"designer": designer, "num_pieces": 0}
+    context['favorites'] = Like.objects.get_favorites(liker=designer)
     
     # get collections related to portfolio
     collections = Collection.objects.get_collections(username=username)
 
-    # get likes
+    # get collection previews
     if collections is not None:
-
         collection_ids = []
         for collection in collections:
-            collection_ids.append(collection['collection_id'])
+            collection_ids.append(collection['id'])
 
         context['num_pieces'] = len(collections)
 
-        likes = Like.objects.get_likes(liker=request.user, collection_ids=collection_ids)
-        context['likes'] = likes
+        # get previews for each collection here
 
-    # get follow
-    if request.user.is_authenticated():
-        context['is_following'] = Follow.objects.get_is_following(follower=request.user, followee=portfolio_data['user'])
+        # get if liked by authenticated user for each collection
+        if request.user.is_authenticated():
+            try:
+                liker = request.user.buyer
+            except AttributeError:
+                liker = request.user.designer
 
+            likes = Like.objects.get_likes(liker=liker, collection_ids=collection_ids)    
+            context['likes'] = likes
+
+    # get follow 
+    if request.user.is_authenticated() and request.user.username != username:
+        try:
+            follower = request.user.buyer
+        except AttributeError:
+            follower = request.user.designer
+
+        context['is_following'] = Follow.objects.get_is_following(follower=follower, followee=designer)
     return render(request, "Portfolios/portfolio.html", context)
 
 def render_collection(request, username, collection_id, slug):

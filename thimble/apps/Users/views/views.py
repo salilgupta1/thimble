@@ -36,7 +36,7 @@ def create_account(request):
             login(request, user)
 
             # send them to edit their profile
-            return HttpResponseRedirect(reverse('Users:edit_account'), args=(user_type,))
+            return HttpResponseRedirect(reverse('Users:edit_account', args=(user_type,)))
 
     context = {"register_form":reg_form}
     return render(request, "Users/create_account.html", context)

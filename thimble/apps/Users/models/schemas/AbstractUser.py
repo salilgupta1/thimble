@@ -10,10 +10,13 @@ class AbstractUser(models.Model):
 	following	= models.BigIntegerField(default=0, blank=True)
 	followers	= models.BigIntegerField(default=0, blank=True) 
 
-	# Two functions makes model self aware
+	# These functions makes model self aware
 	# i.e. it knows who it is
 	def get_ct(self):
 		return ContentType.objects.get_for_model(self)
+
+	def get_ct_id(self):
+		return self.get_ct().pk
 
 	def get_model_name(self):
 		return self.get_ct().model
