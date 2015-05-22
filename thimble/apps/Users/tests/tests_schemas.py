@@ -1,8 +1,9 @@
 from django.test import TestCase
 
 from django.core.exceptions import ValidationError
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 
+from django.contrib.auth.models import User
 from thimble.apps.Users.models.schemas.Designer import Designer
 from thimble.apps.Users.models.schemas.Buyer import Buyer
 from thimble.apps.Users.models.schemas.Follow import Follow
@@ -14,6 +15,7 @@ class UsersModelTestCase(TestCase):
 
 	def setUp(self):
 		super(UsersModelTestCase, self).setUp()
+		self.user = User.objects.get(pk=36)
 		self.designer = Designer.objects.get(pk=1)
 		self.buyer = Buyer.objects.get(pk=1)
 
@@ -28,6 +30,18 @@ class AbstractUserTestCase(UsersModelTestCase):
 		self.assertEqual(self.designer.get_ct().model, ContentType.objects.get_for_model(self.designer).model)
 
 		self.assertEqual(self.buyer.get_ct().model, ContentType.objects.get_for_model(self.buyer).model)
+
+	def test_one_to_one(self):
+		# make sure one-to-one maintained
+		with transaction.atomic():
+			faulty_designer = Designer(user=self.user)
+			self.assertRaises(IntegrityError, faulty_designer.save)
+
+		new_user = User.objects.create_user('testing','salil@gmail.com','test')
+		try:
+			Designer.objects.create(user=new_user)
+		except:
+			self.fail("One to One relationship failed between Django User and AbstractUser")
 
 class FollowTestCase(UsersModelTestCase):
 
