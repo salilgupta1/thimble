@@ -6,6 +6,7 @@ from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 
 from thimble.apps.Users.forms.forms import *
+
 from thimble.apps.Users.models.schemas.Designer import Designer
 from thimble.apps.Users.models.schemas.Buyer import Buyer
 
@@ -13,7 +14,6 @@ from cloudinary.forms import cl_init_js_callbacks
 
 from thimble.utils import photo_rename
 
-# look into Dangling orphans (Salil Gupta)
 def create_account(request):
     reg_form = RegistrationForm(request.POST or None, label_suffix="")
     if request.method == "POST":
