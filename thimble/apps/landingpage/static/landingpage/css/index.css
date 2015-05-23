@@ -46,3 +46,8 @@
 .btn {
 	width: 100px;
 }
+
+.social-wrapper {
+	margin-top: 10px;
+	max-width: 100px;
+}
