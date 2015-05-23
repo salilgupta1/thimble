@@ -4,7 +4,7 @@ import os
 DEBUG = False
 TEMPLATE_DEBUG = False
 
-ALLOWED_HOSTS = ['thimbleapp.herokuapp.com','staging-thimble.herokuapp.com']
+ALLOWED_HOSTS = ['www.thimbleapp.co','thimbleapp.herokuapp.com','staging-thimble.herokuapp.com']
 
 ADMINS = (
     ('Salil Gupta', 'salil.gupta323@gmail.com'),
