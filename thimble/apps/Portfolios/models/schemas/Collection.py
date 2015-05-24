@@ -1,13 +1,9 @@
-# NOW DEFUNCT
-# REMOVE LATER
-
 from django.db import models
-from thimble.apps.Portfolios.models.managers.DesignStoryManager import DesignStoryManager
-from cloudinary.models import CloudinaryField
+from thimble.apps.Portfolios.models.managers.CollectionManager import CollectionManager
 
-class DesignStory(models.Model):
+class Collection(models.Model):
 	designer 		= models.ForeignKey('Users.Designer', to_field='user', on_delete=models.CASCADE)
-	design_story_id = models.AutoField(primary_key=True)
+	collection_id 	= models.AutoField(primary_key=True)
 	title 			= models.CharField(max_length=70)
 	likes 			= models.BigIntegerField(default=0, blank=True)
 	comments 		= models.BigIntegerField(default=0, blank=True)
@@ -16,7 +12,7 @@ class DesignStory(models.Model):
 	date_created 	= models.DateField(auto_now_add=True)
 
 	# connect the manager
-	objects = DesignStoryManager()
+	objects = CollectionManager()
 
 	class Meta:
 		app_label = 'Portfolios'

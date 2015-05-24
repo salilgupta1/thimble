@@ -16,7 +16,7 @@ def delete_orphans():
 
     for image in result['resources']:
         pid = image['public_id']
-        if "/" not in pid:
+        if "Shmurda" in pid:
             to_be_deleted.append(pid)
 
     i = 0

@@ -45,7 +45,7 @@
   </div>
 
 
-  <div class="row piece-grid">
+<!--   <div class="row piece-grid">
     {%for story in stories%}
       <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
         <div class="piece">
@@ -55,7 +55,6 @@
               <p><strong>{{story.0.title}}</strong></p>
               <p>{{story.0.date_created}}</p>
               <br></br>
-              <!--p> <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>  14,123</p-->
               <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{story.0.likes}}</span></p>
               <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{story.0.comments}}</span></p>
 
@@ -90,7 +89,7 @@
         </div>
       </div>
     {%endfor%}
-  </div>
+  </div> -->
        
 {%endblock%}
 
@@ -104,71 +103,70 @@
         CommunityActivities.csrftoken = $.cookie('csrftoken');
         CommunityActivities.init();
 
-		function fbShare(url, title, descr, image, winWidth, winHeight) {
-			var winTop = (screen.height / 2) - (winHeight / 2);
-			var winLeft = (screen.width / 2) - (winWidth / 2);
-			window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
-		}
-		$('.icon-facebook').click(function() {
-			fbShare(window.location.href, '{{design_story.title}}', '{{design_story.description}}', 'http://goo.gl/dS52U', 520, 350);
-		});
+		  // function fbShare(url, title, descr, image, winWidth, winHeight) {
+  		// 	var winTop = (screen.height / 2) - (winHeight / 2);
+  		// 	var winLeft = (screen.width / 2) - (winWidth / 2);
+  		// 	window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
+  		// }
+  		// $('.icon-facebook').click(function() {
+  		// 	fbShare(window.location.href, '{{design_story.title}}', '{{design_story.description}}', 'http://goo.gl/dS52U', 520, 350);
+  		// });
 
-		$('.popup').click(function(event) {
-			var width  = 575,
-			height = 400,
-			left   = ($(window).width()  - width)  / 2,
-			top    = ($(window).height() - height) / 2,
-			url    = this.href,
-			opts   = 'status=1' +
-			',width='  + width  +
-			',height=' + height +
-			',top='    + top    +
-			',left='   + left;
+  		// $('.popup').click(function(event) {
+  		// 	var width  = 575,
+  		// 	height = 400,
+  		// 	left   = ($(window).width()  - width)  / 2,
+  		// 	top    = ($(window).height() - height) / 2,
+  		// 	url    = this.href,
+  		// 	opts   = 'status=1' +
+  		// 	',width='  + width  +
+  		// 	',height=' + height +
+  		// 	',top='    + top    +
+  		// 	',left='   + left;
 
-			window.open(url, 'twitter', opts);
+  		// 	window.open(url, 'twitter', opts);
 
-			return false;
-		});
+  		// 	return false;
+  		// });
 
-		$('.tumblr').click(function(event) {
-			var width  = 575,
-			height = 400,
-			left   = ($(window).width()  - width)  / 2,
-			top    = ($(window).height() - height) / 2,
-			url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
-			opts   = 'status=1' +
-			',width='  + width  +
-			',height=' + height +
-			',top='    + top    +
-			',left='   + left;
-			var now = window.location.href;
-			url += '?shareSource=legacy&canonicalUrl=&posttype=link'
-			// url += '&content=';
-			// url += now;
-			url += '&title=';
-			url += '&caption={{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble';
-			url += '&content=';
-			url += window.location.host;
-			url += window.location.pathname;
-			// url += encodeURIComponent('{{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble');
+  		// $('.tumblr').click(function(event) {
+  		// 	var width  = 575,
+  		// 	height = 400,
+  		// 	left   = ($(window).width()  - width)  / 2,
+  		// 	top    = ($(window).height() - height) / 2,
+  		// 	url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
+  		// 	opts   = 'status=1' +
+  		// 	',width='  + width  +
+  		// 	',height=' + height +
+  		// 	',top='    + top    +
+  		// 	',left='   + left;
+  		// 	var now = window.location.href;
+  		// 	url += '?shareSource=legacy&canonicalUrl=&posttype=link'
+  		// 	// url += '&content=';
+  		// 	// url += now;
+  		// 	url += '&title=';
+  		// 	url += '&caption={{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble';
+  		// 	url += '&content=';
+  		// 	url += window.location.host;
+  		// 	url += window.location.pathname;
+  		// 	// url += encodeURIComponent('{{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble');
 
-			window.open(url, 'tumblr', opts);
+  		// 	window.open(url, 'tumblr', opts);
 
-			return false;
-		});
-
+  		// 	return false;
+  		// });
     });
 
-      function goToStory(dest, event){
-          // don't have time to make a nice fancy solution, but this works
-          // checks if target element of click is like or share buttons, if so it doesn't go to the profile
-          if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"
-                  && event.target.classList[0] != "social-wrapper" &&
-                  event.target.parentElement.classList[0] != "social-wrapper" &&
-                  event.target.parentElement.parentElement.classList[0] != "social-wrapper"){
-              window.location.href = dest;
-          }
+    function goToStory(dest, event){
+      // don't have time to make a nice fancy solution, but this works
+      // checks if target element of click is like or share buttons, if so it doesn't go to the profile
+      if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"
+              && event.target.classList[0] != "social-wrapper" &&
+              event.target.parentElement.classList[0] != "social-wrapper" &&
+              event.target.parentElement.parentElement.classList[0] != "social-wrapper"){
+          window.location.href = dest;
       }
+    }
 
   </script>
 	<script src="{%static 'Portfolios/js/social.js' %}"></script>

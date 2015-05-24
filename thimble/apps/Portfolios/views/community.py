@@ -7,23 +7,23 @@ from thimble.apps.Users.models.schemas.Follow import Follow
 from thimble.apps.Portfolios.models.schemas.Comment import Comment
 
 @login_required
-def like_design_story(request, username):
+def like_collection(request, username):
     if request.is_ajax():
         liker = request.POST['liker']
-        design_story_id = request.POST['design_story_id']
+        collection_id = request.POST['collection_id']
         try:
-            Like.objects.create(liker_id=liker, design_story_id=design_story_id)
+            Like.objects.create(liker_id=liker, collection_id=collection_id)
         except:
             raise
     return HttpResponse(True)
 
 @login_required
-def unlike_design_story(request, username):
+def unlike_collection(request, username):
     if request.is_ajax():
         liker = request.POST['liker']
-        design_story_id = request.POST['design_story_id']
+        collection_id = request.POST['collection_id']
         try:
-            Like.objects.filter(liker_id=liker, design_story_id=design_story_id).delete()
+            Like.objects.filter(liker_id=liker, collection_id=collection_id).delete()
         except:
             raise
     return HttpResponse(True)
@@ -54,10 +54,10 @@ def unfollow_designer(request, username):
 def comment(request, username):
     if request.is_ajax():
         commenter = request.POST['commenter']
-        design_story_id = request.POST['design_story_id']
+        collection_id = request.POST['collection_id']
         comment = request.POST['comment']
         try:
-            Comment.objects.create(commenter_id=commenter, design_story_id=design_story_id, comment=comment)
+            Comment.objects.create(commenter_id=commenter, collection_id=collection_id, comment=comment)
         except:
             raise
     return HttpResponse(True)

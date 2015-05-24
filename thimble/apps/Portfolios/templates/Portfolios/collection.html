@@ -11,7 +11,7 @@
 {%block content%}
 	<div class="social-wrapper">
 		<span class="icon-facebook"></span>
-		<a class="twitter popup" href="http://twitter.com/share?text={{design_story.title}} by {{portfolio_data.user__first_name}} on @ThimbleApp">
+		<a class="twitter popup" href="http://twitter.com/share?text={{collection.title}} by {{portfolio_data.user__first_name}} on @ThimbleApp">
 			<span class="icon-twitter"></span>
 		</a>
 		<a class="tumblr" href="#">
@@ -31,19 +31,14 @@
 			<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
 		</div>
 		<div id="name-wrapper">
-			<h1>{{design_story.title}}</h1>
-			{%if user.is_authenticated and username == user.username%}
-				<a href="{%url 'Portfolios:create_chapter' username story_id slug%}">Create Chapter</a>
-				<span>|</span>
-				<a href="{%url 'Portfolios:edit_story' username story_id slug %}">Edit Story</a>
-			{%endif%}
+			<h1>{{collection.title}}</h1>
 		</div>
 		<div id="desc-wrapper">
-			<p>{{design_story.description}}</p>
+			<p>{{collection.description}}</p>
 		</div>
 		<div class="like-box">
 			<div class="like-text-wrapper">
-				<p><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> LIKES ({{design_story.likes}})</p>
+				<p><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> LIKES ({{collection.likes}})</p>
 			</div>
 			<!--div class="like-photo-row">
 
@@ -79,7 +74,7 @@
 		</div>
 		<div class="comment-box">
 			<div class="comment-text-wrapper">
-				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (<span id="num-comments">{{design_story.comments}}</span>)</p>
+				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (<span id="num-comments">{{collection.comments}}</span>)</p>
 			</div>
 			<!-- Load comments -->
 			<div class="comment-bin">
@@ -92,7 +87,7 @@
 				{%endfor%}
 			</div>
 			{%if user.is_authenticated%}
-				<form class="comment-form" action="" method='POST' data-username="{{username}}" data-storyid="{{story_id}}">
+				<form class="comment-form" action="" method='POST' data-username="{{username}}" data-collectionid="{{collection_id}}">
 					{%csrf_token%}
 	                <div class = 'form-group'>
 	                    <div></div>
@@ -104,7 +99,7 @@
 		</div>
 	</div>
 
-	<div id="chapter-list">
+<!-- 	<div id="chapter-list">
 		{%for chapter in entries%}
 			<div class='chapter-title'>
 				<h2>{{chapter.entry_title}}</h2>
@@ -118,7 +113,6 @@
 				{%endif%}
 			</div>
 			<div class="chapter-img-wrapper">
-				<!-- <h3>{{chapter.entry_title}}</h3> -->
 				<div class="thumb-img-list">
 					{% for photo in chapter.photos %}
 						<div class="thumb-img-wrapper">
@@ -131,7 +125,7 @@
 				</div>
 			</div>
 		{%endfor%}
-	</div>
+	</div> -->
 {%endblock%}
 
 {%block scripts%}
@@ -152,58 +146,58 @@
 		CommunityActivities.csrftoken = $.cookie('csrftoken');
 		CommunityActivities.init();   
 
-		function fbShare(url, title, descr, image, winWidth, winHeight) {
-			var winTop = (screen.height / 2) - (winHeight / 2);
-			var winLeft = (screen.width / 2) - (winWidth / 2);
-			window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
-		}
-		$('.icon-facebook').click(function() {
-			fbShare(window.location.href, '{{design_story.title}}', '{{design_story.description}}', 'http://goo.gl/dS52U', 520, 350);
-		});   
+		// function fbShare(url, title, descr, image, winWidth, winHeight) {
+		// 	var winTop = (screen.height / 2) - (winHeight / 2);
+		// 	var winLeft = (screen.width / 2) - (winWidth / 2);
+		// 	window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
+		// }
+		// $('.icon-facebook').click(function() {
+		// 	fbShare(window.location.href, '{{collection.title}}', '{{collection.description}}', 'http://goo.gl/dS52U', 520, 350);
+		// });   
 
-		$('.popup').click(function(event) {
-			var width  = 575,
-			height = 400,
-			left   = ($(window).width()  - width)  / 2,
-			top    = ($(window).height() - height) / 2,
-			url    = this.href,
-			opts   = 'status=1' +
-			',width='  + width  +
-			',height=' + height +
-			',top='    + top    +
-			',left='   + left;
+		// $('.popup').click(function(event) {
+		// 	var width  = 575,
+		// 	height = 400,
+		// 	left   = ($(window).width()  - width)  / 2,
+		// 	top    = ($(window).height() - height) / 2,
+		// 	url    = this.href,
+		// 	opts   = 'status=1' +
+		// 	',width='  + width  +
+		// 	',height=' + height +
+		// 	',top='    + top    +
+		// 	',left='   + left;
 
-			window.open(url, 'twitter', opts);
+		// 	window.open(url, 'twitter', opts);
 
-			return false;
-		});
+		// 	return false;
+		// });
 
-		$('.tumblr').click(function(event) {
-			var width  = 575,
-			height = 400,
-			left   = ($(window).width()  - width)  / 2,
-			top    = ($(window).height() - height) / 2,
-			url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
-			opts   = 'status=1' +
-			',width='  + width  +
-			',height=' + height +
-			',top='    + top    +
-			',left='   + left;
-			var now = window.location.href;
-			url += '?shareSource=legacy&canonicalUrl=&posttype=link'
-			// url += '&content=';
-			// url += now;
-			url += '&title=';
-			url += '&caption={{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble';
-			url += '&content=';
-			url += window.location.host;
-			url += window.location.pathname;
-			// url += encodeURIComponent('{{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble');
+		// $('.tumblr').click(function(event) {
+		// 	var width  = 575,
+		// 	height = 400,
+		// 	left   = ($(window).width()  - width)  / 2,
+		// 	top    = ($(window).height() - height) / 2,
+		// 	url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
+		// 	opts   = 'status=1' +
+		// 	',width='  + width  +
+		// 	',height=' + height +
+		// 	',top='    + top    +
+		// 	',left='   + left;
+		// 	var now = window.location.href;
+		// 	url += '?shareSource=legacy&canonicalUrl=&posttype=link'
+		// 	// url += '&content=';
+		// 	// url += now;
+		// 	url += '&title=';
+		// 	url += '&caption={{collection.title}} by {{portfolio_data.user__first_name}} on Thimble';
+		// 	url += '&content=';
+		// 	url += window.location.host;
+		// 	url += window.location.pathname;
+		// 	// url += encodeURIComponent('{{collection.title}} by {{portfolio_data.user__first_name}} on Thimble');
 
-			window.open(url, 'tumblr', opts);
+		// 	window.open(url, 'tumblr', opts);
 
-			return false;
-		});
+		// 	return false;
+		// });
 
 	});
 	</script>
