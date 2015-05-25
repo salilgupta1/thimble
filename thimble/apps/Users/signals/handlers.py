@@ -13,13 +13,14 @@ def change_follow(sender, instance, **kwargs):
 
 	# change the followers count for a followee
 	# change the 7 to designer
-	if instance.followee_content_type == 7:
+	
+	if instance.followee_content_type_id == 7:
 		Designer.objects.update_followers(pk = instance.followee_object_id, increment = increment) 
 	else:
 		Buyer.objects.update_followers(pk = instance.followee_object_id, increment = increment)
 
 	# change the following count for a follower
-	if instance.follower_content_type == 7:
+	if instance.follower_content_type_id == 7:
 		Designer.objects.update_following(pk = instance.follower_object_id, increment = increment)
 	else:
 		Buyer.objects.update_following(pk = instance.follower_object_id, increment = increment)

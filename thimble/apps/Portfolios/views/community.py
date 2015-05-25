@@ -23,10 +23,10 @@ def liking(request, username):
         try:
             if is_liking:
                 # like
-                Like.objects.create(object_id=liker.get_ct_id(), content_type=liker.get_ct(), collection_id=collection_id)
+                Like.objects.create(object_id=liker.pk, content_type=liker.get_ct(), collection_id=collection_id)
             else:
                 # unlike
-                Like.objects.filter(object_id=liker.get_ct_id(), content_type=liker.get_ct(), collection_id=collection_id).delete()
+                Like.objects.filter(object_id=liker.pk, content_type=liker.get_ct(), collection_id=collection_id).delete()
         except:
             raise
 
@@ -46,21 +46,21 @@ def following(request, username):
             followee = Buyer.objects.get(user_id=username)
 
         is_following = int(request.POST['is_following'])
-
+        
         try:
             if is_following:
                 # follow
                 Follow.objects.create(
-                    follower_object_id=follower.get_ct_id(), 
+                    follower_object_id=follower.pk, 
                     follower_content_type=follower.get_ct(), 
-                    followee_object_id=followee.get_ct_id(), 
+                    followee_object_id=followee.pk, 
                     followee_content_type=followee.get_ct())
             else:
                 # unfollow
                 Follow.objects.filter(
-                    follower_object_id=follower.get_ct_id(), 
+                    follower_object_id=follower.pk, 
                     follower_content_type=follower.get_ct(), 
-                    followee_object_id=followee.get_ct_id(), 
+                    followee_object_id=followee.pk, 
                     followee_content_type=followee.get_ct()).delete()
         except:
             raise
@@ -78,7 +78,7 @@ def comment(request, username):
         comment = request.POST['comment']
 
         try:
-            Comment.objects.create(content_type=commenter.get_ct(), object_id = commenter.get_ct_id(), collection_id=collection_id, comment=comment)
+            Comment.objects.create(content_type=commenter.get_ct(), object_id = commenter.pk, collection_id=collection_id, comment=comment)
         except:
             raise
     return HttpResponse(True)

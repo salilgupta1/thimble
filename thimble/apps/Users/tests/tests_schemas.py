@@ -48,7 +48,7 @@ class FollowTestCase(UsersModelTestCase):
 	def test_cant_follow_self(self):
 		# cannot follow yourself
 		content_type = self.designer.get_ct()
-		object_id =  self.designer.get_ct_id()
+		object_id = self.designer.pk
 
 		follow = Follow(
 			followee_content_type=content_type, 
@@ -62,10 +62,10 @@ class FollowTestCase(UsersModelTestCase):
 		# cannot follow same person more than once
 
 		d_content_type = self.designer.get_ct()
-		d_object_id =  self.designer.get_ct_id()
+		d_object_id =  self.designer.pk
 
 		b_content_type = self.buyer.get_ct()
-		b_object_id =  self.buyer.get_ct_id()
+		b_object_id =  self.buyer.pk
 
 		# first follow attempt
 		Follow.objects.create(
@@ -85,10 +85,10 @@ class FollowTestCase(UsersModelTestCase):
 
 	def test_follow_each_other(self):
 		d_content_type = self.designer.get_ct()
-		d_object_id =  self.designer.get_ct_id()
+		d_object_id =  self.designer.pk
 
 		b_content_type = self.buyer.get_ct()
-		b_object_id =  self.buyer.get_ct_id()
+		b_object_id =  self.buyer.pk
 
 		try:
 			# buyer follows designer
@@ -105,6 +105,5 @@ class FollowTestCase(UsersModelTestCase):
 				follower_content_type=d_content_type, 
 				follower_object_id=d_object_id)
 
-			
 		except:
 			self.fail("Two users should be able to follow each other. Test Failed")
