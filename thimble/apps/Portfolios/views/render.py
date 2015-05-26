@@ -58,20 +58,18 @@ def render_portfolio(request, username):
 
 def render_collection(request, username, collection_id, slug):
    
-    # get portfolio data
-    column_list = ['user__first_name', 'user__last_name', 'avatar']
-    portfolio_data = Designer.objects.get_portfolio_data(username=username, column_list=column_list)
+    avatar = Designer.objects.get_avatar(username=username)
 
     # get details of the specific design story
-    collection = Collection.objects.get_collection(username=username, collection_id=collection_id)
+    collection = Collection.objects.get_collection(collection_id=collection_id)
     
     if collection is None:
         raise Http404
 
     # get comments
-    comments = Comment.objects.get_comments(collection_id=collection_id)
+    #comments = Comment.objects.get_comments(collection_id=collection_id)
 
-    # # get entries associated with story
+    # get pieces associated with story
     # entries = Entry.objects.get_entries(story_id=story_id)
 
     # if entries is not None:
@@ -93,9 +91,9 @@ def render_collection(request, username, collection_id, slug):
         "collection": collection,
         "collection_id": collection_id,
         "username": username,
-        "portfolio_data": portfolio_data,
+        "avatar": avatar,
         "slug": slug,
-        "comments":comments,
+        #"comments":comments,
     }
 
     return render(request, "Portfolios/collection.html", context)
