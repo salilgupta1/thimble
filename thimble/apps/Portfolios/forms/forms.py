@@ -1,5 +1,6 @@
 from django import forms
 from cloudinary.forms import CloudinaryJsFileField
+from taggit.forms import TagWidget
 
 from thimble.apps.Portfolios.models.schemas.Collection import Collection
 
@@ -7,12 +8,13 @@ class CreateCollection(forms.ModelForm):
 
     class Meta:
         model   = Collection
-        fields  = ("title", "description")
+        fields  = ("title", "description", "tags")
         widgets = {
             'description': forms.Textarea(attrs={'cols': 40, 'rows': 5, 'class':'form-control', 
                                                  'placeholder':'Tell the story of the collection'}),
 
-            'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title Your Collection', 'required':True})
+            'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title Your Collection', 'required':'True'}),
+            'tags': TagWidget(),
         }
 
 # class CreateEntry(forms.ModelForm):

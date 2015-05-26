@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'thimble.apps.landingpage',
     'thimble.apps.Users',
     'thimble.apps.Portfolios',
+    'taggit',
 )
 
 MIDDLEWARE_CLASSES = (
