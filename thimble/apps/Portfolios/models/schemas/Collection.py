@@ -5,8 +5,8 @@ class Collection(models.Model):
 
 	designer 		= models.ForeignKey('Users.Designer', to_field='user', on_delete=models.CASCADE)
 	title 			= models.CharField(max_length=70)
-	likes 			= models.BigIntegerField(default=0, blank=True)
-	comments 		= models.BigIntegerField(default=0, blank=True)
+	likes 			= models.PositiveIntegerField(default=0, blank=True)
+	comments 		= models.PositiveIntegerField(default=0, blank=True)
 	wip 			= models.BooleanField(default=False, blank=True)
 	description 	= models.TextField(max_length=255, blank=True)
 	date_created 	= models.DateField(auto_now_add=True)
