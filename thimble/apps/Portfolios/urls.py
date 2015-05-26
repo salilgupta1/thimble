@@ -7,7 +7,7 @@ urlpatterns = patterns('',
     url(r'^collection/(?P<collection_id>[0-9]+)-(?P<slug>[\w-]+)/$', render.render_collection, name='render_collection'),
 
     # create
-    #url(r'^create-collection/$', create.create_collection, name='create_collection'),
+    url(r'^create-collection/$', create.create_collection, name='create_collection'),
     #url(r'^story/(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/create-chapter/$', create.create_chapter, name='create_chapter'),
 
     # edit
