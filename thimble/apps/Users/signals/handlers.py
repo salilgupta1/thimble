@@ -2,23 +2,24 @@ from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from thimble.apps.Users.models.schemas.Follow import Follow
 from thimble.apps.Users.models.schemas.Designer import Designer
+from thimble.apps.Users.models.schemas.Buyer import Buyer
 
-# increment follow counts
-@receiver(post_save, sender = Follow)
-def increment_follow(sender, instance, **kwargs):
+# change follow counts
+@receiver([post_save, post_delete], sender = Follow)
+def change_follow(sender, instance, **kwargs):
 
-	# increment the followers count for a followee
-	Designer.objects.update_followers(user = instance.followee.user_id, increment = True) 
+	signal = kwargs.get('signal', None)
+	increment = True if signal == post_save else False
 
-	# increment the following count for a follower
-	Designer.objects.update_following(user = instance.follower.user_id, increment = True)
+	# change the followers count for a followee
+	# change the 7 to designer
+	if instance.followee_content_type == 7:
+		Designer.objects.update_followers(pk = instance.followee_object_id, increment = increment) 
+	else:
+		Buyer.objects.update_followers(pk = instance.followee_object_id, increment = increment)
 
-# decrement follow counts
-@receiver(post_delete, sender = Follow)
-def decrement_follow(sender, instance, **kwargs):
-
-	# decrement the followers count for a followee
-	Designer.objects.update_followers(user = instance.followee.user_id, increment = False)
-
-	# decrement the following count for a follower
-	Designer.objects.update_following(user = instance.follower.user_id, increment = False)
+	# change the following count for a follower
+	if instance.follower_content_type == 7:
+		Designer.objects.update_following(pk = instance.follower_object_id, increment = increment)
+	else:
+		Buyer.objects.update_following(pk = instance.follower_object_id, increment = increment)

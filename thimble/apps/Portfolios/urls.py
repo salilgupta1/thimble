@@ -15,13 +15,11 @@ urlpatterns = patterns('',
     #url(r'^edit-story/(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/$', create.edit_story, name='edit_story'),
 
     # community activites
-    # like
-    url(r'^like-collection/$', community.like_collection, name='like_collection'),
-    url(r'^unlike-collection/$', community.unlike_collection, name='unlike_collection'),
+    # like/unlike
+    url(r'^liking/$', community.liking, name='liking'),
 
-    # follow
-    url(r'^follow/$', community.follow_designer, name='follow_designer'),
-    url(r'^unfollow/$', community.unfollow_designer, name='unfollow_designer'),
+    # following
+    url(r'^following/$', community.following, name='following'),
 
     # comment
     url(r'^comment/$', community.comment, name='comment'),

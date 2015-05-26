@@ -5,22 +5,19 @@ from thimble.apps.Portfolios.models.schemas.Like import Like
 from thimble.apps.Portfolios.models.schemas.Comment import Comment
 from thimble.apps.Portfolios.models.schemas.Collection import Collection
 
-# increment Likes counts
-@receiver(post_save, sender = Like)
-def increment_likes(sender, instance, **kwargs):
-	Collection.objects.update_likes(collection_id = instance.collection_id, increment = True) 
+# change Likes counts
+@receiver([post_save, post_delete], sender = Like)
+def change_likes(sender, instance, **kwargs):
+	
+	signal = kwargs.get("signal", None)
+	increment = True if signal == post_save else False
+	Collection.objects.update_likes(id = instance.collection_id, increment = increment) 
 
-# decrement Likes counts
-@receiver(post_delete, sender = Like)
-def decrement_likes(sender, instance, **kwargs):
-	Collection.objects.update_likes(collection_id = instance.collection_id, increment = False)
 
-# increment Comments counts
-@receiver(post_save, sender = Comment)
-def increment_comments(sender, instance, **kwargs):
-	Collection.objects.update_comments(collection_id = instance.collection_id, increment = True) 
-
-# decrement Comments counts
-@receiver(post_delete, sender = Comment)
-def decrement_comments(sender, instance, **kwargs):
-	Collection.objects.update_comments(collection_id = instance.collection_id, increment = False)
+# change Comments counts
+@receiver([post_save, post_delete], sender = Comment)
+def change_comments(sender, instance, **kwargs):
+	
+	signal = kwargs.get("signal", None)
+	increment = True if signal == post_save else False
+	Collection.objects.update_comments(id = instance.collection_id, increment = increment) 

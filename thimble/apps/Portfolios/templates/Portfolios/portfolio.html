@@ -11,15 +11,15 @@
 {%block content%}
   <div class="profile-header">
     <div class="profile-line profile-line-left">
-      <p class="text-followers"><span>{{portfolio_data.followers}}</span><br>Followers</p>
-      <p class="text-following"><span>{{portfolio_data.following}}</span><br>Following</p>
+      <p class="text-followers"><span>{{designer.followers}}</span><br>Followers</p>
+      <p class="text-following"><span>{{designer.following}}</span><br>Following</p>
     </div>
     <div class="profile-pic-block">
       <div class="profile-pic-wrapper">
-        {% if not portfolio_data.avatar%}
+        {% if not designer.avatar%}
           <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
         {%else%}
-          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
+          <img src="{%cloudinary_url designer.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
         {%endif%}
       </div>
     </div>
@@ -28,20 +28,21 @@
       <p class="text-pieces">{{num_pieces}}<br>Pieces</p>
     </div>
   </div>
-  <h2 class="profile-name">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</h2>
+  <h2 class="profile-name">{{designer.user.get_full_name}}</h2>
+  <h4> {{designer.location}}</h4>
 
-  {% if not portfolio_data.user == user.username and user.is_authenticated %}
+  {% if not designer.user.get_username == user.get_username and user.is_authenticated %}
     <div class="follow-wrapper">
       {%if not is_following %}
-        <button class="follow-btn" id='follow-btn' data-username="{{portfolio_data.user}}">Follow</button>
+        <button class="follow-btn" id='follow-btn' data-username="{{designer.user}}">Follow</button>
       {%else%}
-        <button class="follow-btn" id='unfollow-btn' data-username="{{portfolio_data.user}}">Following</button>
+        <button class="follow-btn" id='unfollow-btn' data-username="{{designer.user}}">Following</button>
       {%endif%} 
     </div>
   {%endif%}
 
   <div class="bio-wrapper">
-    <p class="bio-text">{{portfolio_data.bio}}</p>
+    <p class="bio-text">{{designer.bio}}</p>
   </div>
 
 
@@ -60,12 +61,12 @@
 
               {%if user.is_authenticated%}
                 {% if story.0.design_story_id in likes %}
-                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-storyid="{{story.0.design_story_id}}"
+                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{story.0.design_story_id}}"
                     data-username="{{portfolio_data.user}}">
                     <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                   </button>
                 {%else%}
-                  <button type="button" class="btn btn-default btn-lg like-btn" data-storyid="{{story.0.design_story_id}}"
+                  <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{story.0.design_story_id}}"
                     data-username="{{portfolio_data.user}}">
                     <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                   </button>
@@ -99,7 +100,6 @@
   <script>
 
     $(document).ready(function(){
-        CommunityActivities.authenticatedUsername = "{{user.username}}";
         CommunityActivities.csrftoken = $.cookie('csrftoken');
         CommunityActivities.init();
 

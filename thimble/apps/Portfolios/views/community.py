@@ -2,50 +2,66 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 
+# models
 from thimble.apps.Portfolios.models.schemas.Like import Like
 from thimble.apps.Users.models.schemas.Follow import Follow
 from thimble.apps.Portfolios.models.schemas.Comment import Comment
+from thimble.apps.Users.models.schemas.Designer import Designer
+from thimble.apps.Users.models.schemas.Buyer import Buyer
 
 @login_required
-def like_collection(request, username):
+def liking(request, username):
     if request.is_ajax():
-        liker = request.POST['liker']
+        try:
+            liker = request.user.buyer
+        except AttributeError:
+            liker = request.user.designer
+
         collection_id = request.POST['collection_id']
+        is_liking = int(request.POST['is_liking'])
+
         try:
-            Like.objects.create(liker_id=liker, collection_id=collection_id)
+            if is_liking:
+                # like
+                Like.objects.create(object_id=liker.get_ct_id(), content_type=liker.get_ct(), collection_id=collection_id)
+            else:
+                # unlike
+                Like.objects.filter(object_id=liker.get_ct_id(), content_type=liker.get_ct(), collection_id=collection_id).delete()
         except:
             raise
+
     return HttpResponse(True)
 
 @login_required
-def unlike_collection(request, username):
+def following(request, username):
     if request.is_ajax():
-        liker = request.POST['liker']
-        collection_id = request.POST['collection_id']
         try:
-            Like.objects.filter(liker_id=liker, collection_id=collection_id).delete()
-        except:
-            raise
-    return HttpResponse(True)
+            follower = request.user.designer
+        except AttributeError:
+            follower = request.user.buyer
 
-@login_required
-def follow_designer(request, username):
-    if request.is_ajax():
-        follower = request.POST['follower']
-        followee = request.POST['followee']
         try:
-            Follow.objects.create(follower_id=follower, followee_id=followee)
+            followee = Designer.objects.get(user_id=username)
         except:
-            raise
-    return HttpResponse(True)
+            followee = Buyer.objects.get(user_id=username)
 
-@login_required
-def unfollow_designer(request, username):
-    if request.is_ajax():
-        follower = request.POST['follower']
-        followee = request.POST['followee']
+        is_following = int(request.POST['is_following'])
+
         try:
-            Follow.objects.filter(follower=follower, followee=followee).delete()
+            if is_following:
+                # follow
+                Follow.objects.create(
+                    follower_object_id=follower.get_ct_id(), 
+                    follower_content_type=follower.get_ct(), 
+                    followee_object_id=followee.get_ct_id(), 
+                    followee_content_type=followee.get_ct())
+            else:
+                # unfollow
+                Follow.objects.filter(
+                    follower_object_id=follower.get_ct_id(), 
+                    follower_content_type=follower.get_ct(), 
+                    followee_object_id=followee.get_ct_id(), 
+                    followee_content_type=followee.get_ct()).delete()
         except:
             raise
     return HttpResponse(True)
@@ -53,11 +69,18 @@ def unfollow_designer(request, username):
 @login_required
 def comment(request, username):
     if request.is_ajax():
-        commenter = request.POST['commenter']
+        try:
+            commenter = request.user.designer
+        except AttributeError:
+            commenter = request.user.buyer
+
         collection_id = request.POST['collection_id']
         comment = request.POST['comment']
+
         try:
-            Comment.objects.create(commenter_id=commenter, collection_id=collection_id, comment=comment)
+            Comment.objects.create(content_type=commenter.get_ct(), object_id = commenter.get_ct_id(), collection_id=collection_id, comment=comment)
         except:
             raise
     return HttpResponse(True)
+
+    
