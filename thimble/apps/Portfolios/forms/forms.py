@@ -14,7 +14,7 @@ class CreateCollection(forms.ModelForm):
                                                  'placeholder':'Tell the story of the collection'}),
 
             'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title Your Collection', 'required':'True'}),
-            'tags': TagWidget(),
+            'tags': TagWidget(attrs={'class':'form-control', 'placeholder':'add, tags, with, commas', 'required':'True'}),
         }
 
 # class CreateEntry(forms.ModelForm):
