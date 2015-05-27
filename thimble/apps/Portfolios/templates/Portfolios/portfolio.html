@@ -46,33 +46,33 @@
   </div>
 
 
-<!--   <div class="row piece-grid">
-    {%for story in stories%}
+  <div class="row piece-grid">
+    {%for collection in collections%}
       <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
         <div class="piece">
           <div class="piece-thumb-container">
-            {%url 'Portfolios:render_design_story' portfolio_data.user story.0.design_story_id story.0.title|slugify as dest%}
+            {%url 'Portfolios:render_collection' designer.user collection.id collection.title|slugify as dest%}
             <div class="piece-overlay" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
-              <p><strong>{{story.0.title}}</strong></p>
-              <p>{{story.0.date_created}}</p>
+              <p><strong>{{collection.title}}</strong></p>
+              <p>{{collection.date_created}}</p>
               <br></br>
-              <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{story.0.likes}}</span></p>
-              <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{story.0.comments}}</span></p>
+              <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{collection.likes}}</span></p>
+              <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{collection.comments}}</span></p>
 
               {%if user.is_authenticated%}
-                {% if story.0.design_story_id in likes %}
-                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{story.0.design_story_id}}"
+                {% if collection.id in likes %}
+                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{collection.id}}"
                     data-username="{{portfolio_data.user}}">
                     <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                   </button>
                 {%else%}
-                  <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{story.0.design_story_id}}"
-                    data-username="{{portfolio_data.user}}">
+                  <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{collection.id }}"
+                    data-username="{{designer.user}}">
                     <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                   </button>
                 {%endif%}
               {%endif%}
-                <div class="social-wrapper">
+                <!--div class="social-wrapper">
                     <span class="icon-facebook"></span>
                     <a class="twitter popup" href="http://twitter.com/share?text={{design_story.title}} by {{portfolio_data.user__first_name}} on @ThimbleApp">
                         <span class="icon-twitter"></span>
@@ -83,14 +83,14 @@
                     <a class="pinterest" href="javascript:pinIt();">
                         <span class="icon-pinterest"></span>
                     </a>
-                </div>
+                </div-->
             </div>
-            <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
+            <!--img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive"-->
           </div>
         </div>
       </div>
     {%endfor%}
-  </div> -->
+  </div>
        
 {%endblock%}
 

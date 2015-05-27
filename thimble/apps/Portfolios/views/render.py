@@ -54,6 +54,7 @@ def render_portfolio(request, username):
             follower = request.user.designer
 
         context['is_following'] = Follow.objects.get_is_following(follower=follower, followee=designer)
+    context['collections'] = collections
     return render(request, "Portfolios/portfolio.html", context)
 
 def render_collection(request, username, collection_id, slug):
