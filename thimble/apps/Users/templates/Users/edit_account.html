@@ -39,8 +39,9 @@
                         <br/>
                         <a href="#" id="avatar_upload_widget"></a><br/>
                     {%else%}
-                    {{field}}
+                        {{field}}
                     {% endif %}
+   
                 </div>
             {% endfor %}
             <button type = 'submit' class = 'btn btn-primary'>Update Account</button>
@@ -52,6 +53,6 @@
 {%block scripts%}
     {{block.super}}
     <script>
-        ImageUpload.init($.cloudinary.config().cloud_name, "");
+        ImageUpload.init($.cloudinary.config().cloud_name);
     </script>
 {%endblock%}

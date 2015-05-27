@@ -21,61 +21,61 @@ from django.db import IntegrityError
 # forms 
 from thimble.apps.Portfolios.forms.forms import *
 
-@login_required
-def create_design_story(request, username):
-    error = None
-    if request.user.username == username:
-        design_story_form = CreateDesignStory(request.POST or None)
-        entry_form = CreateEntry(request.POST or None)
+# @login_required
+# def create_design_story(request, username):
+#     error = None
+#     if request.user.username == username:
+#         design_story_form = CreateDesignStory(request.POST or None)
+#         entry_form = CreateEntry(request.POST or None)
 
-        if request.method == "POST":
-            if design_story_form.is_valid() and entry_form.is_valid():
+#         if request.method == "POST":
+#             if design_story_form.is_valid() and entry_form.is_valid():
 
-                # create an instance of the of design_story_model model
-                design_story = design_story_form.save(commit=False)
-                design_story.designer = request.user.designer
+#                 # create an instance of the of design_story_model model
+#                 design_story = design_story_form.save(commit=False)
+#                 design_story.designer = request.user.designer
 
-                try:
-                    design_story.save()
-                except IntegrityError:
-                    error = "Sorry! You are already using this title for another story"
+#                 try:
+#                     design_story.save()
+#                 except IntegrityError:
+#                     error = "Sorry! You are already using this title for another story"
 
-                if not error:
-                    # create an instance of the entry model
-                    entry = entry_form.save(commit=False)
-                    entry.design_story = design_story
-                    entry.save()
+#                 if not error:
+#                     # create an instance of the entry model
+#                     entry = entry_form.save(commit=False)
+#                     entry.design_story = design_story
+#                     entry.save()
 
-                    # update the bucket link
-                    bucket_link = "%s/%s/%s" % (username, design_story.design_story_id, entry.entry_id)
-                    entry.bucket_link = bucket_link
+#                     # update the bucket link
+#                     bucket_link = "%s/%s/%s" % (username, design_story.design_story_id, entry.entry_id)
+#                     entry.bucket_link = bucket_link
 
-                    # rename cover_photo
-                    cover_photo = request.POST.get("cover_photo")
-                    old_name = photo_rename(bucket_link, [cover_photo])
+#                     # rename cover_photo
+#                     cover_photo = request.POST.get("cover_photo")
+#                     old_name = photo_rename(bucket_link, [cover_photo])
 
-                    entry.cover_photo = "%s/%s" % (bucket_link, old_name)
-                    entry.save()
+#                     entry.cover_photo = "%s/%s" % (bucket_link, old_name)
+#                     entry.save()
 
-                    # rename entry_photos 
-                    photos = request.POST.getlist('entry_photos')
-                    photo_rename(bucket_link, photos)
+#                     # rename entry_photos 
+#                     photos = request.POST.getlist('entry_photos')
+#                     photo_rename(bucket_link, photos)
 
-                    slug = slugify(design_story.title)
+#                     slug = slugify(design_story.title)
 
-                    return HttpResponseRedirect(
-                        reverse('Portfolios:render_design_story', args=(username, design_story.design_story_id, slug)))
+#                     return HttpResponseRedirect(
+#                         reverse('Portfolios:render_design_story', args=(username, design_story.design_story_id, slug)))
 
-        context = {
-            "design_story_form":design_story_form,
-            "entry_form":entry_form,
-            "error":error or None
-        }
+#         context = {
+#             "design_story_form":design_story_form,
+#             "entry_form":entry_form,
+#             "error":error or None
+#         }
         
-        cl_init_js_callbacks(context['entry_form'], request)
-        return render(request, "Portfolios/create_design_story.html", context)
-    else:
-        raise Http404
+#         cl_init_js_callbacks(context['entry_form'], request)
+#         return render(request, "Portfolios/create_design_story.html", context)
+#     else:
+#         raise Http404
 
 @login_required
 def create_collection(request, username):
@@ -101,7 +101,7 @@ def create_collection(request, username):
             "error":error or None
         }
 
-        #cl_init_js_callbacks(context['entry_form'], request)
+        cl_init_js_callbacks(context['collection_form'], request)
         return render(request, "Portfolios/create_collection.html", context)
     else:
         raise Http404

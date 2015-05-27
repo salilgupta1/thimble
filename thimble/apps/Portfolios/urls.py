@@ -8,11 +8,6 @@ urlpatterns = patterns('',
 
     # create
     url(r'^create-collection/$', create.create_collection, name='create_collection'),
-    #url(r'^story/(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/create-chapter/$', create.create_chapter, name='create_chapter'),
-
-    # edit
-    #url(r'^story/(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/edit-chapter/(?P<entry_id>[0-9]+)/$', create.edit_chapter, name='edit_chapter'),
-    #url(r'^edit-story/(?P<story_id>[0-9]+)-(?P<slug>[\w-]+)/$', create.edit_story, name='edit_story'),
 
     # community activites
     # like/unlike
