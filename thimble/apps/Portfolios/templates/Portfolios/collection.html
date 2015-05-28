@@ -4,6 +4,7 @@
 
 {%block app_css%}
 	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/story.css'%}"/>
+	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/collection.css'%}"/>
 	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/fontello.css'%}"/>
 {%endblock%}
 
@@ -21,7 +22,94 @@
 			<span class="icon-pinterest"></span>
 		</a>
 	</div>
-	<div class="story-header">
+	<div class="collection-header">
+		<h3>{{collection.title}} - Spring 2015</h3>
+		<h5>by <a href="#">Ryan Madden</a></h5>
+		<p>{{collection.description}}</p>	
+	</div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div class="tile-container">
+				<div class="front-img-container">
+					<img class="front-img img-responsive" src="http://placemi.com/400x550">
+				</div>
+				<div class="title-container">
+					<h4>Piece Title</h4>
+				</div>	
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div class="tile-container">
+				<div class="front-img-container">
+					<img class="front-img img-responsive" src="http://placemi.com/400x550">
+				</div>
+				<div class="title-container">
+					<h4>Piece Title</h4>
+				</div>	
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div class="tile-container">
+				<div class="front-img-container">
+					<img class="front-img img-responsive" src="http://placemi.com/400x550">
+				</div>
+				<div class="title-container">
+					<h4>Piece Title</h4>
+				</div>	
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div class="tile-container">
+				<div class="front-img-container">
+					<img class="front-img img-responsive" src="http://placemi.com/400x550">
+				</div>
+				<div class="title-container">
+					<h4>Piece Title</h4>
+				</div>	
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div class="tile-container">
+				<div class="front-img-container">
+					<img class="front-img img-responsive" src="http://placemi.com/400x550">
+				</div>
+				<div class="title-container">
+					<h4>Piece Title</h4>
+				</div>	
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div class="tile-container">
+				<div class="front-img-container">
+					<img class="front-img img-responsive" src="http://placemi.com/400x550">
+				</div>
+				<div class="title-container">
+					<h4>Piece Title</h4>
+				</div>	
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div class="tile-container">
+				<div class="front-img-container">
+					<img class="front-img img-responsive" src="http://placemi.com/400x550">
+				</div>
+				<div class="title-container">
+					<h4>Piece Title</h4>
+				</div>	
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+			<div class="tile-container">
+				<div class="front-img-container">
+					<img class="front-img img-responsive" src="http://placemi.com/400x550">
+				</div>
+				<div class="title-container">
+					<h4>Piece Title</h4>
+				</div>	
+			</div>
+		</div>
+	</div>
+	<!-- <div class="story-header">
 		<div id="by-wrapper">
 			{%if not avatar%}
 			<img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
@@ -45,11 +133,10 @@
 			<div class="comment-text-wrapper">
 				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (<span id="num-comments">{{collection.comments}}</span>)</p>
 			</div>
-			<!-- Load comments -->
 			<div class="comment-bin">
 				{%for comment in comments%}
 					<div class="commenter-wrapper">
-						<!--img src="http://placemi.com/100x100" class="img-responsive img-circle"-->
+						<img src="http://placemi.com/100x100" class="img-responsive img-circle">
 						<p class="commenter-name">{{comment.commenter}}</p>
 						<p class="comment">{{comment.comment}}</p>
 					</div>
@@ -66,7 +153,7 @@
 	        	</form>
         	{%endif%}
 		</div>
-	</div>
+	</div> -->
 
 <!-- 	<div id="chapter-list">
 		{%for chapter in entries%}
