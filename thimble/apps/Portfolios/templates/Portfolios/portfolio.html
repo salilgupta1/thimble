@@ -29,7 +29,7 @@
     </div>
   </div>
   <h2 class="profile-name">{{designer.user.get_full_name}}</h2>
-  <h4> {{designer.location}}</h4>
+  <h4 class="text-center"> {{designer.location}}</h4>
 
   {% if not designer.user.get_username == user.get_username and user.is_authenticated %}
     <div class="follow-wrapper">
@@ -44,9 +44,31 @@
   <div class="bio-wrapper">
     <p class="bio-text">{{designer.bio}}</p>
   </div>
+  
+  {%for collection in collections%}
+    <div class="row">
+      <div class="col-xs-12">
+        {%url 'Portfolios:render_collection' designer.user collection.id collection.title|slugify as dest%}
+        <div class="collection-container" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
+          <div class="det-container">
+            <h3>{{collection.title}}</h3>
+            <h3>Spring 2015</h3>
+            <p>{{collection.description}}</p>
+          </div>
+          <div class="thumb-container">
+            {%for photo in collection.photos%}
+              <img class="img-responsive thumb-img" src="{%cloudinary_url photo width='300' height='400' %}">
+              <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%endfor%}
 
 
-  <div class="row piece-grid">
+
+  <!--div class="row piece-grid">
     {%for collection in collections%}
       <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
         <div class="piece">
@@ -72,7 +94,7 @@
                   </button>
                 {%endif%}
               {%endif%}
-                <!--div class="social-wrapper">
+                <div class="social-wrapper">
                     <span class="icon-facebook"></span>
                     <a class="twitter popup" href="http://twitter.com/share?text={{design_story.title}} by {{portfolio_data.user__first_name}} on @ThimbleApp">
                         <span class="icon-twitter"></span>
@@ -83,14 +105,14 @@
                     <a class="pinterest" href="javascript:pinIt();">
                         <span class="icon-pinterest"></span>
                     </a>
-                </div-->
+                </div>
             </div>
-            <!--img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive"-->
+            <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
           </div>
         </div>
       </div>
     {%endfor%}
-  </div>
+  </div-->
        
 {%endblock%}
 
@@ -170,6 +192,7 @@
 
   </script>
 	<script src="{%static 'Portfolios/js/social.js' %}"></script>
+  <script src="{%static 'Portfolios/js/profile.js' %}"></script>
     <!-- Please call pinit.js only once per page -->
     <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
 {%endblock%}

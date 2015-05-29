@@ -26,15 +26,26 @@ def render_portfolio(request, username):
     # get collections related to portfolio
     collections = Collection.objects.get_collections(username=username)
 
-    # get collection previews
     if collections is not None:
-        collection_ids = []
-        for collection in collections:
-            collection_ids.append(collection['id'])
 
         context['num_pieces'] = len(collections)
+        collection_ids = []
 
-        # get previews for each collection here
+        for collection in collections:
+            collection_ids.append(collection['id'])
+            
+            # get collection previews
+            bucket_link = "%s/%d" %(username, collection['id'])
+            collection["photos"] = []
+            try:
+                folder = resources(type="upload", resource_type="image", prefix=bucket_link)
+                num_photos = len(folder['resources']) 
+                num_display = 4 if num_photos > 4 else num_photos
+                for i in xrange(0, num_display):
+                    collection["photos"].append(folder['resources'][i]['public_id'])
+            except:
+                pass
+        context['collections'] = collections
 
         # get if liked by authenticated user for each collection
         if request.user.is_authenticated():
@@ -53,13 +64,12 @@ def render_portfolio(request, username):
         except AttributeError:
             follower = request.user.designer
 
-        context['is_following'] = Follow.objects.get_is_following(follower=follower, followee=designer)
-    context['collections'] = collections
+        context['is_following'] = Follow.objects.get_is_following(follower=follower, followee=designer) 
     return render(request, "Portfolios/portfolio.html", context)
 
 def render_collection(request, username, collection_id, slug):
    
-    avatar = Designer.objects.get_avatar(username=username)
+    designer = Designer.objects.get_designer_info(username=username)
 
     # get details of the specific design story
     collection = Collection.objects.get_collection(collection_id=collection_id)
@@ -71,30 +81,15 @@ def render_collection(request, username, collection_id, slug):
     #comments = Comment.objects.get_comments(collection_id=collection_id)
 
     # get pieces associated with story
-    # entries = Entry.objects.get_entries(story_id=story_id)
-
-    # if entries is not None:
-
-    #     ### get entry photos public_ids from cloudinary
-    #     ### OPTIMIZE (Salil Gupta)
-    #     for entry in entries:
-    #         # make api call to get public id's
-    #         folder = resources(type="upload", resource_type="image", prefix=entry["bucket_link"])
-    #         num_photos = len(folder['resources'])
-            
-    #         # pull public id's out of json response
-    #         entry["photos"] = []
-    #         for i in xrange(num_photos):
-    #             if folder['resources'][i]['public_id'] != entry['cover_photo']:
-    #                 entry["photos"].append(folder['resources'][i]['public_id'])
+    pieces = Piece.objects.get_pieces(collection_id=collection_id)
 
     context = {
         "collection": collection,
+        "pieces":pieces,
         "collection_id": collection_id,
         "username": username,
-        "avatar": avatar,
+        "designer": designer,
         "slug": slug,
-        #"comments":comments,
     }
 
     return render(request, "Portfolios/collection.html", context)
