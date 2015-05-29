@@ -8,7 +8,7 @@
 
 {%block content%}
     <div class="reg-form-wrapper">
-        <form role='form' action="{%url 'Users:login' %}" method='POST'>        
+        <form role='form' action="{%url 'Users:login' %}" method='POST' id='login_form'>        
             {%csrf_token%}
             {% if form.non_field_errors %}
                   {% for error in form.non_field_errors %}

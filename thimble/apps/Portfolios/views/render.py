@@ -25,14 +25,13 @@ def render_portfolio(request, username):
     
     # get collections related to portfolio
     collections = Collection.objects.get_collections(username=username)
-
     if collections is not None:
 
         context['num_pieces'] = len(collections)
         collection_ids = []
-
         for collection in collections:
             collection_ids.append(collection['id'])
+            collection['tags'] = Collection.objects.get_tags(collection_id=collection['id'])
             
             # get collection previews
             bucket_link = "%s/%d" %(username, collection['id'])
@@ -46,9 +45,9 @@ def render_portfolio(request, username):
             except:
                 pass
         context['collections'] = collections
-
         # get if liked by authenticated user for each collection
         if request.user.is_authenticated():
+            
             try:
                 liker = request.user.buyer
             except AttributeError:
@@ -57,6 +56,7 @@ def render_portfolio(request, username):
             likes = Like.objects.get_likes(liker=liker, collection_ids=collection_ids)    
             context['likes'] = likes
 
+        # get tags
     # get follow 
     if request.user.is_authenticated() and request.user.username != username:
         try:

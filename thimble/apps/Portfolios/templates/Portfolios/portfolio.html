@@ -54,6 +54,15 @@
             <h3>{{collection.title}}</h3>
             <h3>Spring 2015</h3>
             <p>{{collection.description}}</p>
+
+            <div class="col-xs-12 col-sm-6 col-md-4">
+              <h3>Tags</h3>
+              <div class="tags-box">
+                {%for tag in collection.tags%}
+                  <span class="label label-default label-tag">{{tag}}</span>
+                {%endfor%}
+              </div>
+            </div>
           </div>
           <div class="thumb-container">
             {%for photo in collection.photos%}
