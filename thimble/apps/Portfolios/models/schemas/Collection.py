@@ -1,5 +1,6 @@
 from django.db import models
 from thimble.apps.Portfolios.models.managers.CollectionManager import CollectionManager
+from taggit.managers import TaggableManager
 
 class Collection(models.Model):
 
@@ -10,6 +11,8 @@ class Collection(models.Model):
 	wip 			= models.BooleanField(default=False, blank=True)
 	description 	= models.TextField(max_length=255, blank=True)
 	date_created 	= models.DateField(auto_now_add=True)
+
+	tags = TaggableManager()
 
 	# connect the manager
 	objects = CollectionManager()

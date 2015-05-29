@@ -83,12 +83,14 @@ def create_collection(request, username):
     if request.user.username == username:
         collection_form = CreateCollection(request.POST or None)
         if request.method =="POST":
+            print request.POST
             if collection_form.is_valid():
                 collection = collection_form.save(commit=False)
                 collection.designer = request.user.designer
 
                 try:
                     collection.save()
+                    collection_form.save_m2m()
                 except IntegrityError:
                     error = "Sorry! You are already using this title for another story"
 
