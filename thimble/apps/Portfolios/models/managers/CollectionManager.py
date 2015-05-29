@@ -24,6 +24,7 @@ class CollectionManager(models.Manager):
 		# get all the design stories associated with a username
 		try:
 			rows = self.filter(designer_id=username).values('id','title','likes','comments','date_created','description')
+
 			if len(rows) == 0:
 				return None
 			return rows
