@@ -73,7 +73,7 @@ def render_collection(request, username, collection_id, slug):
 
     # get details of the specific design story
     collection = Collection.objects.get_collection(collection_id=collection_id)
-    
+    tags = Collection.objects.get_tags(collection_id=collection_id)
     if collection is None:
         raise Http404
 
@@ -90,6 +90,7 @@ def render_collection(request, username, collection_id, slug):
         "username": username,
         "designer": designer,
         "slug": slug,
+        "tags":tags
     }
 
     return render(request, "Portfolios/collection.html", context)

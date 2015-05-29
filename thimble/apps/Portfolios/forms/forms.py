@@ -6,7 +6,7 @@ from thimble.apps.Portfolios.models.schemas.Collection import Collection
 
 class CreateCollection(forms.ModelForm):
 
-	photos = CloudinaryJsFileField(attrs={'multiple': 1}, required=True)
+	photos = CloudinaryJsFileField(attrs={'multiple': 1}, required=False)
 	class Meta:
 		model   = Collection
 		fields  = ("title", "description", "tags")
