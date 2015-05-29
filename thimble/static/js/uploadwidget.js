@@ -108,7 +108,7 @@
                                     };
 
                                 // DEVIATION FROM SOURCE to allow multiple entry photos:
-                                if(n=="cover_photo" || n=='avatar'){
+                                if(n=='avatar'){
                                    o = b && "input" == b.tagName && "hidden" == t(b).attr("type") ? t(b) : t(i).find('input[name="' + n + '"]'), 0 == e && o.length > 0 ? (o.val(d), o.attr("data-cloudinary-public-id", a.public_id), o.data("cloudinary", a), o.addClass("cloudinary-hidden-field")) : r()
                                 }
                                 else{

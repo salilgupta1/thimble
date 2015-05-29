@@ -4,6 +4,7 @@
 
 {%block app_css%}
 	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/story.css'%}"/>
+	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/collection.css'%}"/>
 	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/fontello.css'%}"/>
 {%endblock%}
 
@@ -11,7 +12,7 @@
 {%block content%}
 	<div class="social-wrapper">
 		<span class="icon-facebook"></span>
-		<a class="twitter popup" href="http://twitter.com/share?text={{collection.title}} by {{portfolio_data.user__first_name}} on @ThimbleApp">
+		<a class="twitter popup" href="http://twitter.com/share?text={{collection.title}} by {{designer.user.get_full_name}} on @ThimbleApp">
 			<span class="icon-twitter"></span>
 		</a>
 		<a class="tumblr" href="#">
@@ -21,20 +22,33 @@
 			<span class="icon-pinterest"></span>
 		</a>
 	</div>
-	<div class="story-header">
+	<div class="collection-header">
+		<h3>{{collection.title}} - Spring 2015</h3>
+		<h5>by <a href="{% url 'Portfolios:render_portfolio' designer.user.get_username %}">{{designer.user.get_full_name}}</a></h5>
+		<p>{{collection.description}}</p>	
+	</div>
+	<div class="row">
+		{%for piece in pieces%}
+			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+				<div class="tile-container">
+					<div class="front-img-container">
+						<img class="front-img img-responsive" src="{%cloudinary_url piece.front_view width='400' height='550'%}">
+					</div>
+					<div class="title-container">
+						<h4>{{pieces.title}}</h4>
+					</div>	
+				</div>
+			</div>
+		{%endfor%}
+	</div>
+	<!-- <div class="story-header">
 		<div id="by-wrapper">
-			{%if not portfolio_data.avatar%}
+			{%if not avatar%}
 			<img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
 	        {%else%}
 	          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
 	        {%endif%}
-			<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{portfolio_data.user__first_name}} {{portfolio_data.user__last_name}}</a></p>
-		</div>
-		<div id="name-wrapper">
-			<h1>{{collection.title}}</h1>
-		</div>
-		<div id="desc-wrapper">
-			<p>{{collection.description}}</p>
+			<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{request.user.get_full_name}}</a></p>
 		</div>
 		<div class="like-box">
 			<div class="like-text-wrapper">
@@ -45,11 +59,10 @@
 			<div class="comment-text-wrapper">
 				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (<span id="num-comments">{{collection.comments}}</span>)</p>
 			</div>
-			<!-- Load comments -->
 			<div class="comment-bin">
 				{%for comment in comments%}
 					<div class="commenter-wrapper">
-						<!--img src="http://placemi.com/100x100" class="img-responsive img-circle"-->
+						<img src="http://placemi.com/100x100" class="img-responsive img-circle">
 						<p class="commenter-name">{{comment.commenter}}</p>
 						<p class="comment">{{comment.comment}}</p>
 					</div>
@@ -66,35 +79,8 @@
 	        	</form>
         	{%endif%}
 		</div>
-	</div>
-
-<!-- 	<div id="chapter-list">
-		{%for chapter in entries%}
-			<div class='chapter-title'>
-				<h2>{{chapter.entry_title}}</h2>
-				<div class='chapter-description'>
-					<p>
-						{{chapter.entry_desc}}
-					</p>
-				</div>
-				{%if user.is_authenticated and username == user.username%}
-					<a href="{% url 'Portfolios:edit_chapter' username story_id slug chapter.entry_id %}">Edit Chapter</a>
-				{%endif%}
-			</div>
-			<div class="chapter-img-wrapper">
-				<div class="thumb-img-list">
-					{% for photo in chapter.photos %}
-						<div class="thumb-img-wrapper">
-			  				{%cloudinary photo width='400' height='550' class='img-responsive'%}
-		  				</div>
-	  				{% endfor %}
-				</div>
-				<div class="cover-img">
-					{%cloudinary chapter.cover_photo width='400' height='550' class='img-responsive'%}
-				</div>
-			</div>
-		{%endfor%}
 	</div> -->
+	</div>
 {%endblock%}
 
 {%block scripts%}

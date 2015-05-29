@@ -12,7 +12,7 @@
 		<form method='post' id='create-collection' action="{%url 'Portfolios:create_collection' request.user.username%}">
 			{%csrf_token%}
             <div class="story-det-wrapper">
-                <h3> Create a Collection</h3>
+                <h3>Create a Collection</h3>
                 {%if error%}
                     {{error}}
                 {%endif%}
@@ -28,21 +28,26 @@
                         <div id="{{ field.auto_id }}_errors" class='form-error'>
                             {{ field.errors|striptags }}
                         </div>
-                        {{ field }}
+                        {% if field.label == 'Photos'%}
+                            <br/>
+                            <div>
+                               <a href="#" id="photos_upload_widget" class="cloudinary-button"></a><br/>
+                            </div>
+                            
+                        {%else%}
+                            {{field}}
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
-
-            <div class="btn-wrapper">
-                <button type='submit' class='btn btn-primary' id="create-btn" disabled="true">Create</button>
-            </div>
+            <button type='submit' class='btn btn-primary'>Create</button>
         </form>
+        <div id="images"></div>
 	</div>
 {%endblock%}
 
 {%block scripts%}
     {{block.super}}
-
     <script>
         ImageUpload.init($.cloudinary.config().cloud_name, "#create-collection");
     </script>

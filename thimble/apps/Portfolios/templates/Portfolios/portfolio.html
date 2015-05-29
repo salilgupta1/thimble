@@ -29,7 +29,7 @@
     </div>
   </div>
   <h2 class="profile-name">{{designer.user.get_full_name}}</h2>
-  <h4> {{designer.location}}</h4>
+  <h4 class="text-center"> {{designer.location}}</h4>
 
   {% if not designer.user.get_username == user.get_username and user.is_authenticated %}
     <div class="follow-wrapper">
@@ -44,30 +44,52 @@
   <div class="bio-wrapper">
     <p class="bio-text">{{designer.bio}}</p>
   </div>
+  
+  {%for collection in collections%}
+    <div class="row">
+      <div class="col-xs-12">
+        {%url 'Portfolios:render_collection' designer.user collection.id collection.title|slugify as dest%}
+        <div class="collection-container" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
+          <div class="det-container">
+            <h3>{{collection.title}}</h3>
+            <h3>Spring 2015</h3>
+            <p>{{collection.description}}</p>
+          </div>
+          <div class="thumb-container">
+            {%for photo in collection.photos%}
+              <img class="img-responsive thumb-img" src="{%cloudinary_url photo width='300' height='400' %}">
+              <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {%endfor%}
 
 
-<!--   <div class="row piece-grid">
-    {%for story in stories%}
+
+  <!--div class="row piece-grid">
+    {%for collection in collections%}
       <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
         <div class="piece">
           <div class="piece-thumb-container">
-            {%url 'Portfolios:render_design_story' portfolio_data.user story.0.design_story_id story.0.title|slugify as dest%}
+            {%url 'Portfolios:render_collection' designer.user collection.id collection.title|slugify as dest%}
             <div class="piece-overlay" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
-              <p><strong>{{story.0.title}}</strong></p>
-              <p>{{story.0.date_created}}</p>
+              <p><strong>{{collection.title}}</strong></p>
+              <p>{{collection.date_created}}</p>
               <br></br>
-              <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{story.0.likes}}</span></p>
-              <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{story.0.comments}}</span></p>
+              <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{collection.likes}}</span></p>
+              <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{collection.comments}}</span></p>
 
               {%if user.is_authenticated%}
-                {% if story.0.design_story_id in likes %}
-                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{story.0.design_story_id}}"
+                {% if collection.id in likes %}
+                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{collection.id}}"
                     data-username="{{portfolio_data.user}}">
                     <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                   </button>
                 {%else%}
-                  <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{story.0.design_story_id}}"
-                    data-username="{{portfolio_data.user}}">
+                  <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{collection.id }}"
+                    data-username="{{designer.user}}">
                     <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
                   </button>
                 {%endif%}
@@ -90,7 +112,7 @@
         </div>
       </div>
     {%endfor%}
-  </div> -->
+  </div-->
        
 {%endblock%}
 
@@ -170,6 +192,7 @@
 
   </script>
 	<script src="{%static 'Portfolios/js/social.js' %}"></script>
+  <script src="{%static 'Portfolios/js/profile.js' %}"></script>
     <!-- Please call pinit.js only once per page -->
     <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
 {%endblock%}
