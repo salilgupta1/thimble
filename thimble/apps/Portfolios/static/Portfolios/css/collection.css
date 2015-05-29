@@ -15,3 +15,28 @@
 .title-container {
 	margin-left: 10px;
 }
+
+.tags-box {
+	margin-top: 25px;
+	background-color: white;
+	overflow: auto;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.label-tag {
+	margin-left: 5px;
+	margin-bottom: 5px;
+	float: left;
+	font-size: 15px;
+}
+
+@media(max-width:767px){}
+@media(min-width:768px){}
+@media(min-width:992px){
+	.like-btn {
+		margin-top: 30px;
+	}
+}
+@media(min-width:1200px){}
+
