@@ -25,7 +25,13 @@
 	<div class="collection-header">
 		<h3>{{collection.title}} - Spring 2015</h3>
 		<h5>by <a href="{% url 'Portfolios:render_portfolio' designer.user.get_username %}">{{designer.user.get_full_name}}</a></h5>
-		<p>{{collection.description}}</p>	
+		<p>{{collection.description}}</p>
+		<div>
+			<h3>Tags</h3>
+			{%for tag in tags%}
+				<p>{{tag}}</p>
+			{%endfor%}
+		</div>	
 	</div>
 	<div class="row">
 		{%for piece in pieces%}

@@ -39,3 +39,12 @@ class CollectionManager(models.Manager):
 			return row[0]
 		except:
 			raise
+
+	def get_tags(self, collection_id):
+		try:
+			tags = self.filter(id=collection_id)[0].tags.names()
+			if len(tags) == 0:
+				return None
+			return tags
+		except:
+			raise
