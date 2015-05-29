@@ -16,14 +16,15 @@ var TagSearch = (function($){
                 var resultsDiv = $('#results');
                 resultsDiv.html('');
                 for(var i=0; i<response.collections.length; i++){
-                    resultsDiv.append('<div class="search-result">' + response.collections[i].title + '</div>');
+                    console.log(response.collections[i]);
+                    resultsDiv.append('<div><a href="'+ response.collection_urls[i] +'">' + response.collections[i].title + '</a></div>');
                 }
 			},
 			error:function(error){
 				console.log(error);
 			}
 		});
-	}, 
+	},
 
 	init = function(){
 		var path;
@@ -40,7 +41,7 @@ var TagSearch = (function($){
 
 			filter($(this), path);
 
-		}); 
+		});
 
 	};
 	return {

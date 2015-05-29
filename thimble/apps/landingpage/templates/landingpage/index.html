@@ -22,7 +22,7 @@
     <h3>Results</h3>
      <div id="results">
         {%for collection in collections%}
-            {{collection.title}}<br/>
+            <a href="{%url 'Portfolios:render_collection' collection.designer.user collection.id collection.title|slugify%}">{{collection.title}}</a><br/>
         {%endfor%}
      </div>
 

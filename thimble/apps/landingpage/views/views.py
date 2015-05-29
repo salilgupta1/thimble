@@ -2,8 +2,11 @@ from django.shortcuts import render
 from django.core.context_processors import csrf
 import os, chimpy
 from thimble.apps.Portfolios.models.schemas.Like import Like
+
 from thimble.apps.Portfolios.models.schemas.Collection import Collection
 from taggit.models import Tag
+from django.template.defaultfilters import slugify
+
 
 import json
 from django.http import HttpResponse
@@ -22,7 +25,13 @@ def home(request):
         else:
             collections = Collection.objects.filter(tags__name__in=selected_tags).distinct()
 
-        response = {'collections': list(collections.values('title'))}
+        # I couldn't figure out how to construct the URL cleanly and give it to the ajax response
+        collection_urls = []
+        for collection in collections:
+            collection_urls.append("/" + collection.designer.user.username + "/collection/" +
+                                   str(collection.id) + "-" + slugify(collection.title))
+
+        response = {'collections': list(collections.values('title', 'designer')), 'collection_urls': collection_urls}
         return HttpResponse(json.dumps(response))
 
     collections = Collection.objects.all()
