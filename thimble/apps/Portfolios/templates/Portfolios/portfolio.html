@@ -29,7 +29,7 @@
     </div>
   </div>
   <h2 class="profile-name">{{designer.user.get_full_name}}</h2>
-  <h4> {{designer.location}}</h4>
+  <h4 class="text-center"> {{designer.location}}</h4>
 
   {% if not designer.user.get_username == user.get_username and user.is_authenticated %}
     <div class="follow-wrapper">
@@ -44,7 +44,69 @@
   <div class="bio-wrapper">
     <p class="bio-text">{{designer.bio}}</p>
   </div>
-
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="collection-container">
+        <div class="det-container">
+          <h3>Collection Title</h3>
+          <h3>Spring 2015</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>
+        </div>
+        <div class="thumb-container">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="collection-container">
+        <div class="det-container">
+          <h3>Collection Title</h3>
+          <h3>Spring 2015</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>
+        </div>
+        <div class="thumb-container">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="collection-container">
+        <div class="det-container">
+          <h3>Collection Title</h3>
+          <h3>Spring 2015</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>
+        </div>
+        <div class="thumb-container">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="row piece-grid">
     {%for collection in collections%}
@@ -170,6 +232,7 @@
 
   </script>
 	<script src="{%static 'Portfolios/js/social.js' %}"></script>
+  <script src="{%static 'Portfolios/js/profile.js' %}"></script>
     <!-- Please call pinit.js only once per page -->
     <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
 {%endblock%}

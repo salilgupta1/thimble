@@ -1,0 +1,17 @@
+.collection-header {
+	width: 100%;
+	max-width: 600px;
+}
+
+.tile-container {
+	width: 250px;
+	padding: 8px;
+	border-radius: 8px;
+	background-color: white;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.title-container {
+	margin-left: 10px;
+}
