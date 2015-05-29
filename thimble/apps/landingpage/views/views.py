@@ -2,32 +2,32 @@ from django.shortcuts import render
 from django.core.context_processors import csrf
 import os, chimpy
 from thimble.apps.Portfolios.models.schemas.Like import Like
+from thimble.apps.Portfolios.models.schemas.Collection import Collection
+from taggit.models import Tag
+
+import json
+from django.http import HttpResponse
 
 
 def home(request):
     # new-home-page
-    # context = {}
-    # design_stories = DesignStory.objects.get_all_design_stories()
+    context = {}
+    all_tags = Tag.objects.all()
+    context["all_tags"] = all_tags
 
-    # story_ids = []
+    if request.method == 'POST' and request.is_ajax():
+        selected_tags = request.POST.getlist('tag-filters[]')
+        if len(selected_tags) == 0:
+            collections = Collection.objects.all()
+        else:
+            collections = Collection.objects.filter(tags__name__in=selected_tags).distinct()
 
-    # # get cover photos
-    # if design_stories is not None:
-    #     cover_photos = []
-    #     for story in design_stories:
-    #         story_ids.append(story['design_story_id'])
-    #         cover_photo = Entry.objects.get_cover_photos(story['design_story_id'])
-    #         cover_photos.append(cover_photo)
+        response = {'collections': list(collections.values('title'))}
+        return HttpResponse(json.dumps(response))
 
-    #     context['stories'] = zip(design_stories, cover_photos)
-
-    # # get likes and follow
-    # if request.user.is_authenticated():
-    #     if design_stories is not None:
-    #         likes = Like.objects.get_likes(liker=request.user, story_ids=story_ids)
-    #         context['likes'] = likes
-
-    return render(request, "landingpage/index.html")
+    collections = Collection.objects.all()
+    context["collections"] = collections
+    return render(request, "landingpage/index.html", context)
 
 
 def landingpage(request):
