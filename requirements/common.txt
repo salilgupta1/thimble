@@ -12,7 +12,6 @@ docopt==0.4.0
 ecdsa==0.11
 gunicorn==19.3.0
 mailchimp==2.0.9
-midi==v0.2.3
 mock==1.0.1
 newrelic==2.42.0.35
 paramiko==1.15.2
