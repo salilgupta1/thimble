@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
 from django.core.context_processors import csrf
+from django.contrib.auth.decorators import login_required
 
 # models
 from thimble.apps.Portfolios.models.schemas.Piece import Piece
@@ -13,6 +14,7 @@ from thimble.apps.Users.models.schemas.Follow import Follow
 
 from cloudinary.api import resources
 
+@login_required
 def render_portfolio(request, username):
     designer = Designer.objects.get_designer_info(username=username)
 
@@ -56,7 +58,6 @@ def render_portfolio(request, username):
             likes = Like.objects.get_likes(liker=liker, collection_ids=collection_ids)    
             context['likes'] = likes
 
-        # get tags
     # get follow 
     if request.user.is_authenticated() and request.user.username != username:
         try:
@@ -67,6 +68,7 @@ def render_portfolio(request, username):
         context['is_following'] = Follow.objects.get_is_following(follower=follower, followee=designer) 
     return render(request, "Portfolios/portfolio.html", context)
 
+@login_required
 def render_collection(request, username, collection_id, slug):
    
     designer = Designer.objects.get_designer_info(username=username)

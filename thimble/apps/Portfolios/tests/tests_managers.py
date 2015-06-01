@@ -1,8 +1,5 @@
 from django.test import TestCase
 
-from django.core.exceptions import ValidationError
-from django.db import IntegrityError, transaction
-
 from thimble.apps.Users.models.schemas.Designer import Designer
 from thimble.apps.Users.models.schemas.Buyer import Buyer
 from ..models.schemas.Collection import Collection
@@ -21,7 +18,6 @@ class PortfoliosManagerTestCase(TestCase):
 		self.collection_2 = Collection.objects.get(pk=2)
 		self.comment = Comment.objects.get(pk=1)
 		self.like = Like.objects.get(pk=2)
-
 
 class CollectionManagerTestCase(PortfoliosManagerTestCase):
 
@@ -93,4 +89,3 @@ class CommentManagerTestCase(PortfoliosManagerTestCase):
 		good_data = Comment.objects.get_comments(self.collection.pk)[0]
 		self.assertEqual(good_data['object_id'], self.designer.pk)
 		self.assertEqual(good_data['content_type_id'], self.designer.get_ct().id)
-

@@ -39,8 +39,23 @@
 				{%endfor%}
 			</div>
 		</div>
+			{%if user.is_authenticated%}
+                {% if collection.id in likes %}
+                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{collection.id}}"
+                    data-username="{{portfolio_data.user}}">
+                    <span class='text'>Favorited</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  </button>
+                {%else%}
+                  <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{collection.id}}"
+                    data-username="{{designer.user}}">
+                    <span class='text'>Favorite</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+                  </button>
+                {%endif%}
+			{%endif%}
+
+
 		<div class="col-xs-12 col-sm-12 col-md-2">
-			<button type="button" class="btn btn-default btn-lg like-btn"><span class='text'>Favorite</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+			<button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{collection.id }}" data-username="{{designer.user}}"><span class='text'>Favorite</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
 			</button>
 		</div>
 	</div>
