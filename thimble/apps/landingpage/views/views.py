@@ -2,10 +2,16 @@ from django.shortcuts import render
 from django.core.context_processors import csrf
 import os, chimpy
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
-
+from django.http import Http404, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 def home(request):
+    try:
+        if request.user.buyer is not None:
+            return HttpResponseRedirect(reverse('landingpage:dashboard', args=(request.user.username,)))
+    except:
+        return HttpResponseRedirect(reverse('Portfolios:render_portfolio', args=(request.user.username,)))
+
     # new-home-page
     # context = {}
     # design_stories = DesignStory.objects.get_all_design_stories()
@@ -28,7 +34,7 @@ def home(request):
     #         likes = Like.objects.get_likes(liker=request.user, story_ids=story_ids)
     #         context['likes'] = likes
 
-    return render(request, "landingpage/index.html")
+    #return render(request, "landingpage/index.html")
 
 @login_required
 def dashboard(request, username):
