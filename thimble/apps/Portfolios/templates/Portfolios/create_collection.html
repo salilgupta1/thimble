@@ -1,0 +1,55 @@
+{% extends 'form.html' %}
+{% load staticfiles %}
+{% load cloudinary %}
+
+{%block app_css%}
+    <link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/create_story.css'%}"/>
+    {{block.super}}
+{%endblock%}
+
+{%block content%}
+	<div id="direct_upload" class="row">
+		<form method='post' id='create-collection' action="{%url 'Portfolios:create_collection' request.user.username%}">
+			{%csrf_token%}
+            <div class="story-det-wrapper">
+                <h3>Create a Collection</h3>
+                {%if error%}
+                    {{error}}
+                {%endif%}
+
+                {% if collection_form.non_field_errors %}
+                    {% for error in collection_form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                {% endif %}
+
+                {% for field in collection_form %}
+                    <div class="form-group">
+                        <div id="{{ field.auto_id }}_errors" class='form-error'>
+                            {{ field.errors|striptags }}
+                        </div>
+                        {% if field.label == 'Photos'%}
+                            <br/>
+                            <div>
+                               <a href="#" id="photos_upload_widget" class="cloudinary-button"></a><br/>
+                            </div>
+                            
+                        {%else%}
+                            {{field}}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+            <button type='submit' class='btn btn-primary'>Create</button>
+        </form>
+        <div id="images"></div>
+	</div>
+{%endblock%}
+
+{%block scripts%}
+    {{block.super}}
+    <script>
+        ImageUpload.init($.cloudinary.config().cloud_name, "#create-collection");
+    </script>
+
+{%endblock%}

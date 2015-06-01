@@ -2,18 +2,22 @@ from django.db import models
 
 class LikeManager(models.Manager):
 	
-	def get_likes(self, liker, story_ids):
-		# return which design stories a user has liked 
+	def get_likes(self, liker, collection_ids):
+		# return which collections a user has liked 
 		try:
-			rows = self.filter(design_story_id__in=story_ids, liker=liker).values_list("design_story_id", flat=True)
+			object_id = liker.pk
+			content_type = liker.get_ct()
+			rows = self.filter(collection_id__in=collection_ids, object_id=object_id, content_type=content_type).values_list("collection_id", flat=True)
 			return rows
 		except:
 			raise
 
 	def get_favorites(self, liker):
-		# count of number of stories a user has liked
+		# count of number of collections a user has liked
 		try:
-			count = self.filter(liker_id=liker).count()
+			object_id = liker.pk
+			content_type = liker.get_ct()
+			count = self.filter(object_id = object_id, content_type=content_type).count()
 			return count
 		except:
 			raise

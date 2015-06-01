@@ -1,0 +1,40 @@
+[
+{
+    "fields": {
+        "bio": "I make hipster clothing for kids age 12-16",
+        "avatar": "",
+        "followers": 0,
+        "location": "Seattle",
+        "following": 0,
+        "user": "devpat"
+    },
+    "model": "Users.designer",
+    "pk": 1
+},
+{
+    "fields": {
+        "bio": "",
+        "avatar": "",
+        "followers": 0,
+        "location": "",
+        "following": 0,
+        "boutique_name": "",
+        "user": "sdasbooty"
+    },
+    "model": "Users.buyer",
+    "pk": 1
+},
+{
+    "fields": {
+        "bio": "Run a teenage boys store in Soma",
+        "avatar": "",
+        "followers": 0,
+        "location": "San Francisco",
+        "following": 0,
+        "boutique_name": "Boys 2 Men",
+        "user": "ksur"
+    },
+    "model": "Users.buyer",
+    "pk": 2
+}
+]

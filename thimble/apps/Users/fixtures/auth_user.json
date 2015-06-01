@@ -1,0 +1,128 @@
+[
+{
+    "fields": {
+        "username": "salilgupta",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2015-04-27T17:29:06.821Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$TCnC2GPcJCA2$lFcli9OgoevgWJoAJ8EGlxPPwYUwEcfEVz884yVMXlg=",
+        "email": "salil.gupta323@gmail.com",
+        "date_joined": "2015-04-27T17:28:46.785Z"
+    },
+    "model": "auth.user",
+    "pk": 29
+},
+{
+    "fields": {
+        "username": "salil",
+        "first_name": "Salil",
+        "last_name": "Gupta",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-04-28T01:20:19.143Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$9E5dKB67se51$JfhwnqNYRRZNFXt+4sp0zaKsS5nqnXiJB22WweTsSx8=",
+        "email": "salil.gupta323@gmail.com",
+        "date_joined": "2015-04-28T01:20:18.925Z"
+    },
+    "model": "auth.user",
+    "pk": 30
+},
+{
+    "fields": {
+        "username": "chloepad",
+        "first_name": "Chloe",
+        "last_name": "Padula",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-05-20T19:06:28.497Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$T3ryuRCJY1UO$SwurjLzP4EBnYjHUAc4YyheP+0VDV5pipHsIJ45helA=",
+        "email": "chloepadula2015@u.northwestern.edu",
+        "date_joined": "2015-05-20T19:06:28.261Z"
+    },
+    "model": "auth.user",
+    "pk": 32
+},
+{
+    "fields": {
+        "username": "cp3",
+        "first_name": "Chacko",
+        "last_name": "Pooth",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-05-20T19:22:45.881Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$072dI327yIa4$PB1+9H7znto++N8kpUliIqr88R8UrDD7ms8LJ1lDjyg=",
+        "email": "cp@gmail.com",
+        "date_joined": "2015-05-20T19:21:28.860Z"
+    },
+    "model": "auth.user",
+    "pk": 33
+},
+{
+    "fields": {
+        "username": "sdasbooty",
+        "first_name": "Sanjeet",
+        "last_name": "Das",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-05-21T23:41:04.524Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$M9upINWlrZH5$cV2SDefwQKTFyjNZ7cCjfyxrYsCcqhge3HJjVK18txI=",
+        "email": "sdas@g.com",
+        "date_joined": "2015-05-21T21:43:22.420Z"
+    },
+    "model": "auth.user",
+    "pk": 34
+},
+{
+    "fields": {
+        "username": "ksur",
+        "first_name": "Krish",
+        "last_name": "Sur",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-05-21T21:49:01.592Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$OUss6MDaOZsX$FpW8gIL0lMkKbmrp56/66HekyhH/VdIAt5K3Hs0LjrQ=",
+        "email": "ksur@g.com",
+        "date_joined": "2015-05-21T21:49:01.367Z"
+    },
+    "model": "auth.user",
+    "pk": 35
+},
+{
+    "fields": {
+        "username": "devpat",
+        "first_name": "Dev",
+        "last_name": "Pat",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-05-21T21:50:13.214Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$15000$QUO9DY3prEbv$iaekuGfoSJKGY75DEFoG5H6I3TmWg1QdFCiEaFs2OIQ=",
+        "email": "dp@g.com",
+        "date_joined": "2015-05-21T21:50:12.952Z"
+    },
+    "model": "auth.user",
+    "pk": 36
+}
+]

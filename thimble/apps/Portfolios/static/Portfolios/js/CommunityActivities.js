@@ -1,12 +1,10 @@
 var CommunityActivities = (function($){
-	var authenticatedUsername = "",
-	csrftoken = "";
-
-	var like = function(self, path){
+	var csrftoken = "",
+	like = function(self, path){
 		var data = {
-			"liker":CommunityActivities.authenticatedUsername, 
-			"design_story_id":self.attr("data-storyid"),
-			"csrfmiddlewaretoken":CommunityActivities.csrftoken
+			"collection_id":self.attr("data-collectionid"),
+			"csrfmiddlewaretoken":CommunityActivities.csrftoken,
+			"is_liking":1
 		};
 
 		$.ajax({
@@ -31,9 +29,9 @@ var CommunityActivities = (function($){
 
 	unlike = function(self, path){
 		var data = {
-			"liker":CommunityActivities.authenticatedUsername, 
-			"design_story_id":self.attr("data-storyid"),
-			"csrfmiddlewaretoken":CommunityActivities.csrftoken
+			"collection_id":self.attr("data-collectionid"),
+			"csrfmiddlewaretoken":CommunityActivities.csrftoken,
+			"is_liking":0
 		};
 
 		$.ajax({
@@ -58,9 +56,8 @@ var CommunityActivities = (function($){
 
 	follow = function(self, path){
 		var data = {
-			"follower":CommunityActivities.authenticatedUsername, 
-			"followee":self.attr("data-username"),
-			"csrfmiddlewaretoken":CommunityActivities.csrftoken
+			"csrfmiddlewaretoken":CommunityActivities.csrftoken,
+			"is_following":1
 		};
 
 		$.ajax({
@@ -85,9 +82,8 @@ var CommunityActivities = (function($){
 
 	unfollow = function(self, path){
 		var data = {
-			"follower":CommunityActivities.authenticatedUsername, 
-			"followee":self.attr("data-username"),
-			"csrfmiddlewaretoken":CommunityActivities.csrftoken
+			"csrfmiddlewaretoken":CommunityActivities.csrftoken,
+			"is_following":0
 		};
 
 		$.ajax({
@@ -113,8 +109,7 @@ var CommunityActivities = (function($){
 
 	comment = function(self, path, e){
 		var data = {
-			"commenter": CommunityActivities.authenticatedUsername,
-			"design_story_id": self.attr("data-storyid"),
+			"collection_id": self.attr("data-collectionid"),
 			"csrfmiddlewaretoken": CommunityActivities.csrftoken,
 			"comment": $("#id_comment").val()
 		};
@@ -131,7 +126,7 @@ var CommunityActivities = (function($){
 				
 				// add comment
 				commentDiv = '<div class="commenter-wrapper">\
-								<p class="commenter-name">'+data['commenter']+'</p>\
+								<p class="commenter-name">'+self.attr("data-commenter")+'</p>\
 								<p class="comment">'+data['comment']+'</p>\
 							  </div>';
 				$(".comment-bin").append(commentDiv);
@@ -148,25 +143,25 @@ var CommunityActivities = (function($){
 		// like button is clicked
 		$(document).on('click','.like-btn',function(){
 
-			path = "/"+$(this).attr("data-username")+"/like-story/";
+			path = "/"+$(this).attr("data-username")+"/liking/";
 			like($(this), path);
 		}); 
 
 		// unlike button is clicked
 		$(document).on('click','.unlike-btn',function(){
-			path = "/"+$(this).attr("data-username")+"/unlike-story/";
+			path = "/"+$(this).attr("data-username")+"/liking/";
 			unlike($(this), path);
 		});
 
 		// follow button is clicked
 		$(document).on('click','#follow-btn',function(){
-			path = "/"+$(this).attr("data-username")+"/follow/";
+			path = "/"+$(this).attr("data-username")+"/following/";
 			follow($(this), path);
 		});
 
 		// unfollow button is clicked
 		$(document).on('click','#unfollow-btn',function(){
-			path = "/"+$(this).attr("data-username")+"/unfollow/";
+			path = "/"+$(this).attr("data-username")+"/following/";
 			unfollow($(this), path);
 		});
 

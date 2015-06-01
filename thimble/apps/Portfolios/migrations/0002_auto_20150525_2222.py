@@ -7,20 +7,20 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Portfolios', '0010_auto_20150423_0400'),
+        ('Portfolios', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='entry',
-            name='entry_desc',
-            field=models.TextField(default=b'', max_length=200, blank=True),
+            model_name='collection',
+            name='comments',
+            field=models.PositiveIntegerField(default=0, blank=True),
             preserve_default=True,
         ),
         migrations.AlterField(
-            model_name='entry',
-            name='entry_title',
-            field=models.CharField(max_length=60),
+            model_name='collection',
+            name='likes',
+            field=models.PositiveIntegerField(default=0, blank=True),
             preserve_default=True,
         ),
     ]

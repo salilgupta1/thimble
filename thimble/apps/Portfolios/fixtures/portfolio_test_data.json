@@ -1,0 +1,48 @@
+[
+{
+    "fields": {
+        "designer": "devpat",
+        "description": "The newest Collection to Thimble",
+        "title": "Test Collection",
+        "comments": 1,
+        "likes": 1,
+        "wip": false,
+        "date_created": "2015-05-26"
+    },
+    "model": "Portfolios.collection",
+    "pk": 1
+},
+{
+    "fields": {
+        "designer": "devpat",
+        "description": "The newest Collection to Thimble",
+        "title": "The newest collection ever",
+        "comments": 0,
+        "likes": 0,
+        "wip": false,
+        "date_created": "2015-05-26"
+    },
+    "model": "Portfolios.collection",
+    "pk": 2
+},
+{
+    "fields": {
+        "collection": 1,
+        "object_id": 1,
+        "content_type": 7
+    },
+    "model": "Portfolios.like",
+    "pk": 2
+},
+{
+    "fields": {
+        "collection": 1,
+        "comment": "This is a test",
+        "date": "2015-05-27",
+        "object_id": 1,
+        "content_type": 7
+    },
+    "model": "Portfolios.comment",
+    "pk": 1
+}
+]

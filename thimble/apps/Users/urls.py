@@ -7,5 +7,5 @@ urlpatterns = patterns('',
 	url(r'^login/$', login, {'template_name':'Users/login.html','authentication_form':LoginForm}, name='login'),
 	url(r'^logout/$', logout, {'next_page': '/'}, name='logout'),
 	url(r'^create-account/$', views.create_account, name='create_account'),
-	url(r'^edit-account/$', views.edit_account, name='edit_account'),
+	url(r'^edit-account/(?P<user_type>[\w]+)/$', views.edit_account, name='edit_account'),
 )

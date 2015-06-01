@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ["*"]
 
 LOGIN_URL = "/accounts/login"
 
-LOGIN_REDIRECT_URL = '/new-home-page'
+LOGIN_REDIRECT_URL = '/home'
 
 # Application definition
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'thimble.apps.landingpage',
     'thimble.apps.Users',
     'thimble.apps.Portfolios',
+    'taggit',
 )
 
 MIDDLEWARE_CLASSES = (

@@ -1,3 +1,6 @@
+# NOW DEFUNCT
+# REMOVE LATER
+
 from django.db import models
 from thimble.apps.Portfolios.models.managers.DesignStoryManager import DesignStoryManager
 from cloudinary.models import CloudinaryField
