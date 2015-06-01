@@ -34,7 +34,7 @@
 @media(max-width:767px){}
 @media(min-width:768px){}
 @media(min-width:992px){
-	.like-btn {
+	.like-btn, .unlike-btn {
 		margin-top: 30px;
 	}
 }
