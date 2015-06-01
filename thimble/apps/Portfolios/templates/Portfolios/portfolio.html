@@ -31,7 +31,7 @@
   <h2 class="profile-name">{{designer.user.get_full_name}}</h2>
   <h4 class="text-center"> {{designer.location}}</h4>
 
-  {% if not designer.user.get_username == user.get_username and user.is_authenticated %}
+  {% if not designer.user.get_username == user.get_username %}
     <div class="follow-wrapper">
       {%if not is_following %}
         <button class="follow-btn" id='follow-btn' data-username="{{designer.user}}">Follow</button>
@@ -52,7 +52,7 @@
         <div class="collection-container" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
           <div class="det-container">
             <h3>{{collection.title}}</h3>
-            <h3>Spring 2015</h3>
+            <!--h3>Spring 2015</h3-->
             <p>{{collection.description}}</p>
 
             <div class="col-xs-12 col-sm-6 col-md-4">
@@ -74,54 +74,6 @@
       </div>
     </div>
   {%endfor%}
-
-
-
-  <!--div class="row piece-grid">
-    {%for collection in collections%}
-      <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-        <div class="piece">
-          <div class="piece-thumb-container">
-            {%url 'Portfolios:render_collection' designer.user collection.id collection.title|slugify as dest%}
-            <div class="piece-overlay" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
-              <p><strong>{{collection.title}}</strong></p>
-              <p>{{collection.date_created}}</p>
-              <br></br>
-              <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{collection.likes}}</span></p>
-              <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{collection.comments}}</span></p>
-
-              {%if user.is_authenticated%}
-                {% if collection.id in likes %}
-                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{collection.id}}"
-                    data-username="{{portfolio_data.user}}">
-                    <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                  </button>
-                {%else%}
-                  <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{collection.id }}"
-                    data-username="{{designer.user}}">
-                    <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                  </button>
-                {%endif%}
-              {%endif%}
-                <div class="social-wrapper">
-                    <span class="icon-facebook"></span>
-                    <a class="twitter popup" href="http://twitter.com/share?text={{design_story.title}} by {{portfolio_data.user__first_name}} on @ThimbleApp">
-                        <span class="icon-twitter"></span>
-                    </a>
-                    <a class="tumblr" href="#">
-                        <span class="icon-tumblr"></span>
-                    </a>
-                    <a class="pinterest" href="javascript:pinIt();">
-                        <span class="icon-pinterest"></span>
-                    </a>
-                </div>
-            </div>
-            <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
-          </div>
-        </div>
-      </div>
-    {%endfor%}
-  </div-->
        
 {%endblock%}
 
