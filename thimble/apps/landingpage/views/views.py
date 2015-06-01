@@ -12,30 +12,6 @@ def home(request):
     except:
         return HttpResponseRedirect(reverse('Portfolios:render_portfolio', args=(request.user.username,)))
 
-    # new-home-page
-    # context = {}
-    # design_stories = DesignStory.objects.get_all_design_stories()
-
-    # story_ids = []
-
-    # # get cover photos
-    # if design_stories is not None:
-    #     cover_photos = []
-    #     for story in design_stories:
-    #         story_ids.append(story['design_story_id'])
-    #         cover_photo = Entry.objects.get_cover_photos(story['design_story_id'])
-    #         cover_photos.append(cover_photo)
-
-    #     context['stories'] = zip(design_stories, cover_photos)
-
-    # # get likes and follow
-    # if request.user.is_authenticated():
-    #     if design_stories is not None:
-    #         likes = Like.objects.get_likes(liker=request.user, story_ids=story_ids)
-    #         context['likes'] = likes
-
-    #return render(request, "landingpage/index.html")
-
 @login_required
 def dashboard(request, username):
     if request.user.username== username:
@@ -53,8 +29,7 @@ def landingpage(request):
             chimp.list_subscribe(os.environ['MAILCHIMP_LIST_ID'], email, {},
                                  double_optin=False, send_welcome=True)
         except:
-            context[
-                'error'] = "We're sorry, it seems there was an error. This may be because you haves already signed up."
+            context['error'] = "We're sorry, it seems there was an error. This may be because you haves already signed up."
         else:
             context['success'] = "Thank you for your interest in Thimble!"
 
