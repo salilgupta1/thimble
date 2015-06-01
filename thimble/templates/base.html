@@ -65,6 +65,7 @@
                           </ul>
                         </li>
                       {%else%}
+                        <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Messages</a></li>
                         <li class="dropdown">
                           <a href="{%url 'Portfolios:render_portfolio' user.username%}" role="button" aria-expanded="false">{{user.first_name}} {{user.last_name}} <span class="caret"></span></a>
                           <ul class="dropdown-menu" role="menu">

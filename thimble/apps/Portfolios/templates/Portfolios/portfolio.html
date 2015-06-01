@@ -3,87 +3,94 @@
 {% load cloudinary %}
 
 {%block app_css%}
-  <link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/profile.css'%}"/>
-  <link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/fontello.css'%}"/>
+<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/profile.css'%}"/>
+<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/fontello.css'%}"/>
 {%endblock%}
 
 
 {%block content%}
-  <div class="profile-header">
-    <div class="profile-line profile-line-left">
-      <p class="text-followers"><span>{{designer.followers}}</span><br>Followers</p>
-      <p class="text-following"><span>{{designer.following}}</span><br>Following</p>
-    </div>
-    <div class="profile-pic-block">
-      <div class="profile-pic-wrapper">
-        {% if not designer.avatar%}
-          <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
-        {%else%}
-          <img src="{%cloudinary_url designer.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
-        {%endif%}
-      </div>
-    </div>
-    <div class="profile-line profile-line-right">
-      <p class="text-favorites">{{favorites}}<br>Favorites</p>
-      <p class="text-pieces">{{num_pieces}}<br>Pieces</p>
-    </div>
+<div class="profile-header">
+  <div class="profile-line profile-line-left">
+    <p class="text-followers"><span>{{designer.followers}}</span><br>Followers</p>
+    <p class="text-following"><span>{{designer.following}}</span><br>Following</p>
   </div>
-  <h2 class="profile-name">{{designer.user.get_full_name}}</h2>
-  <h4 class="text-center"> {{designer.location}}</h4>
-
-  {% if not designer.user.get_username == user.get_username %}
-    <div class="follow-wrapper">
-      {%if not is_following %}
-        <button class="follow-btn" id='follow-btn' data-username="{{designer.user}}">Follow</button>
+  <div class="profile-pic-block">
+    <div class="profile-pic-wrapper">
+      {% if not designer.avatar%}
+      <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
       {%else%}
-        <button class="follow-btn" id='unfollow-btn' data-username="{{designer.user}}">Following</button>
-      {%endif%} 
+      <img src="{%cloudinary_url designer.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
+      {%endif%}
     </div>
-  {%endif%}
-
-  <div class="bio-wrapper">
-    <p class="bio-text">{{designer.bio}}</p>
   </div>
-  
-  {%for collection in collections%}
-    <div class="row">
-      <div class="col-xs-12">
-        {%url 'Portfolios:render_collection' designer.user collection.id collection.title|slugify as dest%}
-        <div class="collection-container" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
-          <div class="det-container">
-            <h3>{{collection.title}}</h3>
-            <!--h3>Spring 2015</h3-->
-            <p>{{collection.description}}</p>
+  <div class="profile-line profile-line-right">
+    <p class="text-favorites">{{favorites}}<br>Favorites</p>
+    <p class="text-pieces">{{num_pieces}}<br>Pieces</p>
+  </div>
+</div>
+<h2 class="profile-name">{{designer.user.get_full_name}}</h2>
+<h4 class="text-center"> {{designer.location}}</h4>
 
-            <div class="col-xs-12 col-sm-6 col-md-4">
-              <h3>Tags</h3>
-              <div class="tags-box">
-                {%for tag in collection.tags%}
-                  <span class="label label-default label-tag">{{tag}}</span>
-                {%endfor%}
-              </div>
-            </div>
-          </div>
-          <div class="thumb-container">
-            {%for photo in collection.photos%}
-              <img class="img-responsive thumb-img" src="{%cloudinary_url photo width='300' height='400' %}">
+{% if not designer.user.get_username == user.get_username %}
+<div class="follow-wrapper">
+  {%if not is_following %}
+  <button class="follow-btn" id='follow-btn' data-username="{{designer.user}}">Follow</button>
+  {%else%}
+  <button class="follow-btn" id='unfollow-btn' data-username="{{designer.user}}">Following</button>
+  {%endif%} 
+</div>
+{%endif%}
+
+
+<div class="bio-wrapper">
+  <p class="bio-text">{{designer.bio}}</p>
+</div>
+
+{%for collection in collections%}
+<div class="row">
+  <div class="col-xs-12">
+    {%url 'Portfolios:render_collection' designer.user collection.id collection.title|slugify as dest%}
+    <div class="collection-container" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
+      <div class="det-container">
+        <h3>{{collection.title}}</h3>
+        <!--h3>Spring 2015</h3-->
+        <p>{{collection.description}}</p>
+
+        <div class="tag-container">
+          <h4>Tags</h4>
+          <div class="tags-box">
+            {%for tag in collection.tags%}
+            <span class="label label-default label-tag">{{tag}}</span>
             {%endfor%}
           </div>
         </div>
+
+        <div class="like-box">
+          <button class="btn btn-default btn-small"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Favorite ({{collection.likes}})</button>
+        </div>
+
+      </div>
+      <div class="thumb-container">
+        {%for photo in collection.photos%}
+        <img class="img-responsive thumb-img" src="{%cloudinary_url photo width='300' height='400' %}">
+        <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+        {%endfor%}
       </div>
     </div>
-  {%endfor%}
-       
+  </div>
+</div>
+{%endfor%}
+
 {%endblock%}
 
 {%block scripts%}
-  {{block.super}}
+{{block.super}}
 
-  <script>
+<script>
 
-    $(document).ready(function(){
-        CommunityActivities.csrftoken = $.cookie('csrftoken');
-        CommunityActivities.init();
+$(document).ready(function(){
+  CommunityActivities.csrftoken = $.cookie('csrftoken');
+  CommunityActivities.init();
 
 		  // function fbShare(url, title, descr, image, winWidth, winHeight) {
   		// 	var winTop = (screen.height / 2) - (winHeight / 2);
@@ -137,22 +144,22 @@
 
   		// 	return false;
   		// });
-    });
+});
 
-    function goToStory(dest, event){
+function goToStory(dest, event){
       // don't have time to make a nice fancy solution, but this works
       // checks if target element of click is like or share buttons, if so it doesn't go to the profile
       if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"
-              && event.target.classList[0] != "social-wrapper" &&
-              event.target.parentElement.classList[0] != "social-wrapper" &&
-              event.target.parentElement.parentElement.classList[0] != "social-wrapper"){
-          window.location.href = dest;
-      }
+        && event.target.classList[0] != "social-wrapper" &&
+        event.target.parentElement.classList[0] != "social-wrapper" &&
+        event.target.parentElement.parentElement.classList[0] != "social-wrapper"){
+        window.location.href = dest;
     }
+  }
 
   </script>
-	<script src="{%static 'Portfolios/js/social.js' %}"></script>
+  <script src="{%static 'Portfolios/js/social.js' %}"></script>
   <script src="{%static 'Portfolios/js/profile.js' %}"></script>
-    <!-- Please call pinit.js only once per page -->
-    <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
-{%endblock%}
+  <!-- Please call pinit.js only once per page -->
+  <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
+  {%endblock%}
