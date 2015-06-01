@@ -13,9 +13,9 @@ var CommunityActivities = (function($){
 			url:path,
 			success:function(response){
 				// update count
-				count = self.siblings("p").children(".likes-count").text();
+				count = self.children(".likes-count").text();
 				count = parseInt(count) + 1;
-				self.siblings("p").children(".likes-count").text(count);
+				self.children(".likes-count").text(count);
 
 				// change the button to unlike 
 				self.children(".text").text("Favorited");
@@ -40,9 +40,9 @@ var CommunityActivities = (function($){
 			url:path,
 			success:function(response){
 				// update count
-				count = self.siblings("p").children(".likes-count").text();
+				count = self.children(".likes-count").text();
 				count = parseInt(count) - 1;
-				self.siblings("p").children(".likes-count").text(count);
+				self.children(".likes-count").text(count);
 
 				// change button to like
 				self.children(".text").text("Favorite");

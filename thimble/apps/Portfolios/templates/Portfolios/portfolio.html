@@ -66,14 +66,16 @@
         </div>
 
         <div class="like-box">
-          <button class="btn btn-default btn-small"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> Favorite ({{collection.likes}})</button>
+          {%if collection.id in likes%}
+            <button class="btn btn-default btn-small unlike-btn" data-collectionid="{{collection.id}}" data-username="{{designer.user}}"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> <span class='text'>Favorited</span> (<span class='likes-count'>{{collection.likes}}</span>)</button>
+          {%else%}
+            <button class="btn btn-default btn-small like-btn" data-collectionid="{{collection.id}}" data-username="{{designer.user}}"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> <span class='text'>Favorite</span> (<span class='likes-count'>{{collection.likes}}</span>)</button>
+          {%endif%}
         </div>
-
       </div>
       <div class="thumb-container">
         {%for photo in collection.photos%}
-        <img class="img-responsive thumb-img" src="{%cloudinary_url photo width='300' height='400' %}">
-        <img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+          <img class="img-responsive thumb-img" src="{%cloudinary_url photo width='300' height='400' %}">
         {%endfor%}
       </div>
     </div>
