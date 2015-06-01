@@ -129,6 +129,7 @@
 .thumb-container {
 	height: 234px;
 	width: 90000px;
+	min-width: 100%;
 }
 
 .thumb-img {
