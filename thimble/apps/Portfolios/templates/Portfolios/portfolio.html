@@ -18,12 +18,12 @@
     <div class="profile-pic-wrapper">
       {% if not designer.avatar%}
       <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
-      {%else%}
+            {%else%}
       <img src="{%cloudinary_url designer.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
       {%endif%}
     </div>
   </div>
-  <div class="profile-line profile-line-right">
+    <div class="profile-line profile-line-right">
     <p class="text-favorites">{{favorites}}<br>Favorites</p>
     <p class="text-pieces">{{num_pieces}}<br>Pieces</p>
   </div>
@@ -31,15 +31,16 @@
 <h2 class="profile-name">{{designer.user.get_full_name}}</h2>
 <h4 class="text-center"> {{designer.location}}</h4>
 
-{% if not designer.user.get_username == user.get_username and user.is_authenticated %}
-<div class="follow-wrapper">
-  {%if not is_following %}
-  <button class="follow-btn" id='follow-btn' data-username="{{designer.user}}">Follow</button>
-  {%else%}
-  <button class="follow-btn" id='unfollow-btn' data-username="{{designer.user}}">Following</button>
-  {%endif%} 
-</div>
-{%endif%}
+{% if not designer.user.get_username == user.get_username %}
+    <div class="follow-wrapper">
+      {%if not is_following %}
+        <button class="follow-btn" id='follow-btn' data-username="{{designer.user}}">Follow</button>
+      {%else%}
+        <button class="follow-btn" id='unfollow-btn' data-username="{{designer.user}}">Following</button>
+      {%endif%} 
+    </div>
+  {%endif%}
+
 
 <div class="bio-wrapper">
   <p class="bio-text">{{designer.bio}}</p>
@@ -60,6 +61,31 @@
           <div class="tags-box">
             {%for tag in collection.tags%}
             <span class="label label-default label-tag">{{tag}}</span>
+=======
+  
+  {%for collection in collections%}
+    <div class="row">
+      <div class="col-xs-12">
+        {%url 'Portfolios:render_collection' designer.user collection.id collection.title|slugify as dest%}
+        <div class="collection-container" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
+          <div class="det-container">
+            <h3>{{collection.title}}</h3>
+            <!--h3>Spring 2015</h3-->
+            <p>{{collection.description}}</p>
+
+            <div class="col-xs-12 col-sm-6 col-md-4">
+              <h3>Tags</h3>
+              <div class="tags-box">
+                {%for tag in collection.tags%}
+                  <span class="label label-default label-tag">{{tag}}</span>
+                {%endfor%}
+              </div>
+            </div>
+          </div>
+          <div class="thumb-container">
+            {%for photo in collection.photos%}
+              <img class="img-responsive thumb-img" src="{%cloudinary_url photo width='300' height='400' %}">
+>>>>>>> 1fda1768dafe0ce2401982531a768e733db737f9
             {%endfor%}
           </div>
         </div>
@@ -74,6 +100,7 @@
         {%endfor%}
       </div>
     </div>
+<<<<<<< HEAD
   </div>
 </div>
 {%endfor%}
@@ -125,6 +152,11 @@
       </div>
     {%endfor%}
   </div-->
+=======
+  {%endfor%}
+       
+{%endblock%}
+>>>>>>> 1fda1768dafe0ce2401982531a768e733db737f9
 
   {%endblock%}
 

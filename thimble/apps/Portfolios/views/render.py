@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
 from django.core.context_processors import csrf
+from django.contrib.auth.decorators import login_required
 
 # models
 from thimble.apps.Portfolios.models.schemas.Piece import Piece
@@ -13,6 +14,7 @@ from thimble.apps.Users.models.schemas.Follow import Follow
 
 from cloudinary.api import resources
 
+@login_required
 def render_portfolio(request, username):
     designer = Designer.objects.get_designer_info(username=username)
 
@@ -45,20 +47,18 @@ def render_portfolio(request, username):
             except:
                 pass
         context['collections'] = collections
-        # get if liked by authenticated user for each collection
-        if request.user.is_authenticated():
-            
-            try:
-                liker = request.user.buyer
-            except AttributeError:
-                liker = request.user.designer
 
-            likes = Like.objects.get_likes(liker=liker, collection_ids=collection_ids)    
-            context['likes'] = likes
+        # get if liked by user for each collection
+        try:
+            liker = request.user.buyer
+        except AttributeError:
+            liker = request.user.designer
 
-        # get tags
+        likes = Like.objects.get_likes(liker=liker, collection_ids=collection_ids)    
+        context['likes'] = likes
+
     # get follow 
-    if request.user.is_authenticated() and request.user.username != username:
+    if request.user.username != username:
         try:
             follower = request.user.buyer
         except AttributeError:
@@ -67,19 +67,28 @@ def render_portfolio(request, username):
         context['is_following'] = Follow.objects.get_is_following(follower=follower, followee=designer) 
     return render(request, "Portfolios/portfolio.html", context)
 
+@login_required
 def render_collection(request, username, collection_id, slug):
    
     designer = Designer.objects.get_designer_info(username=username)
 
     # get details of the specific design story
     collection = Collection.objects.get_collection(collection_id=collection_id)
-    tags = Collection.objects.get_tags(collection_id=collection_id)
     if collection is None:
         raise Http404
+    tags = Collection.objects.get_tags(collection_id=collection_id)
+    
+    try:
+        liker = request.user.buyer
+    except:
+        liker = request.user.designer
 
-    # get comments
-    #comments = Comment.objects.get_comments(collection_id=collection_id)
+    like = Like.objects.get_likes(liker=liker, collection_ids = [collection_id,])
 
+    is_liked = False
+    if int(collection_id) in like:
+        is_liked = True
+    
     # get pieces associated with story
     pieces = Piece.objects.get_pieces(collection_id=collection_id)
 
@@ -90,7 +99,8 @@ def render_collection(request, username, collection_id, slug):
         "username": username,
         "designer": designer,
         "slug": slug,
-        "tags":tags
+        "tags":tags,
+        "is_liked":is_liked
     }
 
     return render(request, "Portfolios/collection.html", context)
