@@ -3,9 +3,155 @@
 {% load cloudinary %}
 
 {%block app_css%}
+<link rel="stylesheet" href="{%static 'landingpage/css/dashboard.css' %}"/>
+<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/profile.css'%}"/>
 {%endblock%}
 
 {%block content%}
+<div class="sidebar">
+	<a href="#">
+		<div class="feed">
+			<p class="text-center">News Feed</p>
+		</div>
+	</a>
+	<a href="#">
+		<div class="favorites">
+			<p class="text-center">Favorites</p>
+		</div>
+	</a>
+	<div class="messages-header">
+		<p class="text-center">Messages</p>
+	</div>
+	<div class="messages-list">
+		<a href="#">
+			<p>Jane Doe<span class="badge">8</span></p>
+		</a>
+		<a href="#">
+			<p>Marty Lempkin<span class="badge">5</span></p>
+		</a>
+		<a href="#">
+			<p>Dan Rufolo<span class="badge">2</span></p>
+		</a>
+		<a href="#">
+			<p>Emily Morris</p>
+		</a>
+		<a href="#">
+			<p>Carmen Sandiego</p>
+		</a>
+	</div>
+	<div class="following-header">
+		<p class="text-center">Following</p>
+	</div>
+	<div class="following-list">
+		<a href="#">
+			<div class="following-item">
+				<img class="img-responsive img-circle img-profile" src="http://placemi.com/100x100">
+				<h5>Jane Doe</h5>
+			</div>
+		</a>
+		<a href="#">
+			<div class="following-item">
+				<img class="img-responsive img-circle img-profile" src="http://placemi.com/100x100">
+				<h5>Marty Lempkin</h5>
+			</div>
+		</a>
+		<a href="#">
+			<div class="following-item">
+				<img class="img-responsive img-circle img-profile" src="http://placemi.com/100x100">
+				<h5>Janice Joplin</h5>
+			</div>
+		</a>
+		<a href="#">
+			<div class="following-item">
+				<img class="img-responsive img-circle img-profile" src="http://placemi.com/100x100">
+				<h5>Mary Statz</h5>
+			</div>
+		</a>
+		<a href="#">
+			<div class="following-item">
+				<img class="img-responsive img-circle img-profile" src="http://placemi.com/100x100">
+				<h5>John Locke</h5>
+			</div>
+		</a>
+	</div>
+</div>
+<div class="sidebar-block">
+	</div>
+<div class="collection-container">
+	<div class="det-container">
+		<h3>Collection Title</h3>
+		<h3>Spring 2015</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>
+	</div>
+	<div class="thumb-container">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+	</div>
+
+</div>
+<div class="collection-container">
+	<div class="det-container">
+		<h3>Collection Title</h3>
+		<h3>Spring 2015</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>
+	</div>
+	<div class="thumb-container">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+	</div>
+
+</div>
+<div class="collection-container">
+	<div class="det-container">
+		<h3>Collection Title</h3>
+		<h3>Spring 2015</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>
+	</div>
+	<div class="thumb-container">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+	</div>
+
+</div>
+<div class="collection-container">
+	<div class="det-container">
+		<h3>Collection Title</h3>
+		<h3>Spring 2015</h3>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>
+	</div>
+	<div class="thumb-container">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+		<img class="img-responsive thumb-img" src="http://placemi.com/300x400">
+	</div>
+
+</div>
+
 {%endblock%} 
+
 {%block scripts%}
+<script src="{%static 'Portfolios/js/profile.js' %}"></script>
 {%endblock%}
