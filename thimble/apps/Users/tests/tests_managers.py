@@ -1,8 +1,5 @@
 from django.test import TestCase
 
-from django.core.exceptions import ValidationError
-from django.db import IntegrityError, transaction
-
 from django.contrib.auth.models import User
 from thimble.apps.Users.models.schemas.Designer import Designer
 from thimble.apps.Users.models.schemas.Buyer import Buyer
