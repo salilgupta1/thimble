@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.core.context_processors import csrf
 import os, chimpy
-from thimble.apps.Portfolios.models.schemas.Like import Like
+from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 
 def home(request):
@@ -29,6 +30,12 @@ def home(request):
 
     return render(request, "landingpage/index.html")
 
+@login_required
+def dashboard(request, username):
+    if request.user.username== username:
+        return render(request, "landingpage/dashboard.html")
+    else:
+        raise Http404
 
 def landingpage(request):
     context = {}
