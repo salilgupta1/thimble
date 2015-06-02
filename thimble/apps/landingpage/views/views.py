@@ -28,7 +28,6 @@ def dashboard(request, username):
         context["all_tags"] = all_tags
 
         if request.method == 'POST' and request.is_ajax():
-            print "make ajax call"
             selected_tags = request.POST.getlist('tag-filters[]')
             if len(selected_tags) == 0:
                 collections = Collection.objects.all()
@@ -36,13 +35,11 @@ def dashboard(request, username):
                 collections = Collection.objects.filter(tags__name__in=selected_tags).distinct()
 
             # I couldn't figure out how to construct the URL cleanly and give it to the ajax response
-            collection_urls = []
+            collection_add_info = {}
             for collection in collections:
-                #collection['urls'] = reverse("Portfolios:render_collection", args=(collection.designer.user.username, collection.id, slugify(collection.title)))
-                collection_urls.append("/" + collection.designer.user.username + "/collection/" +
-                                       str(collection.id) + "-" + slugify(collection.title))
-           # print collections
-            response = {'collections': list(collections.values('title', 'designer')), 'collection_urls':collection_urls}
+                collection_add_info[collection.title] = reverse("Portfolios:render_collection", args=(collection.designer.user.username, collection.id, slugify(collection.title)))
+            
+            response = {'collections': list(collections.values('designer','title')), 'add_info':collection_add_info}
             return HttpResponse(json.dumps(response))
 
         collections = Collection.objects.all()

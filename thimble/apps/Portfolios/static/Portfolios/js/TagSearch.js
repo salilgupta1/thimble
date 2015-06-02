@@ -17,8 +17,10 @@ var TagSearch = (function($){
 			success:function(response){
                 var resultsDiv = $('#results');
                 resultsDiv.html('');
+                console.log(response.collections);
                 for(var i=0; i<response.collections.length; i++){
-                    resultsDiv.append('<div><a href="'+ response.collection_urls[i] +'">' + response.collections[i].title + '</a></div>');
+                	var url = response.add_info[response.collections[i].title]
+                    resultsDiv.append('<div><a href="'+ url +'">' + response.collections[i].title + '</a></div>');
                 }
 			},
 			error:function(error){
