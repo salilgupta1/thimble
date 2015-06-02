@@ -23,6 +23,7 @@
       {%endif%}
     </div>
   </div>
+
   <div class="profile-line profile-line-right">
     <p class="text-favorites">{{favorites}}<br>Favorites</p>
     <p class="text-pieces">{{num_pieces}}<br>Pieces</p>
@@ -38,6 +39,7 @@
   {%else%}
   <button class="follow-btn" id='unfollow-btn' data-username="{{designer.user}}">Following</button>
   {%endif%} 
+  <button class="follow-btn" id='message-btn'>Message</button>
 </div>
 {%endif%}
 
