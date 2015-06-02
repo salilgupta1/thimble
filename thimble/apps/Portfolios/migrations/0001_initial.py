@@ -43,20 +43,6 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Entry',
-            fields=[
-                ('entry_id', models.AutoField(serialize=False, primary_key=True)),
-                ('entry_title', models.CharField(max_length=60)),
-                ('date_created', models.DateField(auto_now_add=True)),
-                ('bucket_link', models.CharField(default=b'', max_length=255, blank=True)),
-                ('cover_photo', models.CharField(default=b'', max_length=255, blank=True)),
-                ('entry_desc', models.TextField(default=b'', max_length=200, blank=True)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='Like',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
