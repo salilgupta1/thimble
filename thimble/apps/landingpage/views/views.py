@@ -38,10 +38,11 @@ def dashboard(request, username):
             # I couldn't figure out how to construct the URL cleanly and give it to the ajax response
             collection_urls = []
             for collection in collections:
+                #collection['urls'] = reverse("Portfolios:render_collection", args=(collection.designer.user.username, collection.id, slugify(collection.title)))
                 collection_urls.append("/" + collection.designer.user.username + "/collection/" +
                                        str(collection.id) + "-" + slugify(collection.title))
-
-            response = {'collections': list(collections.values('title', 'designer')), 'collection_urls': collection_urls}
+           # print collections
+            response = {'collections': list(collections.values('title', 'designer')), 'collection_urls':collection_urls}
             return HttpResponse(json.dumps(response))
 
         collections = Collection.objects.all()
