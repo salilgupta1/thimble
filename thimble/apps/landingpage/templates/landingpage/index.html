@@ -9,152 +9,33 @@
 
 {%endblock%}
 
-{#{%block content%}
+{%block content%}
   <div class="row piece-grid">
-    {%for story in stories%}
-      <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-        <div class="piece">
-          <div class="piece-thumb-container">
-            {% url 'Portfolios:render_design_story' story.0.designer story.0.design_story_id story.0.title|slugify as dest%}
-            <div class="piece-overlay" style="cursor:pointer;" onclick='goToStory("{{dest}}", event)'>
-              <p><strong>{{story.0.title}}</strong></p>
-              <p>{{story.0.date_created}}</p>
-              <div class="by-wrapper">
-                <a href="{%url 'Portfolios:render_portfolio' story.0.designer%}">
-                  {%if not story.0.designer__avatar%}
-                    <img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
-                  {%else%}
-                    <img src="{%cloudinary_url story.0.designer__avatar width='50' height='50' %}" class="img-responsive img-circle">
-                  {%endif%}
-                  <p class="by-name">
-                  {{story.0.designer__user__first_name}} {{story.0.designer__user__last_name}}
-                  </p>
-                </a>
-              </div>
-              <p> <span class="glyphicon glyphicon-heart" aria-hidden="true" ></span>  <span class="likes-count">{{story.0.likes}}</span></p>
-              <p> <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> <span class="comments-count">{{story.0.comments}}</span></p>
+    {%csrf_token%}
+    <form method='post' action="{%url 'landingpage:home' %}">
+        <h3>Tags</h3>
+        {%for tag in all_tags%}
+            <input class='tag-filter' name="tag-filters" type="checkbox" value="{{tag}}"/> {{tag}}<br/>
+        {%endfor%}
+    </form>
 
-              {%if user.is_authenticated%}
-                {% if story.0.design_story_id in likes %}
-                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-storyid="{{story.0.design_story_id}}"
-                    data-username="{{story.0.designer}}">
-                    <span class='text'>Unlike</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                  </button>
-                {%else%}
-                  <button type="button" class="btn btn-default btn-lg like-btn" data-storyid="{{story.0.design_story_id}}"
-                    data-username="{{story.0.designer}}">
-                    <span class='text'>Like</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                  </button>
-                {%endif%}
-              {%endif%}
+    <h3>Results</h3>
+     <div id="results">
+        {%for collection in collections%}
+            <a href="{%url 'Portfolios:render_collection' collection.designer.user collection.id collection.title|slugify%}">{{collection.title}}</a><br/>
+        {%endfor%}
+     </div>
 
-                <div class="social-wrapper">
-                    <span class="icon-facebook"></span>
-                    <a class="twitter popup" href="http://twitter.com/share?text={{story.0.designer__user__first_name}} {{story.0.designer__user__last_name}} on @ThimbleApp">
-                        <span class="icon-twitter"></span>
-                    </a>
-                    <a class="tumblr" href="#">
-                        <span class="icon-tumblr"></span>
-                    </a>
-                    <a class="pinterest" href="javascript:pinIt();">
-                        <span class="icon-pinterest"></span>
-                    </a>
-                </div>
-            </div>
-            <img src="{%cloudinary_url story.1.cover_photo width='400' height='550' %}" class="img-responsive">
-          </div>
-        </div>
-      </div>
-    {%endfor%}
   </div>
-{%endblock%} 
+{%endblock%}
+
 {%block scripts%}
-  <script src="{%static 'js/hover.js' %}"></script>
-  <script src="{%static 'Portfolios/js/CommunityActivities.js' %}"></script>
-  <script>
-  function pinIt()
-  {
-    var e = document.createElement('script');
-    e.setAttribute('type','text/javascript');
-    e.setAttribute('charset','UTF-8');
-    e.setAttribute('src','https://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);
-    document.body.appendChild(e);
-  }
-  </script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-        CommunityActivities.authenticatedUsername = "{{user.username}}";
-        CommunityActivities.csrftoken = $.cookie('csrftoken');
-        CommunityActivities.init();
-
-		function fbShare(url, title, descr, image, winWidth, winHeight) {
-			var winTop = (screen.height / 2) - (winHeight / 2);
-			var winLeft = (screen.width / 2) - (winWidth / 2);
-			window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
-		}
-		$('.icon-facebook').click(function() {
-			fbShare(window.location.href, '{{design_story.title}}', '{{design_story.description}}', 'http://goo.gl/dS52U', 520, 350);
-		});
-
-		$('.popup').click(function(event) {
-			var width  = 575,
-			height = 400,
-			left   = ($(window).width()  - width)  / 2,
-			top    = ($(window).height() - height) / 2,
-			url    = this.href,
-			opts   = 'status=1' +
-			',width='  + width  +
-			',height=' + height +
-			',top='    + top    +
-			',left='   + left;
-
-			window.open(url, 'twitter', opts);
-
-			return false;
-		});
-
-		$('.tumblr').click(function(event) {
-			var width  = 575,
-			height = 400,
-			left   = ($(window).width()  - width)  / 2,
-			top    = ($(window).height() - height) / 2,
-			url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
-			opts   = 'status=1' +
-			',width='  + width  +
-			',height=' + height +
-			',top='    + top    +
-			',left='   + left;
-			var now = window.location.href;
-			url += '?shareSource=legacy&canonicalUrl=&posttype=link'
-			// url += '&content=';
-			// url += now;
-			url += '&title=';
-			url += '&caption={{story.0.designer__user__first_name}} {{story.0.designer__user__last_name}} on Thimble';
-			url += '&content=';
-      url += window.location.host;
-      url += window.location.pathname;
-			// url += encodeURIComponent('{{design_story.title}} by {{portfolio_data.user__first_name}} on Thimble');
-
-			window.open(url, 'tumblr', opts);
-
-			return false;
-		});
-
-    });
-
-      function goToStory(dest, event){
-          // don't have time to make a nice fancy solution, but this works
-          // checks if target element of click is like or share buttons, if so it doesn't go to the profile
-          if(event.target.classList[0] != "btn" && event.target.parentElement.classList[0] != "btn"
-                  && event.target.classList[0] != "social-wrapper" &&
-                  event.target.parentElement.classList[0] != "social-wrapper" &&
-                  event.target.parentElement.parentElement.classList[0] != "social-wrapper"){
-              window.location.href = dest;
-          }
-      }
-
-  </script>
-    <script src="{%static 'Portfolios/js/social.js' %}"></script>
-    <!-- Please call pinit.js only once per page -->
-    <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
-{%endblock%}#}
+	{{block.super}}
+    <script type='text/javascript' src="{%static 'Portfolios/js/TagSearch.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            TagSearch.csrftoken = $.cookie('csrftoken');
+            TagSearch.init();
+        });
+    </script>
+{%endblock%}
