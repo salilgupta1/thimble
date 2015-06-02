@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.utils.text import slugify
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
+import json
 
 # cloudinary
 from cloudinary.forms import cl_init_js_callbacks
@@ -14,6 +15,7 @@ from cloudinary.api import resources, delete_resources
 from thimble.utils import photo_rename
 
 # models
+from thimble.apps.Users.models.schemas.Designer import Designer
 from thimble.apps.Portfolios.models.schemas.Piece import Piece
 from thimble.apps.Portfolios.models.schemas.Collection import Collection
 from django.db import IntegrityError
@@ -47,7 +49,7 @@ def create_collection(request, username):
 
                 if not error:
                     slug = slugify(collection.title)
-                    return HttpResponseRedirect(reverse('Portfolios:render_collection', args=(username, collection.pk, slug)))
+                    return HttpResponseRedirect(reverse('Portfolios:edit_collection', args=(username, collection.pk, slug)))
             
         context = {
             "collection_form":collection_form,
@@ -60,8 +62,35 @@ def create_collection(request, username):
         raise Http404
 
 @login_required
-def edit_collection(request, username):
-    pass
+def edit_collection(request, username, collection_id, slug):
+    context = {}
+    if request.user.username == username:
+        if request.is_ajax():
+            pieces = json.loads(request.POST['pieces'])
+            for piece in pieces:
+                p = Piece.objects.get(piece_id=piece['id'])
+                p.piece_title = piece["title"]
+                p.save(update_fields=["piece_title"])
+
+            response = {"status":1, "redirect_url":reverse("Portfolios:render_collection", args=(username, collection_id, slug))}
+            return HttpResponse(json.dumps(response), content_type="application/json")
+
+        else:
+            pieces = Piece.objects.get_pieces(collection_id)
+           
+            context['pieces'] = pieces
+            context['username'] = username
+            context['collection_id'] = collection_id
+            context['slug'] = slug
+
+            return render(request, "Portfolios/edit_collection.html", context)
+    else:
+        raise Http404
     # a restricted editing option
     # edit title, description, tags of collection
     # edit title of pieces
+
+    
+
+
+    

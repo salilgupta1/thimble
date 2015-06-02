@@ -1,34 +1,61 @@
 {%extends 'Portfolios/collection.html' %}
 {%load staticfiles%}
+{% load cloudinary %}
 
+{%block social_media%}{%endblock%}
 {%block editable_info%}
-    <form method='post' id='edit-collection' action="{%url 'Portfolios:edit_collection' request.user.username collection_id slug%}">
-        {%csrf_token%}
-        <div class="story-det-wrapper">
-            <h3>Edit a Collection</h3>
-            {%if error%}
-                {{error}}
-            {%endif%}
-
-            {% if edit_collection.non_field_errors %}
-                {% for error in edit_collection.non_field_errors %}
-                    {{ error }}
-                {% endfor %}
-            {% endif %}
-
-            {% for field in edit_collection %}
-                <div class="form-group">
-                    <div id="{{ field.auto_id }}_errors" class='form-error'>
-                        {{ field.errors|striptags }}
-                    </div>
-                    {{field}}
-                </div>
-            {% endfor %}
-        </div>
-        <button type='submit' class='btn btn-primary'>Edit Collection</button>
-    </form>
-
+    <button class="btn btn-default"><a href="{%url 'Portfolios:render_collection' username collection_id slug%}">Go to Collection</a></button>
 {%endblock%}
 {%block liking%}{%endblock%}
 {%block pieces%}
+    <form action="{%url 'Portfolios:edit_collection' username collection_id slug%}">
+        {%csrf_token%}
+        {%for piece in pieces%}
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="tile-container">
+                    <div class="front-img-container">
+                        <img class="front-img img-responsive" src="{%cloudinary_url piece.front_view width='400' height='550'%}">
+                    </div>
+                    <div class="title-container">
+                        <h4><input type='text' data-pieceid="{{piece.piece_id}}" class='piece-title' value="{{piece.piece_title}}"/></h4>
+                    </div>  
+                </div>
+            </div>
+        {%endfor%}
+    </form>
+    <button type="button" class='btn btn-primary'>Update</button>
+{%endblock%}
+{%block scripts%}
+    {{block.super}}
+    <script>
+        $(document).ready(function(){
+            $(".btn").on("click", function(){
+                var csrftoken = $.cookie('csrftoken');
+                var pieces = [];
+                $.each($(".piece-title"), function(){
+                  var piece = 
+                       {
+                            "id":$(this).attr("data-pieceid"), 
+                            "title":$(this).val()
+                       };
+                    pieces.push(piece);
+                });
+                var path = $("form").attr("action");
+            
+                var data = {
+                    "csrfmiddlewaretoken":csrftoken,
+                    "pieces":JSON.stringify(pieces)
+                };
+                $.ajax({
+                    type:"POST",
+                    data:data,
+                    url:path,
+                    success:function(response){
+                        console.log(response.redirect_url);
+                        window.location.replace(response.redirect_url);
+                    }
+                });
+            });
+        });
+    </script>
 {%endblock%}

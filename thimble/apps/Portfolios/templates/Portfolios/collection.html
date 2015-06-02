@@ -10,24 +10,26 @@
 {%endblock%}
 
 {%block content%}
-	<div class="social-wrapper">
-		<span class="icon-facebook"></span>
-		<a class="twitter popup" href="http://twitter.com/share?text={{collection.title}} by {{designer.user.get_full_name}} on @ThimbleApp">
-			<span class="icon-twitter"></span>
-		</a>
-		<a class="tumblr" href="#">
-			<span class="icon-tumblr"></span>
-		</a>
-		<a class="pinterest" href="javascript:pinIt();">
-			<span class="icon-pinterest"></span>
-		</a>
-	</div>
+	{%block social_media%}
+		<div class="social-wrapper">
+			<span class="icon-facebook"></span>
+			<a class="twitter popup" href="http://twitter.com/share?text={{collection.title}} by {{designer.user.get_full_name}} on @ThimbleApp">
+				<span class="icon-twitter"></span>
+			</a>
+			<a class="tumblr" href="#">
+				<span class="icon-tumblr"></span>
+			</a>
+			<a class="pinterest" href="javascript:pinIt();">
+				<span class="icon-pinterest"></span>
+			</a>
+		</div>
+	{%endblock%}
 	<div class="row">
 		{%block editable_info%}
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<div class="collection-header">
 					<h3>{{collection.title}}</h3>
-					<h5>by <a href="{% url 'Portfolios:render_portfolio' designer.user.get_username %}">{{designer.user.get_full_name}}</a></h5>
+					<h5>By <a href="{% url 'Portfolios:render_portfolio' designer.user.get_username %}">{{designer.user.get_full_name}}</a></h5>
 					<p>{{collection.description}}</p>
 				</div>	
 			</div>
@@ -65,7 +67,7 @@
 							<img class="front-img img-responsive" src="{%cloudinary_url piece.front_view width='400' height='550'%}">
 						</div>
 						<div class="title-container">
-							<h4>{{pieces.title}}</h4>
+							<h4>{{piece.piece_title}}</h4>
 						</div>	
 					</div>
 				</div>
@@ -87,66 +89,65 @@
 		}
 	</script>
 	<script>
-	$(document).ready(function(){
-		CommunityActivities.csrftoken = $.cookie('csrftoken');
-		CommunityActivities.init();   
+		$(document).ready(function(){
+			CommunityActivities.csrftoken = $.cookie('csrftoken');
+			CommunityActivities.init();   
 
-		// function fbShare(url, title, descr, image, winWidth, winHeight) {
-		// 	var winTop = (screen.height / 2) - (winHeight / 2);
-		// 	var winLeft = (screen.width / 2) - (winWidth / 2);
-		// 	window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
-		// }
-		// $('.icon-facebook').click(function() {
-		// 	fbShare(window.location.href, '{{collection.title}}', '{{collection.description}}', 'http://goo.gl/dS52U', 520, 350);
-		// });   
+			// function fbShare(url, title, descr, image, winWidth, winHeight) {
+			// 	var winTop = (screen.height / 2) - (winHeight / 2);
+			// 	var winLeft = (screen.width / 2) - (winWidth / 2);
+			// 	window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
+			// }
+			// $('.icon-facebook').click(function() {
+			// 	fbShare(window.location.href, '{{collection.title}}', '{{collection.description}}', 'http://goo.gl/dS52U', 520, 350);
+			// });   
 
-		// $('.popup').click(function(event) {
-		// 	var width  = 575,
-		// 	height = 400,
-		// 	left   = ($(window).width()  - width)  / 2,
-		// 	top    = ($(window).height() - height) / 2,
-		// 	url    = this.href,
-		// 	opts   = 'status=1' +
-		// 	',width='  + width  +
-		// 	',height=' + height +
-		// 	',top='    + top    +
-		// 	',left='   + left;
+			// $('.popup').click(function(event) {
+			// 	var width  = 575,
+			// 	height = 400,
+			// 	left   = ($(window).width()  - width)  / 2,
+			// 	top    = ($(window).height() - height) / 2,
+			// 	url    = this.href,
+			// 	opts   = 'status=1' +
+			// 	',width='  + width  +
+			// 	',height=' + height +
+			// 	',top='    + top    +
+			// 	',left='   + left;
 
-		// 	window.open(url, 'twitter', opts);
+			// 	window.open(url, 'twitter', opts);
 
-		// 	return false;
-		// });
+			// 	return false;
+			// });
 
-		// $('.tumblr').click(function(event) {
-		// 	var width  = 575,
-		// 	height = 400,
-		// 	left   = ($(window).width()  - width)  / 2,
-		// 	top    = ($(window).height() - height) / 2,
-		// 	url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
-		// 	opts   = 'status=1' +
-		// 	',width='  + width  +
-		// 	',height=' + height +
-		// 	',top='    + top    +
-		// 	',left='   + left;
-		// 	var now = window.location.href;
-		// 	url += '?shareSource=legacy&canonicalUrl=&posttype=link'
-		// 	// url += '&content=';
-		// 	// url += now;
-		// 	url += '&title=';
-		// 	url += '&caption={{collection.title}} by {{portfolio_data.user__first_name}} on Thimble';
-		// 	url += '&content=';
-		// 	url += window.location.host;
-		// 	url += window.location.pathname;
-		// 	// url += encodeURIComponent('{{collection.title}} by {{portfolio_data.user__first_name}} on Thimble');
+			// $('.tumblr').click(function(event) {
+			// 	var width  = 575,
+			// 	height = 400,
+			// 	left   = ($(window).width()  - width)  / 2,
+			// 	top    = ($(window).height() - height) / 2,
+			// 	url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
+			// 	opts   = 'status=1' +
+			// 	',width='  + width  +
+			// 	',height=' + height +
+			// 	',top='    + top    +
+			// 	',left='   + left;
+			// 	var now = window.location.href;
+			// 	url += '?shareSource=legacy&canonicalUrl=&posttype=link'
+			// 	// url += '&content=';
+			// 	// url += now;
+			// 	url += '&title=';
+			// 	url += '&caption={{collection.title}} by {{portfolio_data.user__first_name}} on Thimble';
+			// 	url += '&content=';
+			// 	url += window.location.host;
+			// 	url += window.location.pathname;
+			// 	// url += encodeURIComponent('{{collection.title}} by {{portfolio_data.user__first_name}} on Thimble');
 
-		// 	window.open(url, 'tumblr', opts);
+			// 	window.open(url, 'tumblr', opts);
 
-		// 	return false;
-		// });
+			// 	return false;
+			// });
 
-	});
+		});
 	</script>
-	<script type='text/javascript' src="{%static 'Portfolios/js/social.js' %}"></script>
 	<script type='text/javascript' src="{%static 'Portfolios/js/bootstrap-tagsinput.min.js' %}"></script>
     <!-- Please call pinit.js only once per page -->
     <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
