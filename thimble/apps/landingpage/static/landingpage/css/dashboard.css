@@ -18,7 +18,7 @@
 	padding-top: 10px;
 }
 
-.feed, .favorites, .messages-header, .following-header {
+.feed, .favorites, .messages-header, .following-header, .browse-header {
 	width: 100%;
 	height: 40px;
 	background-color: #333;
@@ -27,12 +27,26 @@
 	border-style: solid;
 }
 
-.feed {
+.browse-header {
 	background: #262A5D;
 }
 
-.favorites {
+.browse-list {
+	overflow-y: scroll;
+}
+
+.browse-list form {
+	margin-left: 10px;
+	height: 140px;
+}
+
+.feed {
 	background: #0D2B3C;
+}
+
+.favorites {
+	background: #336E7B;
+
 }
 
 .messages-header {
@@ -81,4 +95,8 @@
 	float: right;
 	width: calc(100% - 200px);
 	margin-top: 30px;
+}
+
+#results-box {
+	height: auto;
 }
