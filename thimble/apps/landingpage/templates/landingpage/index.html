@@ -9,10 +9,10 @@
 
 {%endblock%}
 
-{#{%block content%}
+{%block content%}
   <div class="row piece-grid">
     {%csrf_token%}
-    <form method='post' action="{%url 'landingpage:home'%}">
+    <form method='post' action="{%url 'landingpage:home' %}">
         <h3>Tags</h3>
         {%for tag in all_tags%}
             <input class='tag-filter' name="tag-filters" type="checkbox" value="{{tag}}"/> {{tag}}<br/>

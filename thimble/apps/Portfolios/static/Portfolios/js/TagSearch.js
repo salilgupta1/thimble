@@ -1,10 +1,12 @@
 var TagSearch = (function($){
 	var csrftoken = "",
     checkedTags = [],
+    username = "",
 	filter = function(self, path){
 		var data = {
 			"csrfmiddlewaretoken":TagSearch.csrftoken,
-            "tag-filters": TagSearch.checkedTags
+            "tag-filters": TagSearch.checkedTags,
+            "username": TagSearch.username
 		};
 
 		$.ajax({
@@ -16,7 +18,6 @@ var TagSearch = (function($){
                 var resultsDiv = $('#results');
                 resultsDiv.html('');
                 for(var i=0; i<response.collections.length; i++){
-                    console.log(response.collections[i]);
                     resultsDiv.append('<div><a href="'+ response.collection_urls[i] +'">' + response.collections[i].title + '</a></div>');
                 }
 			},
@@ -32,7 +33,7 @@ var TagSearch = (function($){
 		// tag is checked
 		$(document).on('click','.tag-filter',function(){
 
-			path = "/home/";
+			path = "/dashboard/" + TagSearch.username;
 
             // get all checked tags
             TagSearch.checkedTags = $('.tag-filter:checkbox:checked').map(function() {
