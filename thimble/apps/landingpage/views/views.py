@@ -1,43 +1,63 @@
 from django.shortcuts import render
 from django.core.context_processors import csrf
 import os, chimpy
-from thimble.apps.Portfolios.models.schemas.Like import Like
-
-from thimble.apps.Portfolios.models.schemas.Collection import Collection
-from taggit.models import Tag
-from django.template.defaultfilters import slugify
-
-
-import json
-from django.http import HttpResponse
-
+# <<<<<<< HEAD
+# from thimble.apps.Portfolios.models.schemas.Like import Like
+#
+# from thimble.apps.Portfolios.models.schemas.Collection import Collection
+# from taggit.models import Tag
+# from django.template.defaultfilters import slugify
+#
+#
+# import json
+# from django.http import HttpResponse
+#
+#
+# def home(request):
+#     # new-home-page
+#     context = {}
+#     all_tags = Tag.objects.all()
+#     context["all_tags"] = all_tags
+#
+#     if request.method == 'POST' and request.is_ajax():
+#         selected_tags = request.POST.getlist('tag-filters[]')
+#         if len(selected_tags) == 0:
+#             collections = Collection.objects.all()
+#         else:
+#             collections = Collection.objects.filter(tags__name__in=selected_tags).distinct()
+#
+#         # I couldn't figure out how to construct the URL cleanly and give it to the ajax response
+#         collection_urls = []
+#         for collection in collections:
+#             collection_urls.append("/" + collection.designer.user.username + "/collection/" +
+#                                    str(collection.id) + "-" + slugify(collection.title))
+#
+#         response = {'collections': list(collections.values('title', 'designer')), 'collection_urls': collection_urls}
+#         return HttpResponse(json.dumps(response))
+#
+#     collections = Collection.objects.all()
+#     context["collections"] = collections
+#     return render(request, "landingpage/index.html", context)
+#
+# =======
+from django.contrib.auth.decorators import login_required
+from django.http import Http404, HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 def home(request):
-    # new-home-page
-    context = {}
-    all_tags = Tag.objects.all()
-    context["all_tags"] = all_tags
+    try:
+        if request.user.buyer is not None:
+            return HttpResponseRedirect(reverse('landingpage:dashboard', args=(request.user.username,)))
+    except:
+        return HttpResponseRedirect(reverse('Portfolios:render_portfolio', args=(request.user.username,)))
 
-    if request.method == 'POST' and request.is_ajax():
-        selected_tags = request.POST.getlist('tag-filters[]')
-        if len(selected_tags) == 0:
-            collections = Collection.objects.all()
-        else:
-            collections = Collection.objects.filter(tags__name__in=selected_tags).distinct()
-
-        # I couldn't figure out how to construct the URL cleanly and give it to the ajax response
-        collection_urls = []
-        for collection in collections:
-            collection_urls.append("/" + collection.designer.user.username + "/collection/" +
-                                   str(collection.id) + "-" + slugify(collection.title))
-
-        response = {'collections': list(collections.values('title', 'designer')), 'collection_urls': collection_urls}
-        return HttpResponse(json.dumps(response))
-
-    collections = Collection.objects.all()
-    context["collections"] = collections
-    return render(request, "landingpage/index.html", context)
-
+@login_required
+def dashboard(request, username):
+    if request.user.username== username:
+        return render(request, "landingpage/dashboard.html")
+    else:
+        raise Http404
+# >>>>>>> ffdd74548115c9400e8dcf4bd7a5e1cc1d39c83e
 
 def landingpage(request):
     context = {}
@@ -49,8 +69,7 @@ def landingpage(request):
             chimp.list_subscribe(os.environ['MAILCHIMP_LIST_ID'], email, {},
                                  double_optin=False, send_welcome=True)
         except:
-            context[
-                'error'] = "We're sorry, it seems there was an error. This may be because you haves already signed up."
+            context['error'] = "We're sorry, it seems there was an error. This may be because you haves already signed up."
         else:
             context['success'] = "Thank you for your interest in Thimble!"
 

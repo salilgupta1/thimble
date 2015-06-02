@@ -129,10 +129,16 @@
 .thumb-container {
 	height: 234px;
 	width: 90000px;
+	min-width: 100%;
 }
 
 .thumb-img {
 	max-height: 100%;
 	margin-right: 10px;
 	float: left;
+}
+
+.like-box {
+	margin-top: 10px;
+
 }

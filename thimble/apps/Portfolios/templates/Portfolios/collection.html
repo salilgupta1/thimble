@@ -9,7 +9,6 @@
 	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/bootstrap-tagsinput.css'%}"/>
 {%endblock%}
 
-
 {%block content%}
 	<div class="social-wrapper">
 		<span class="icon-facebook"></span>
@@ -35,14 +34,23 @@
 			<h3>Tags</h3>
 			<div class="tags-box">
 				{%for tag in tags%}
-				<span class="label label-default label-tag">{{tag}}</span>
+					<span class="label label-default label-tag">{{tag}}</span>
 				{%endfor%}
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-2">
-			<button type="button" class="btn btn-default btn-lg like-btn"><span class='text'>Favorite</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-			</button>
-		</div>
+            {% if is_liked %}
+              <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{collection_id}}"
+                data-username="{{designer.user}}">
+                <span class='text'>Favorited</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+              </button>
+            {%else%}
+              <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{collection_id}}"
+                data-username="{{designer.user}}">
+                <span class='text'>Favorite</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
+              </button>
+            {%endif%}
+        </div>
 	</div>
 	<div class="row">
 		{%for piece in pieces%}
@@ -97,7 +105,7 @@
         	{%endif%}
 		</div>
 	</div> -->
-	</div>
+
 {%endblock%}
 
 {%block scripts%}

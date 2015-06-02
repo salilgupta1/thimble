@@ -1,0 +1,84 @@
+.sidebar a {
+	text-decoration: none;
+	color: white;
+}
+
+.sidebar {
+	position: fixed;
+	left: 0px;
+	width: 200px;
+	top: 51px;
+	bottom: 0px;
+	background-color: #031926;
+	color: white; 
+	overflow-y: scroll;
+}
+
+.sidebar p {
+	padding-top: 10px;
+}
+
+.feed, .favorites, .messages-header, .following-header {
+	width: 100%;
+	height: 40px;
+	background-color: #333;
+	border-width: 1px 1px 0px 1px;
+	border-color: #333;
+	border-style: solid;
+}
+
+.feed {
+	background: #262A5D;
+}
+
+.favorites {
+	background: #0D2B3C;
+}
+
+.messages-header {
+	background: #5E2310;
+
+}
+
+.messages-list {
+
+}
+
+.messages-list .badge {
+	margin-left: 10px;
+}
+
+.messages-list p {
+	margin-left: 15px;
+}
+
+.following-header {
+	background: #0B4226;
+}
+
+.following-list {
+
+}
+
+.following-item {
+	margin-left: 10px;
+	margin-top: 10px;
+	overflow: auto;
+}
+
+.img-profile {
+	max-width: 30px;
+	float: left;
+}
+
+.following-item h5 {
+	margin-left: 10px;
+	margin-top: 7px;
+	float: left;
+}
+
+.collection-container {
+	float: right;
+	width: calc(100% - 200px);
+	margin-top: 30px;
+}
