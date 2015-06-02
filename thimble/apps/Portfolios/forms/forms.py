@@ -18,4 +18,15 @@ class CreateCollection(forms.ModelForm):
             'tags': TagWidget(attrs={'class':'form-control', 'placeholder':'add, tags, with, commas', 'required':'True'}),
 		}
 
+class EditCollection(forms.ModelForm):
+	class Meta:
+		model = Collection
+		fields = {"title", "description", "tags"}
+		widgets = {
+		    'description': forms.Textarea(attrs={'cols': 40, 'rows': 5, 'class':'form-control', 
+		                                         'placeholder':'Tell the story of the collection'}),
+
+		    'title': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Title Your Collection', 'required':'True'}),
+            'tags': TagWidget(attrs={'class':'form-control', 'placeholder':'add, tags, with, commas', 'required':'True'}),
+		}
 

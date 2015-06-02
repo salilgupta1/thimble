@@ -9,6 +9,8 @@ urlpatterns = patterns('',
     # create
     url(r'^create-collection/$', create.create_collection, name='create_collection'),
 
+    url(r'^edit-collection/(?P<collection_id>[0-9]+)-(?P<slug>[\w-]+)/$', create.edit_collection, name='edit_collection'),
+
     # community activites
     # like/unlike
     url(r'^liking/$', community.liking, name='liking'),

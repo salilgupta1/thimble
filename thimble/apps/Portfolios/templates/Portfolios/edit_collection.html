@@ -1,0 +1,34 @@
+{%extends 'Portfolios/collection.html' %}
+{%load staticfiles%}
+
+{%block editable_info%}
+    <form method='post' id='edit-collection' action="{%url 'Portfolios:edit_collection' request.user.username collection_id slug%}">
+        {%csrf_token%}
+        <div class="story-det-wrapper">
+            <h3>Edit a Collection</h3>
+            {%if error%}
+                {{error}}
+            {%endif%}
+
+            {% if edit_collection.non_field_errors %}
+                {% for error in edit_collection.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            {% endif %}
+
+            {% for field in edit_collection %}
+                <div class="form-group">
+                    <div id="{{ field.auto_id }}_errors" class='form-error'>
+                        {{ field.errors|striptags }}
+                    </div>
+                    {{field}}
+                </div>
+            {% endfor %}
+        </div>
+        <button type='submit' class='btn btn-primary'>Edit Collection</button>
+    </form>
+
+{%endblock%}
+{%block liking%}{%endblock%}
+{%block pieces%}
+{%endblock%}
