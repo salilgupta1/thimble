@@ -6,10 +6,9 @@ from thimble.apps.Portfolios.models.schemas.Collection import Collection
 from taggit.models import Tag
 from django.template.defaultfilters import slugify
 import json
-from django.http import HttpResponse
 
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 
 
@@ -18,7 +17,11 @@ def home(request):
         if request.user.buyer is not None:
             return HttpResponseRedirect(reverse('landingpage:dashboard', args=(request.user.username,)))
     except:
-        return HttpResponseRedirect(reverse('Portfolios:render_portfolio', args=(request.user.username,)))
+        try:
+            if request.user.designer is not None:
+                return HttpResponseRedirect(reverse('Portfolios:render_portfolio', args=(request.user.username,)))
+        except:
+            return HttpResponseRedirect(reverse("Users:login"))
 
 @login_required
 def dashboard(request, username):
