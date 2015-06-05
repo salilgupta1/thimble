@@ -40,25 +40,25 @@
         <div class="title-wrapper">
             <h1 class="title">Thimble</h1>
         </div>
-        <div class="desc-wrapper">
-            <p class="desc">Storytelling for independent fashion designers</p>
+        <div class="desc-wrapper desc">
+            <p >A virtual marketplace for budding fashion designers and the buyers who need them. </p><p>Thimble enables  fashion designers and buyers to build professional relationships at a fraction of the cost of a tradeshow.</p>
         </div>
         <hr>
         <div class="invite-wrapper">
-            <p class="invite">We are currently in private beta. If you are a fashion designer or stylist, request an invite below!</p>
+            <p class="invite">We are currently in private beta. If you are a fashion designer or buyer, request an invite below!</p>
         </div>
         <form method='POST' action="{% url 'landingpage:new_landingpage' %}">
             {%csrf_token%}
-            <input type="email" name="email" class="email" placeholder="designer@gmail.com">
+            <input type="email" name="email" class="email" placeholder="Email">
              <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <p class="form-message">{{error}}{{success}}</p>
         <!--TODO ryan style these error/success messages-->
-        <div class="video-wrapper">
-        <div class="embed-responsive embed-responsive-16by9">
-          <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/7IJy834p7gQ?rel=0" allowfullscreen></iframe>
-        </div>
-    </div>
+<!--         <div class="video-wrapper">
+            <div class="embed-responsive embed-responsive-16by9">
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/7IJy834p7gQ?rel=0" allowfullscreen></iframe>
+            </div>
+        </div> -->
     </div>
 
     <style type="text/css">

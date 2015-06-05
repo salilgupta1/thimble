@@ -15,12 +15,30 @@ var TagSearch = (function($){
 			url:path,
             dataType: "json",
 			success:function(response){
-                var resultsDiv = $('#results');
+                var url, template,
+                resultsDiv = $('#results');
+               	template = $('.collection-container:first');
                 resultsDiv.html('');
-                console.log(response.collections);
                 for(var i=0; i<response.collections.length; i++){
-                	var url = response.add_info[response.collections[i].title]
-                    resultsDiv.append('<div><a href="'+ url +'">' + response.collections[i].title + '</a></div>');
+                	
+                	url = response.collections[i].url
+                	var title = response.collections[i].title;
+
+                	template.find('.collection-title').text(title);
+                	template.find('.collection-description').text(response.collections[i].description);
+                	template.find('.collection-url').attr('href',url);
+                	
+                	template.find('.thumb-container').html('');
+
+                	var photos = response.collections[i].pieces;
+                	var num_photos = photos.length > 4 ? 4: photos.length;
+                	for (var p = 0; p < num_photos; p++){
+                		var cloudinary = $.cloudinary.image(photos[p], {class:'img-responsive thumb-img'});
+                		template.find('.thumb-container').append(cloudinary);
+                	}
+
+                	resultsDiv.append(template);
+                	template = template.clone();
                 }
 			},
 			error:function(error){
@@ -34,7 +52,6 @@ var TagSearch = (function($){
 
 		// tag is checked
 		$(document).on('click','.tag-filter',function(){
-
 			path = "/dashboard/" + TagSearch.username;
 
             // get all checked tags
@@ -43,7 +60,6 @@ var TagSearch = (function($){
             }).get();
 
 			filter($(this), path);
-
 		});
 
 	};

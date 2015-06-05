@@ -19,3 +19,14 @@ class FollowManager(models.Manager):
 		except:
 			raise
 		return True
+
+	def get_following(self, follower):
+		try:
+			follower_object_id = follower.pk
+			follower_content_type = follower.get_ct()
+			rows = self.filter(follower_content_type=follower_content_type, follower_object_id=follower_object_id).values_list('followee_object_id', flat=True)
+			if len(rows) == 0:
+				return None
+			return rows
+		except:
+			raise

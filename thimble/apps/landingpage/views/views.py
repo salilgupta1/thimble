@@ -3,14 +3,19 @@ from django.core.context_processors import csrf
 import os, chimpy
 
 from thimble.apps.Portfolios.models.schemas.Collection import Collection
+from thimble.apps.Portfolios.models.schemas.Piece import Piece
+from thimble.apps.Users.models.schemas.Follow import Follow
+from thimble.apps.Users.models.schemas.Designer import Designer
+
+
 from taggit.models import Tag
 from django.template.defaultfilters import slugify
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.core.urlresolvers import reverse
-
+from django.core import serializers
 
 def home(request):
     try:
@@ -33,20 +38,28 @@ def dashboard(request, username):
         if request.method == 'POST' and request.is_ajax():
             selected_tags = request.POST.getlist('tag-filters[]')
             if len(selected_tags) == 0:
-                collections = Collection.objects.all()
+                collections = Collection.objects.all().values('designer','title','id','description')
             else:
-                collections = Collection.objects.filter(tags__name__in=selected_tags).distinct()
+                collections = Collection.objects.filter(tags__name__in=selected_tags).distinct().values('designer','title','id','description')
+           
+            if collections:
+                for collection in collections:
+                    collection['pieces'] = list(Piece.objects.filter(collection_id=collection['id']).values_list('front_view',flat=True))
+                    collection['url'] = reverse("Portfolios:render_collection", args=(collection['designer'], collection['id'], slugify(collection['title'])))
 
-            # I couldn't figure out how to construct the URL cleanly and give it to the ajax response
-            collection_add_info = {}
-            for collection in collections:
-                collection_add_info[collection.title] = reverse("Portfolios:render_collection", args=(collection.designer.user.username, collection.id, slugify(collection.title)))
-            
-            response = {'collections': list(collections.values('designer','title')), 'add_info':collection_add_info}
-            return HttpResponse(json.dumps(response))
+                response = {'collections':list(collections)}
+            else:
+                response = {'collections':[]}
 
-        collections = Collection.objects.all()
-        context["collections"] = collections
+            return JsonResponse(response)
+
+        context["collections"] = Collection.objects.all().values('designer','title','id','description')
+        context['pieces'] = Piece.objects.all().values('collection_id','front_view')
+        following = Follow.objects.get_following(request.user.buyer)
+        
+        context['following'] = []
+        for user_id in following:
+            context['following'].append(Designer.objects.filter(id=user_id))
         return render(request, "landingpage/dashboard.html", context)
     else:
         raise Http404
@@ -58,8 +71,7 @@ def landingpage(request):
         chimp = chimpy.Connection(os.environ['MAILCHIMP_API_KEY'])
 
         try:
-            chimp.list_subscribe(os.environ['MAILCHIMP_LIST_ID'], email, {},
-                                 double_optin=False, send_welcome=True)
+            chimp.list_subscribe(os.environ['MAILCHIMP_LIST_ID'], email, {}, double_optin=False, send_welcome=True)
         except:
             context['error'] = "We're sorry, it seems there was an error. This may be because you have already signed up."
         else:
