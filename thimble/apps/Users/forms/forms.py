@@ -18,7 +18,9 @@ class RegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm,self).__init__(*args,**kwargs)
-        
+
+        self.fields['user_type'].label = "Are you a Designer or a Buyer?"
+
         for fields in self.fields.items():
             fields[1].required = True
             fields[1].widget.attrs.update({'class':'form-control', 'placeholder':fields[1].label, 'required':"True"})
