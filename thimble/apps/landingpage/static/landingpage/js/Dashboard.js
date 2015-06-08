@@ -15,7 +15,7 @@ var Dashboard = (function($){
 			url:path,
             dataType: "json",
 			success:function(response){
-                renderCollection(response);
+                renderCollection(response.collections);
 			},
 			error:function(error){
 				console.log(error);
@@ -32,7 +32,7 @@ var Dashboard = (function($){
             url: path,
             dataType:"json",
             success:function(response){
-                renderCollection(response);
+                renderCollection(response.collections);
             },
             error:function(response){
                 console.log(response);
@@ -73,27 +73,27 @@ var Dashboard = (function($){
             }
         });
     },
-    renderCollection = function(response){
+    renderCollection = function(collections){
         $(".following-list").hide();
         $("#results").show();   
 
         var template,
         resultsDiv = $('#results');
         template = $('.collection-container:first');
-        resultsDiv.html('');
+        resultsDiv.html("");
 
-        for(var i=0; i<response.collections.length; i++){
+        for(var i=0; i<collections.length; i++){
             
-            var url = response.collections[i].url;
-            var title = response.collections[i].title;
+            var url = collections[i].url;
+            template.find('.designer-name').text(collections[i].designer__user__first_name +" "+ collections[i].designer__user__last_name);
+            template.find('.collection-title').text(collections[i].title);
 
-            template.find('.collection-title').text(title);
-            template.find('.collection-description').text(response.collections[i].description);
+            template.find('.collection-description').text(collections[i].description);
             template.find('.collection-url').attr('href',url);
             
             template.find('.thumb-container').html('');
 
-            var photos = response.collections[i].pieces;
+            var photos = collections[i].pieces;
             var num_photos = 4;
 
             if (num_photos > photos.length){
