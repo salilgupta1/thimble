@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{%load staticfiles%}
+{% load cloudinary %}
+
+{%block cloudinary%}
+    {% cloudinary_includes %}
+    {% cloudinary_js_config %}
+{% endblock %}
+{%block app_css%}
+	<link rel="stylesheet" href="{%static 'landingpage/css/dashboard.css' %}"/>
+	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/profile.css'%}"/>
+{%endblock%}
+
+{%block content%}
+	<div class="sidebar">
+		<a href="#">
+			<div class="browse-header">
+				<p class="text-center">Browse</p>
+			</div>
+		</a>
+		<div class="browse-list">
+				<h5>Filter By Buyer Tags</h5>
+				{%for tag in buyer_tags%}
+					<input class='buyer-filter' name="tag-filters" type="checkbox" value="{{tag.tag_id__name}}"/> {{tag.tag_id__name}}<br/>
+				{%endfor%}
+		</div>
+	</div>
+	   
+	<div class="following-list">
+		{%for buyer in buyers%}
+			<a href="" class='followee'>
+				<div class="following-item">
+					<span class='followee-avatar'>
+						{%if buyer.avatar%}
+							<img class="img-responsive img-circle img-profile" src="{%cloudinary_url buyer.avatar width='200' height='200'%}">
+						{%else%}
+							<img src="{%static 'Users/img/user-default.png' %}" class="img-profile img-responsive img-circle"/>
+						{%endif%}
+					</span>
+					
+					<h4 class='followee-name text-center'>{{buyer.user__first_name}} {{buyer.user__last_name}}</h4>
+					<h5 class='followee-boutique text-center'>{{buyer.boutique_name}}</h5><br>
+					<h5 class='followee-location text-center'>{{buyer.location}}</h5>
+					<p class='followee-bio text-center'>{{buyer.bio}}</p>
+					<button> Message </button>
+				</div>
+			</a>
+		{%endfor%}
+	</div>
+{%endblock%} 
+
+{%block scripts%}
+	
+    <script type='text/javascript' src="{%static 'landingpage/js/Dashboard.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            Dashboard.csrftoken = $.cookie('csrftoken');
+            Dashboard.username = "{{request.user.username}}";
+            Dashboard.userImage = "{% static 'Users/img/user-default.png' %}";
+            Dashboard.init();
+        });
+    </script>
+{%endblock%}

@@ -1,6 +1,7 @@
 from django.db import models
 from thimble.apps.Portfolios.models.managers.CollectionManager import CollectionManager
 from taggit.managers import TaggableManager
+from django.contrib.contenttypes.models import ContentType
 
 class Collection(models.Model):
 
@@ -16,6 +17,12 @@ class Collection(models.Model):
 
 	# connect the manager
 	objects = CollectionManager()
+
+
+	# These functions makes model self aware
+	# i.e. it knows who it is
+	def get_ct(self):
+		return ContentType.objects.get_for_model(self)
 
 	class Meta:
 		app_label = 'Portfolios'

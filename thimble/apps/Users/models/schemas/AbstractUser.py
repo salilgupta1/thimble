@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from taggit.managers import TaggableManager
+
 from django.contrib.contenttypes.models import ContentType
 
 class AbstractUser(models.Model):
@@ -8,7 +10,8 @@ class AbstractUser(models.Model):
 	bio			= models.TextField(max_length=250, blank=True)
 	location	= models.CharField(max_length=100, blank=True)
 	following	= models.PositiveIntegerField(default=0, blank=True)
-	followers	= models.PositiveIntegerField(default=0, blank=True) 
+	followers	= models.PositiveIntegerField(default=0, blank=True)
+	tags 		= TaggableManager()
 
 	# These functions makes model self aware
 	# i.e. it knows who it is

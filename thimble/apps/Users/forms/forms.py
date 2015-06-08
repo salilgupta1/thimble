@@ -1,6 +1,7 @@
 from django import forms      
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from taggit.forms import TagWidget
 #from django.utils.translation import ugettext_lazy as _
 
 from cloudinary.forms import CloudinaryJsFileField 
@@ -37,9 +38,11 @@ class LoginForm(AuthenticationForm):
 class EditAbstractUserForm(forms.ModelForm):
     avatar = CloudinaryJsFileField(required=False)
     class Meta:
-        fields = ("bio", "location")
+        fields = ("bio", "location", "tags")
         widgets = {
             'bio': forms.Textarea(attrs={'cols': 40, 'rows': 10}),
+            'tags': TagWidget(attrs={'class':'form-control', 'placeholder':'add, tags, with, commas', 'required':'False'}),
+
         }
     def __init__(self, *args, **kwargs):
         super(EditAbstractUserForm, self).__init__(*args, **kwargs)

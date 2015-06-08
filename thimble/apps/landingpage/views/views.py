@@ -8,9 +8,10 @@ from thimble.apps.Portfolios.models.schemas.Like import Like
 
 from thimble.apps.Users.models.schemas.Follow import Follow
 from thimble.apps.Users.models.schemas.Designer import Designer
+from django.contrib.contenttypes.models import ContentType
 
 
-from taggit.models import Tag
+from taggit.models import TaggedItem
 from django.template.defaultfilters import slugify
 import json
 
@@ -34,11 +35,9 @@ def home(request):
 def dashboard(request, username):
     if request.user.username == username:
         context = {}
-        all_tags = Tag.objects.all()
-        context["all_tags"] = all_tags
+        context["collection_tags"] = TaggedItem.objects.filter(content_type_id=ContentType.objects.get_for_model(Collection())).values("tag_id__name").distinct()
         context["collections"] = Collection.objects.all().values('designer','title','id','description','designer__avatar','designer__user__first_name','designer__user__last_name')
         context['pieces'] = Piece.objects.all().values('collection_id','front_view')
-        print context
         return render(request, "landingpage/dashboard.html", context)
     else:
         raise Http404
@@ -46,7 +45,7 @@ def dashboard(request, username):
 def filter_by_tags(request):
     if request.method == 'POST' and request.is_ajax():
         selected_tags = request.POST.getlist('tag-filters[]')
-        
+
         if len(selected_tags) == 0:
             collections = Collection.objects.all().values('designer','title','id','description','designer__avatar','designer__user__first_name','designer__user__last_name')
         else:

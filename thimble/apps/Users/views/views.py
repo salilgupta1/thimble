@@ -66,6 +66,9 @@ def edit_account(request, user_type):
                 abstract_user.avatar = avatar_link
 
             abstract_user.save()
+            
+            # save the tags
+            abstract_user_form.save_m2m()
 
             context['changes_saved'] = "Changes saved."
 

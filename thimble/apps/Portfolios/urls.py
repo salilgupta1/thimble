@@ -7,6 +7,11 @@ urlpatterns = patterns('',
     url(r'^collection/(?P<collection_id>[0-9]+)-(?P<slug>[\w-]+)/$', render.render_collection, name='render_collection'),
     url(r'^collection-linesheet/(?P<collection_id>[0-9]+)-(?P<slug>[\w-]+)/$', render.render_linesheet, name='render_linesheet'),
 
+    # search
+    url(r'^search/$', render.search, name='search'),
+    url(r'^filter-buyers/$', render.filter_tags, name='filter_tags'),
+
+
     # create
     url(r'^create-collection/$', create.create_collection, name='create_collection'),
 

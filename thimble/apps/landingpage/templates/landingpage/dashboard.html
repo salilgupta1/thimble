@@ -19,13 +19,10 @@
 			</div>
 		</a>
 		<div class="browse-list">
-			<form method='post' action="{%url 'landingpage:dashboard' request.user.username%}">
-				{%csrf_token%}
-				<h5>Filter By Tags</h5>
-				{%for tag in all_tags%}
-				<input class='tag-filter' name="tag-filters" type="checkbox" value="{{tag}}"/> {{tag}}<br/>
-				{%endfor%}
-			</form>
+			<h5>Filter By Tags</h5>
+			{%for tag in collection_tags%}
+				<input class='tag-filter' name="tag-filters" type="checkbox" value="{{tag.tag_id__name}}"/> {{tag.tag_id__name}}<br/>
+			{%endfor%}
 		</div>
 		<a href="#">
 			<div class="favorites">
@@ -37,17 +34,6 @@
 				<p class="text-center">Following</p>
 			</div>
 		</a>
-<!-- 		<div class="following-list">
-			{%for followee in following%}
-				<a href="{%url 'Portfolios:render_portfolio' followee.0.user%}">
-					<div class="following-item">
-						<img class="img-responsive img-circle img-profile" src="{%cloudinary_url followee.0.avatar width='200' height='200'%}">
-						<h5>{{followee.0.user.get_full_name}}</h5>
-
-					</div>
-				</a>
-			{%endfor%}
-		</div> -->
 	</div>
 	   
     <div id="results">
@@ -58,7 +44,11 @@
 						<h3 class='collection-title'>{{collection.title}}</h3>
 						<div class='designer-info'>
 							<div class='designer-avatar'>
-								<img class="img-responsive img-circle img-profile" src="{%cloudinary_url collection.designer__avatar width='200' height='200'%}">
+								{%if collection.designer__avatar %}
+									<img class="img-responsive img-circle img-profile" src="{%cloudinary_url collection.designer__avatar width='200' height='200'%}">
+								{%else%}
+									<img src="{%static 'Users/img/user-default.png' %}" class="img-profile img-responsive img-circle"/>
+								{%endif%}
 								<h4 class='designer-name'>{{collection.designer__user__first_name}} {{collection.designer__user__last_name}}</h4>
 							</div>
 							
@@ -97,6 +87,7 @@
         	$(".following-list").hide();	
             Dashboard.csrftoken = $.cookie('csrftoken');
             Dashboard.username = "{{request.user.username}}";
+            Dashboard.userImage = "{% static 'Users/img/user-default.png' %}";
             Dashboard.init();
         });
     </script>
