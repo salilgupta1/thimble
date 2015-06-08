@@ -55,7 +55,9 @@
                 </li>
               </ul-->
               <ul class="nav navbar-nav navbar-right">
+                  
                   {%if user.is_authenticated %} 
+                    <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Messages</a></li>
                       {%if user.buyer%}
                         <li class="dropdown">
                           <a href="{%url 'landingpage:dashboard' user.username%}" role="button" aria-expanded="false">{{user.first_name}} {{user.last_name}} <span class="caret"></span></a>
@@ -65,10 +67,10 @@
                           </ul>
                         </li>
                       {%else%}
-                        <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Messages</a></li>
                         <li class="dropdown">
                           <a href="{%url 'Portfolios:render_portfolio' user.username%}" role="button" aria-expanded="false">{{user.first_name}} {{user.last_name}} <span class="caret"></span></a>
                           <ul class="dropdown-menu" role="menu">
+                              <li><a href="{%url 'Portfolios:create_collection' user.username%}">Create Collection</a></li>
                             <li><a href="{%url 'Users:edit_account' 'Designer' %}">Edit Account</a></li>
                             <li><a href="{%url 'Users:logout'%}">Sign Out</a></li>
                           </ul>

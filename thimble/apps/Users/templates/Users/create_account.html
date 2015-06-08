@@ -21,14 +21,18 @@
                         {{ field.errors|striptags }}
                     </div>
                     {% if field.auto_id == 'id_user_type' %}
+                    <br/>
                         {{field.label_tag}}
-                        {{ field}}
+                        <br/>
+                        {{field}}
+
                     {%else%}
                         {{field}}
                     {%endif%}
+
                 </div>
             {% endfor %}
-            <button type='submit' class='btn btn-primary'>Sign Up!</button>
+            <button type='submit' class='btn btn-primary' style="width:100%;">Sign Up!</button>
         </form>
     </div>
 
@@ -47,7 +51,18 @@
     {
         list-style-type: none;
     }
-
+    #id_user_type{
+        float: left;
+    }
+    #id_user_type_0, #id_user_type_1{
+        display: inline-block;
+        width:auto;
+        height:auto;
+    }
+    label[for=id_user_type_1]
+    {
+        float: left;
+    }
     </style>
 
 {% endblock %}
