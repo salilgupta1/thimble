@@ -1,4 +1,4 @@
-.sidebar a {
+.sidebar a, .sidebar a:hover, .sidebar a:visited {
 	text-decoration: none;
 	color: white;
 }
@@ -80,11 +80,6 @@
 	overflow: auto;
 }
 
-.img-profile {
-	max-width: 30px;
-	float: left;
-}
-
 .following-item h5 {
 	margin-left: 10px;
 	margin-top: 7px;
@@ -99,4 +94,33 @@
 
 #results-box {
 	height: auto;
+}
+
+.navbar-brand {
+	position: fixed;
+	top: 0;
+	left: 37px;
+}
+
+a, a:hover, a:visited {
+	text-decoration: none;
+	color: #333;
+}
+
+.following-list {
+	width: calc(100% - 200px);
+}
+
+.following-item {
+	width: 200px;
+	float: left;
+	padding: 8px;
+	border-radius: 8px;
+	background: white;
+	text-align: center;
+}
+
+.img-profile {
+	width: 80px;
+	margin: auto;
 }

@@ -128,8 +128,9 @@
 
 .thumb-container {
 	height: 234px;
-	width: 90000px;
-	min-width: 100%;
+	/*width: 90000px;*/
+	width: auto;
+	overflow: hidden;
 }
 
 .thumb-img {
