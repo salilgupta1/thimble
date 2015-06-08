@@ -140,7 +140,7 @@ var Dashboard = (function($){
             }
             template.find('.designer-avatar').html(cloudinary);
             template.find('.collection-title').text(collections[i].title);
-
+            template.find('.designer-name').text(collections[i].designer__user__first_name +" "+ collections[i].designer__user__last_name)
             template.find('.collection-description').text(collections[i].description);
             template.find('.collection-url').attr('href',url);
             
