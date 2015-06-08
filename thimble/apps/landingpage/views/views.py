@@ -58,8 +58,9 @@ def dashboard(request, username):
         following = Follow.objects.get_following(request.user.buyer)
         
         context['following'] = []
-        for user_id in following:
-            context['following'].append(Designer.objects.filter(id=user_id))
+        if following is not None:
+            for user_id in following:
+                context['following'].append(Designer.objects.filter(id=user_id))
         return render(request, "landingpage/dashboard.html", context)
     else:
         raise Http404
