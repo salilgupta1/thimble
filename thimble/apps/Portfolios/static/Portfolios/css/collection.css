@@ -17,11 +17,16 @@
 }
 
 .tags-box {
-	margin-top: 25px;
+	margin-top: 0px;
 	background-color: white;
 	overflow: auto;
 	padding: 10px;
 	border-radius: 5px;
+}
+
+.tags-box h4 {
+	margin-top: 0;
+	float: left;
 }
 
 .label-tag {
@@ -31,20 +36,38 @@
 	font-size: 15px;
 }
 
-.btn-sheet {
-	margin-top: 10px;
-}
-
 @media(max-width:767px){
-		.btn-sheet {
+	.btn-sheet {
 		margin-left: 10px;
 	}
 }
 @media(min-width:768px){}
+@media(max-width:992px){
+	.tags-box {
+		width: 80%;
+		margin: auto;
+	}
+	.collection-header {
+		text-align: center;
+		margin: auto;
+	}
+}
 @media(min-width:992px){
 	.like-btn, .unlike-btn {
 		margin-top: 30px;
 	}
+	.btn-sheet {
+		margin-top: 10px;
+	}
+	.btn-sheet, .like-btn, .unlike-btn {
+		width: 130px;
+	}
+
+	.tags-box {
+		margin-top: 30px;
+	}
+
+
 
 }
 @media(min-width:1200px){}
