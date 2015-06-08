@@ -1,0 +1,41 @@
+{%extends 'Portfolios/create_linesheet.html' %}
+{%load staticfiles%}
+{% load cloudinary %}
+
+{%block pieces%}
+	{%for piece in pieces%}
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="tile-container">
+                <div class="front-img-container">
+                    <img class="front-img img-responsive" src="{%cloudinary_url piece.front_view width='400' height='550'%}">
+                </div>
+                <div>
+                    <h4>
+                	   {{piece.piece_title}}
+                    </h4>
+                </div>
+                <div>
+                    <p>
+                	   <h5>Details</h5> {{piece.details}}
+                    </p>
+                </div>
+                <div>
+                    <h5> Product #</h5>
+                	{{piece.product_number}}
+                </div>
+				<div>
+                    <h5>Retail Price</h5>
+					${{piece.retail_price}}
+				</div>
+                <div>
+                    <h5>Wholesale Price</h5>
+                	${{piece.wholesale_price}}
+                </div>
+                <div>
+                    <h5>Min Quantity</h5>
+                	{{piece.min_quantity}}
+                </div>
+            </div>
+        </div>
+    {%endfor%}
+{%endblock%}
