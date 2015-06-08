@@ -18,6 +18,7 @@ class PortfoliosManagerTestCase(TestCase):
 		self.collection_2 = Collection.objects.get(pk=2)
 		self.comment = Comment.objects.get(pk=1)
 		self.like = Like.objects.get(pk=2)
+		self.piece = Piece.objects.get(pk=3)
 
 class CollectionManagerTestCase(PortfoliosManagerTestCase):
 
@@ -75,10 +76,6 @@ class LikeManagerTestCase(PortfoliosManagerTestCase):
 
 	def test_get_likes(self):
 		likes = Like.objects.get_likes(self.designer, [self.collection.pk, self.collection_2.pk])
-
-		# test will only work if self.designer specifically only likes self.collection
-		# only for testing purposes
-
 		self.assertEqual(likes[0], self.collection.pk)
 
 class CommentManagerTestCase(PortfoliosManagerTestCase):
@@ -89,3 +86,7 @@ class CommentManagerTestCase(PortfoliosManagerTestCase):
 		good_data = Comment.objects.get_comments(self.collection.pk)[0]
 		self.assertEqual(good_data['object_id'], self.designer.pk)
 		self.assertEqual(good_data['content_type_id'], self.designer.get_ct().id)
+
+class PieceManagerTestCase(PortfoliosManagerTestCase):
+	def test_get_pieces(self):
+		pass

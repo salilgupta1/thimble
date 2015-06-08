@@ -1,0 +1,42 @@
+{%extends 'Portfolios/collection.html' %}
+{%load staticfiles%}
+{% load cloudinary %}
+
+{%block social_media%}{%endblock%}
+{%block editable_info%}
+{%endblock%}
+{%block liking%}{%endblock%}
+{%block pieces%}
+    <form action="{%url 'Portfolios:create_linesheet' username collection_id slug%}" method="POST">
+        {%csrf_token%}
+        {%for piece in pieces%}
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="tile-container">
+                    <div class="front-img-container">
+                        <img class="front-img img-responsive" src="{%cloudinary_url piece.1 width='400' height='550'%}">
+                    </div>
+                    {% if piece.0.non_field_errors %}
+                        {% for error in piece.0.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    {% endif %}
+
+                    {% for field in piece.0 %}
+                        <div class="form-group">
+                            <div id="{{ field.auto_id }}_errors" class='form-error'>
+                                {{ field.errors|striptags }}
+                            </div>
+                            {{field.label_tag}}
+                            {{field}}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {%endfor%}
+        <button type="submit" class='btn btn-primary'>Save</button>
+    </form>
+    
+{%endblock%}
+{%block scripts%}
+    {{block.super}}
+{%endblock%}

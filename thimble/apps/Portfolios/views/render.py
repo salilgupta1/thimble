@@ -90,13 +90,12 @@ def render_collection(request, username, collection_id, slug):
         is_liked = True
     
     # get pieces associated with story
-    pieces = Piece.objects.get_pieces(collection_id=collection_id)
+    pieces = Piece.objects.get_pieces(collection_id=collection_id, column_list=["piece_title","front_view"])
 
     context = {
         "collection": collection,
         "pieces":pieces,
         "collection_id": collection_id,
-        "username": username,
         "designer": designer,
         "slug": slug,
         "tags":tags,
@@ -104,4 +103,13 @@ def render_collection(request, username, collection_id, slug):
     }
 
     return render(request, "Portfolios/collection.html", context)
-    
+
+@login_required
+def render_linesheet(request, username, collection_id, slug):
+    pieces = Piece.objects.get_pieces(collection_id=collection_id, column_list = ["piece_title", "front_view", "details", "wholesale_price","retail_price","min_quantity","product_number"])
+    context = {"pieces":pieces}
+    return render(request, "Portfolios/linesheet.html", context)
+
+
+
+

@@ -49,7 +49,7 @@ def create_collection(request, username):
 
                 if not error:
                     slug = slugify(collection.title)
-                    return HttpResponseRedirect(reverse('Portfolios:edit_collection', args=(username, collection.pk, slug)))
+                    return HttpResponseRedirect(reverse('Portfolios:create_linesheet', args=(username, collection.pk, slug)))
             
         context = {
             "collection_form":collection_form,
@@ -62,35 +62,23 @@ def create_collection(request, username):
         raise Http404
 
 @login_required
-def edit_collection(request, username, collection_id, slug):
+def create_linesheet(request, username, collection_id, slug):
     context = {}
-    if request.user.username == username:
-        if request.is_ajax():
-            pieces = json.loads(request.POST['pieces'])
-            for piece in pieces:
-                p = Piece.objects.get(piece_id=piece['id'])
-                p.piece_title = piece["title"]
-                p.save(update_fields=["piece_title"])
+    pieces = Piece.objects.filter(collection_id=collection_id)
+    piece_forms = [PieceForm(request.POST or None, prefix=piece.piece_id, instance=piece) for piece in pieces]
+    images = [piece.front_view for piece in pieces]
 
-            response = {"status":1, "redirect_url":reverse("Portfolios:render_collection", args=(username, collection_id, slug))}
-            return HttpResponse(json.dumps(response), content_type="application/json")
-
-        else:
-            pieces = Piece.objects.get_pieces(collection_id)
-           
-            context['pieces'] = pieces
-            context['username'] = username
-            context['collection_id'] = collection_id
-            context['slug'] = slug
-
-            return render(request, "Portfolios/edit_collection.html", context)
-    else:
-        raise Http404
-    # a restricted editing option
-    # edit title, description, tags of collection
-    # edit title of pieces
-
+    if request.method == "POST":       
+        if all([pf.is_valid() for pf in piece_forms]):
+            for pf in piece_forms:
+                pf.save()
+            return HttpResponseRedirect(reverse('Portfolios:render_collection', args=(username, collection_id, slug)))    
     
+    context['pieces'] = zip(piece_forms, images)
+    context['username'] = username
+    context['collection_id'] = collection_id
+    context['slug'] = slug
 
+    return render(request, "Portfolios/create_linesheet.html", context)
 
     

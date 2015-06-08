@@ -26,10 +26,11 @@
 	{%endblock%}
 	<div class="row">
 		{%block editable_info%}
+
 			<div class="col-xs-12 col-sm-6 col-md-6">
 				<div class="collection-header">
 					<h3>{{collection.title}}</h3>
-					<h5>By <a href="{% url 'Portfolios:render_portfolio' designer.user.get_username %}">{{designer.user.get_full_name}}</a></h5>
+					<h5>By <a href="{% url 'Portfolios:render_portfolio' designer.user %}">{{designer.user.get_full_name}}</a></h5>
 					<p>{{collection.description}}</p>
 				</div>	
 			</div>
@@ -55,7 +56,7 @@
 	                <span class='text'>Favorite</span> (<span class='likes-count'>{{collection.likes}}</span>)<span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button> 
 	              </button>
 	            {%endif%}
-	            <button class="btn-default btn btn-sheet">View Line Sheet</button>
+	            <a href="{%url 'Portfolios:render_linesheet' designer.user collection_id slug%}"><button class="btn-default btn btn-sheet">View Line Sheet</button></a>
 	        </div>
         {%endblock%}
 	</div>
