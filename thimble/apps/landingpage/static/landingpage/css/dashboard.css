@@ -128,6 +128,10 @@ a, a:hover, a:visited {
 }
 
 
+.designer-info {
+	overflow: auto;
+}
+
 .img-profile {
 	max-width: 30px;
 	float: left;
@@ -135,11 +139,11 @@ a, a:hover, a:visited {
 
 .designer-avatar {
 	margin-top: 5px;
-	overflow: auto;
+	float: left;
 }
 
 .designer-name {
-	margin-top: 5px;
+	margin-top: 10px;
 	float: left;
 	margin-left: 5px;
 }
