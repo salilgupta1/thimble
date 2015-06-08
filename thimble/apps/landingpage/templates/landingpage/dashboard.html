@@ -14,6 +14,16 @@
 {%block content%}
 	<div class="sidebar">
 		<a href="#">
+			<div class="favorites">
+				<p class="text-center">Favorites</p>
+			</div>
+		</a>
+		<a href="#">
+			<div class="following-header">
+				<p class="text-center">Following</p>
+			</div>
+		</a>
+		<a href="#">
 			<div class="browse-header">
 				<p class="text-center">Browse</p>
 			</div>
@@ -24,16 +34,6 @@
 				<input class='tag-filter' name="tag-filters" type="checkbox" value="{{tag.tag_id__name}}"/> {{tag.tag_id__name}}<br/>
 			{%endfor%}
 		</div>
-		<a href="#">
-			<div class="favorites">
-				<p class="text-center">Favorites</p>
-			</div>
-		</a>
-		<a href="#">
-			<div class="following-header">
-				<p class="text-center">Following</p>
-			</div>
-		</a>
 	</div>
 	   
     <div id="results">

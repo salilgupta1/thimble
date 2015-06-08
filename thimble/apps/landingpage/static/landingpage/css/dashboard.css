@@ -9,8 +9,8 @@
 	width: 200px;
 	top: 51px;
 	bottom: 0px;
-	background-color: #DCDCDC;
-	color: #333; 
+	background-color: #031926;
+	color: white; 
 	overflow-y: scroll;
 	box-shadow: 0px 2px 10px 3px rgba(0, 0, 0, 0.2);
 }
@@ -22,39 +22,16 @@
 .feed, .favorites, .messages-header, .following-header, .browse-header {
 	width: 100%;
 	height: 40px;
-	/*background-color: #39464E;*/
-	border-bottom: 1px solid #031926;
+	color: white;
 }
 
 .browse-header {
-	/*background: #262A5D;*/
+	background: rgb(51, 62, 69);
 	/*border-width: 1px;*/
 }
 
 .browse-list {
-	overflow-y: scroll;
-	background:
-		/* Shadow covers */
-		linear-gradient(#DCDCDC 30%, rgba(255,255,255,0)),
-		linear-gradient(rgba(255,255,255,0), #DCDCDC 70%) 0 100%,
-		
-		/* Shadows */
-		radial-gradient(50% 0, farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)),
-		radial-gradient(50% 100%,farthest-side, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
-	background:
-		/* Shadow covers */
-		linear-gradient(#DCDCDC 30%, rgba(255,255,255,0)),
-		linear-gradient(rgba(255,255,255,0), #DCDCDC 70%) 0 100%,
-		
-		/* Shadows */
-		radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)),
-		radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
-	background-repeat: no-repeat;
-	background-color: #DCDCDC;
-	background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-	
-	/* Opera doesn't support this in the shorthand */
-	background-attachment: local, local, scroll, scroll;
+
 }
 
 .browse-list form {
@@ -63,17 +40,17 @@
 }
 
 .feed {
-	/*background: #0D2B3C;*/
+	background: #0D2B3C;
 }
 
 .favorites {
-	/*background: #336E7B;*/
+	background: #5B7281;
 	border-top: 1px solid #031926;
 
 }
 
 .messages-header {
-	/*background: #5E2310;*/
+	background: #5E2310;
 
 }
 
@@ -90,7 +67,7 @@
 }
 
 .following-header {
-	/*background: #0B4226;*/
+	background: rgb(70, 87, 98);
 }
 
 .following-list {
