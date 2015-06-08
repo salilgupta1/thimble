@@ -23,16 +23,14 @@ def render_portfolio(request, username):
         raise Http404
 
     context = {"designer": designer, "num_pieces": 0}
-    context['favorites'] = Like.objects.get_favorites(liker=designer)
+    context['favorites'] = Like.objects.get_favorite_count(liker=designer)
     
     # get collections related to portfolio
     collections = Collection.objects.get_collections(username=username)
     if collections is not None:
 
         context['num_pieces'] = len(collections)
-        collection_ids = []
         for collection in collections:
-            collection_ids.append(collection['id'])
             collection['tags'] = Collection.objects.get_tags(collection_id=collection['id'])
             
             # get collection previews
@@ -54,7 +52,7 @@ def render_portfolio(request, username):
         except AttributeError:
             liker = request.user.designer
 
-        likes = Like.objects.get_likes(liker=liker, collection_ids=collection_ids)    
+        likes = Like.objects.get_likes(liker=liker)    
         context['likes'] = likes
 
     # get follow 
@@ -83,11 +81,7 @@ def render_collection(request, username, collection_id, slug):
     except:
         liker = request.user.designer
 
-    like = Like.objects.get_likes(liker=liker, collection_ids = [collection_id,])
-
-    is_liked = False
-    if int(collection_id) in like:
-        is_liked = True
+    is_liked = Like.objects.get_is_liked(liker=liker, collection_id=collection_id)
     
     # get pieces associated with story
     pieces = Piece.objects.get_pieces(collection_id=collection_id, column_list=["piece_title","front_view"])

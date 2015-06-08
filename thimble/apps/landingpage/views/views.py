@@ -4,6 +4,8 @@ import os, chimpy
 
 from thimble.apps.Portfolios.models.schemas.Collection import Collection
 from thimble.apps.Portfolios.models.schemas.Piece import Piece
+from thimble.apps.Portfolios.models.schemas.Like import Like
+
 from thimble.apps.Users.models.schemas.Follow import Follow
 from thimble.apps.Users.models.schemas.Designer import Designer
 
@@ -34,35 +36,48 @@ def dashboard(request, username):
         context = {}
         all_tags = Tag.objects.all()
         context["all_tags"] = all_tags
-
-        if request.method == 'POST' and request.is_ajax():
-            selected_tags = request.POST.getlist('tag-filters[]')
-            if len(selected_tags) == 0:
-                collections = Collection.objects.all().values('designer','title','id','description')
-            else:
-                collections = Collection.objects.filter(tags__name__in=selected_tags).distinct().values('designer','title','id','description')
-           
-            if collections:
-                for collection in collections:
-                    collection['pieces'] = list(Piece.objects.filter(collection_id=collection['id']).values_list('front_view',flat=True))
-                    collection['url'] = reverse("Portfolios:render_collection", args=(collection['designer'], collection['id'], slugify(collection['title'])))
-
-                response = {'collections':list(collections)}
-            else:
-                response = {'collections':[]}
-
-            return JsonResponse(response)
-
         context["collections"] = Collection.objects.all().values('designer','title','id','description')
         context['pieces'] = Piece.objects.all().values('collection_id','front_view')
-        following = Follow.objects.get_following(request.user.buyer)
-        
-        context['following'] = []
-        for user_id in following:
-            context['following'].append(Designer.objects.filter(id=user_id))
         return render(request, "landingpage/dashboard.html", context)
     else:
         raise Http404
+
+def filter_by_tags(request):
+    if request.method == 'POST' and request.is_ajax():
+        selected_tags = request.POST.getlist('tag-filters[]')
+        if len(selected_tags) == 0:
+            collections = Collection.objects.all().values('designer','title','id','description')
+        else:
+            collections = Collection.objects.filter(tags__name__in=selected_tags).distinct().values('designer','title','id','description')
+        if collections:
+            for collection in collections:
+                collection['pieces'] = list(Piece.objects.filter(collection_id=collection['id']).values_list('front_view',flat=True))
+                collection['url'] = reverse("Portfolios:render_collection", args=(collection['designer'], collection['id'], slugify(collection['title'])))
+
+            response = {'collections':list(collections)}
+        else:
+            response = {'collections':[]}
+        return JsonResponse(response)
+
+def render_followers_list(request):
+    if request.method == "POST" and request.is_ajax():
+        following = Follow.objects.get_following(request.user.buyer)
+        response = {'following': list(Designer.objects.filter(id__in=following).values("user_id","bio","location","avatar","user__first_name","user__last_name"))}
+        return JsonResponse(response)
+
+def render_favorites_list(request):
+    if request.method == "POST" and request.is_ajax():
+        favorites = Like.objects.get_likes(request.user.buyer)
+        collections = Collection.objects.filter(id__in=favorites).values('designer','title','id','description')
+        if collections:
+            for collection in collections:
+                collection['pieces'] = list(Piece.objects.filter(collection_id=collection['id']).values_list('front_view',flat=True))
+                collection['url'] = reverse("Portfolios:render_collection", args=(collection['designer'], collection['id'], slugify(collection['title'])))
+
+            response = {'collections':list(collections)}
+        else:
+            response = {'collections':[]}
+        return JsonResponse(response)
 
 def landingpage(request):
     context = {}

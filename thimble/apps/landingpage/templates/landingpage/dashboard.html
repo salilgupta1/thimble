@@ -19,42 +19,25 @@
 			</div>
 		</a>
 		<div class="browse-list">
-			{%csrf_token%}
 			<form method='post' action="{%url 'landingpage:dashboard' request.user.username%}">
+				{%csrf_token%}
 				<h5>Filter By Tags</h5>
 				{%for tag in all_tags%}
 				<input class='tag-filter' name="tag-filters" type="checkbox" value="{{tag}}"/> {{tag}}<br/>
 				{%endfor%}
 			</form>
 		</div>
-		<!-- <a href="#">
-			<div class="feed">
-				<p class="text-center">News Feed</p>
-			</div>
-		</a> -->
-<!-- 		<a href="#">
+		<a href="#">
 			<div class="favorites">
 				<p class="text-center">Favorites</p>
 			</div>
-		</a> -->
-		<div class="messages-header">
-			<p class="text-center">Messages</p>
-		</div>
-		<div class="messages-list">
-			<a href="#">
-				<p>Marissa Cohate<span class="badge">5</span></p>
-			</a>
-			<a href="#">
-				<p>Eugena Kim<span class="badge">2</span></p>
-			</a>
-			<a href="#">
-				<p>Emily Morris</p>
-			</a>
-		</div>
-		<div class="following-header">
-			<p class="text-center">Following</p>
-		</div>
-		<div class="following-list">
+		</a>
+		<a href="#">
+			<div class="following-header">
+				<p class="text-center">Following</p>
+			</div>
+		</a>
+<!-- 		<div class="following-list">
 			{%for followee in following%}
 				<a href="{%url 'Portfolios:render_portfolio' followee.0.user%}">
 					<div class="following-item">
@@ -64,40 +47,50 @@
 					</div>
 				</a>
 			{%endfor%}
-		</div>
+		</div> -->
 	</div>
 	   
-     <div id="results">
-     	<h3>Collections</h3>
+    <div id="results">
         {%for collection in collections%}
         	<div class="collection-container">
 	            <a class='collection-url' href="{%url 'Portfolios:render_collection' collection.designer collection.id collection.title|slugify%}">
-				<div class="det-container">
-					<h3 class='collection-title'>{{collection.title}}</h3>
-					<p class='collection-description'>{{collection.description}}</p>
-				</div>
-				<div class="thumb-container">
-					{%for piece in pieces%}
-						{%if piece.collection_id == collection.id%}
-							<img class="img-responsive thumb-img" src="{%cloudinary_url piece.front_view width='300' height='400'%}">
-						{%endif%}
-					{%endfor%}
-				</div>
+					<div class="det-container">
+						<h3 class='collection-title'>{{collection.title}}</h3>
+						<p class='collection-description'>{{collection.description}}</p>
+					</div>
+					<div class="thumb-container">
+						{%for piece in pieces%}
+							{%if piece.collection_id == collection.id%}
+								<img class="img-responsive thumb-img" src="{%cloudinary_url piece.front_view width='300' height='400'%}">
+							{%endif%}
+						{%endfor%}
+					</div>
 				</a>
 			</div>
-        {%endfor%}
-     </div>
-
+		{%endfor%}
+    </div>
+	<div class="following-list">
+		<a href="" class='followee'>
+			<div class="following-item">
+				<span class='followee-avatar'></span>
+				
+				<h4 class='followee-name'></h4>
+				<h4 class='followee-location'>Location</h4>
+				<h4 class='followee-bio'>bio</h4>
+			</div>
+		</a>
+	</div>
 {%endblock%} 
 
 {%block scripts%}
 	<script src="{%static 'Portfolios/js/profile.js' %}"></script>
-    <script type='text/javascript' src="{%static 'Portfolios/js/TagSearch.js' %}"></script>
+    <script type='text/javascript' src="{%static 'landingpage/js/Dashboard.js' %}"></script>
     <script>
         $(document).ready(function(){
-            TagSearch.csrftoken = $.cookie('csrftoken');
-            TagSearch.username = "{{request.user.username}}";
-            TagSearch.init();
+        	$(".following-list").hide();	
+            Dashboard.csrftoken = $.cookie('csrftoken');
+            Dashboard.username = "{{request.user.username}}";
+            Dashboard.init();
         });
     </script>
 {%endblock%}
