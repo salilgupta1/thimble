@@ -56,6 +56,13 @@
 	            <a class='collection-url' href="{%url 'Portfolios:render_collection' collection.designer collection.id collection.title|slugify%}">
 					<div class="det-container">
 						<h3 class='collection-title'>{{collection.title}}</h3>
+						<div class='designer-info'>
+							<div class='designer-avatar'>
+								<img class="img-responsive img-circle img-profile" src="{%cloudinary_url collection.designer__avatar width='200' height='200'%}">
+								<h4 class='designer-name'>{{collection.designer__user__first_name}} {{collection.designer__user__last_name}}</h4>
+							</div>
+							
+						</div>
 						<p class='collection-description'>{{collection.description}}</p>
 					</div>
 					<div class="thumb-container">

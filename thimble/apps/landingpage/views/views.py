@@ -36,8 +36,9 @@ def dashboard(request, username):
         context = {}
         all_tags = Tag.objects.all()
         context["all_tags"] = all_tags
-        context["collections"] = Collection.objects.all().values('designer','title','id','description')
+        context["collections"] = Collection.objects.all().values('designer','title','id','description','designer__avatar','designer__user__first_name','designer__user__last_name')
         context['pieces'] = Piece.objects.all().values('collection_id','front_view')
+        print context
         return render(request, "landingpage/dashboard.html", context)
     else:
         raise Http404
@@ -45,10 +46,12 @@ def dashboard(request, username):
 def filter_by_tags(request):
     if request.method == 'POST' and request.is_ajax():
         selected_tags = request.POST.getlist('tag-filters[]')
+        
         if len(selected_tags) == 0:
-            collections = Collection.objects.all().values('designer','title','id','description')
+            collections = Collection.objects.all().values('designer','title','id','description','designer__avatar','designer__user__first_name','designer__user__last_name')
         else:
-            collections = Collection.objects.filter(tags__name__in=selected_tags).distinct().values('designer','title','id','description')
+            collections = Collection.objects.filter(tags__name__in=selected_tags).distinct().values('designer','title','id','description','designer__avatar','designer__user__first_name','designer__user__last_name')
+        
         if collections:
             for collection in collections:
                 collection['pieces'] = list(Piece.objects.filter(collection_id=collection['id']).values_list('front_view',flat=True))
@@ -62,13 +65,18 @@ def filter_by_tags(request):
 def render_followers_list(request):
     if request.method == "POST" and request.is_ajax():
         following = Follow.objects.get_following(request.user.buyer)
-        response = {'following': list(Designer.objects.filter(id__in=following).values("user_id","bio","location","avatar","user__first_name","user__last_name"))}
+        
+        if following:
+            response = {'following': list(Designer.objects.filter(id__in=following).values("user_id","bio","location","avatar","user__first_name","user__last_name"))}
+        else:
+            response = {'following':[]}
         return JsonResponse(response)
 
 def render_favorites_list(request):
     if request.method == "POST" and request.is_ajax():
         favorites = Like.objects.get_likes(request.user.buyer)
-        collections = Collection.objects.filter(id__in=favorites).values('designer','title','id','description')
+        collections = Collection.objects.filter(id__in=favorites).values('designer','title','id','description','designer__avatar','designer__user__first_name','designer__user__last_name')
+        
         if collections:
             for collection in collections:
                 collection['pieces'] = list(Piece.objects.filter(collection_id=collection['id']).values_list('front_view',flat=True))
