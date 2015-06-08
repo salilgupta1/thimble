@@ -1,0 +1,28 @@
+.text-wrapper h5 {
+	float: left;
+	margin-bottom: 0px;
+}
+
+.title-container {
+	overflow: auto;
+}
+
+.text-wrapper p {
+	float: left;
+	margin-top: 8px;
+	margin-bottom: 0px;
+	margin-left: 5px;
+}
+
+.text-wrapper {
+	overflow: auto;
+	display: block;
+}
+
+.piece-details {
+	margin-bottom: 0;
+}
+
+.row {
+	margin-top: 10px;
+}

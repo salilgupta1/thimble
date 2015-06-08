@@ -2,6 +2,11 @@
 {%load staticfiles%}
 {% load cloudinary %}
 
+{%block app_css%}
+{{block.super}}
+<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/linesheet.css'%}"/>
+{%endblock%}
+
 {%block pieces%}
 	{%for piece in pieces%}
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -9,31 +14,29 @@
                 <div class="front-img-container">
                     <img class="front-img img-responsive" src="{%cloudinary_url piece.front_view width='400' height='550'%}">
                 </div>
-                <div>
+                <div class="text-wrapper">
                     <h4>
                 	   {{piece.piece_title}}
                     </h4>
                 </div>
-                <div>
-                    <p>
-                	   <h5>Details</h5> {{piece.details}}
+                    <p class="piece-details">
+                	{{piece.details}}
                     </p>
+                <div class="text-wrapper">
+                    <h5> Product #: </h5>
+                	<p>{{piece.product_number}}</p>
                 </div>
-                <div>
-                    <h5> Product #</h5>
-                	{{piece.product_number}}
-                </div>
-				<div>
-                    <h5>Retail Price</h5>
-					${{piece.retail_price}}
+				<div class="text-wrapper">
+                    <h5>Retail Price: </h5>
+					<p>${{piece.retail_price}}</p>
 				</div>
-                <div>
-                    <h5>Wholesale Price</h5>
-                	${{piece.wholesale_price}}
+                <div class="text-wrapper">
+                    <h5>Wholesale Price: </h5>
+                	<p>${{piece.wholesale_price}}</p>
                 </div>
-                <div>
-                    <h5>Min Quantity</h5>
-                	{{piece.min_quantity}}
+                <div class="text-wrapper">
+                    <h5>Min Quantity: </h5>
+                	<p>{{piece.min_quantity}}</p>
                 </div>
             </div>
         </div>
