@@ -9,6 +9,7 @@
 {%block app_css%}
 	<link rel="stylesheet" href="{%static 'landingpage/css/dashboard.css' %}"/>
 	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/profile.css'%}"/>
+	<link rel="stylesheet" href="{%static 'landingpage/css/search.css' %}"/>
 {%endblock%}
 
 {%block content%}
@@ -38,10 +39,10 @@
 						{%endif%}
 					</span>
 					
-					<h4 class='followee-name text-center'>{{buyer.user__first_name}} {{buyer.user__last_name}}</h4>
-					<h5 class='followee-boutique text-center'>{{buyer.boutique_name}}</h5><br>
-					<h5 class='followee-location text-center'>{{buyer.location}}</h5>
-					<p class='followee-bio text-center'>{{buyer.bio}}</p>
+					<h4 class='followee-name'>{{buyer.user__first_name}} {{buyer.user__last_name}}</h4>
+					<h5 class='followee-boutique'>{{buyer.boutique_name}}</h5>
+					<h5 class='followee-location'>{{buyer.location}}</h5>
+					<p class='followee-bio'>{{buyer.bio}}</p>
 					<button> Message </button>
 				</div>
 			</div>
