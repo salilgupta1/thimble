@@ -28,7 +28,7 @@
 	   
 	<div class="following-list">
 		{%for buyer in buyers%}
-			<a href="" class='followee'>
+			<div class='followee'>
 				<div class="following-item">
 					<span class='followee-avatar'>
 						{%if buyer.avatar%}
@@ -44,7 +44,7 @@
 					<p class='followee-bio text-center'>{{buyer.bio}}</p>
 					<button> Message </button>
 				</div>
-			</a>
+			</div>
 		{%endfor%}
 	</div>
 {%endblock%} 
