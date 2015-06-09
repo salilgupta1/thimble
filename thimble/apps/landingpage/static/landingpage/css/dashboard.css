@@ -118,6 +118,7 @@ a, a:hover, a:visited {
 	border-radius: 8px;
 	background: white;
 	text-align: center;
+	height: 340px;
 }
 
 .followee-avatar > .img-profile {
