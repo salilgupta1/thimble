@@ -48,6 +48,11 @@
 	color: white;
 }
 
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+            background-color: #333E45;
+        }
+
+
 .dropdown-menu li a:hover :focus {
 	color: #031926;
 	background: none;           
