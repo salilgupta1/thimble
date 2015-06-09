@@ -72,7 +72,12 @@ var Dashboard = (function($){
             url: path,
             dataType:"json",
             success:function(response){
-                renderCollection(response.collections);
+                if (response.collections.length){
+                    renderCollection(response.collections);
+                }
+                else{
+                    $("#results").hide();
+                }
             },
             error:function(response){
                 console.log(response);
@@ -176,6 +181,7 @@ var Dashboard = (function($){
 
 			filter($(this), path);
 		});
+        
         $(document).on('click','.buyer-filter',function(){
             path = "/"+Dashboard.username+"/filter-buyers/";
 
