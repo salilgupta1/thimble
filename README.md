@@ -35,24 +35,28 @@ Features that facilitate this relationship include e-lookbooks for designers to 
 
 ##Operating System
 
-Go to www.thimbleapp.co/accounts/login 
+Go to www.thimbleapp.co/accounts/login <br>
 <b>Login as a buyer:</b>
+<br>
 username: rhea
+<br>
 password: rhea
-<b>Login as a Designer:</b>
+<br>
+<b>Login as a Designer:</b><br>
 username: cutkin
+<br>
 password: test
 
 ##Key Resources
-*![Google Drive] (https://drive.google.com/drive/folders/0B_s2lxkiKstJbzF0ZENENmtweUU)
+* [Google Drive] (https://drive.google.com/drive/folders/0B_s2lxkiKstJbzF0ZENENmtweUU)
 
 ##Dream Team
-*Clayton Gentry (Business)<br>
-*Salil Gupta (Developer)<br>
-*Ryan Madden (Developer)<br>
-*Henry Spindell (Developer)<br>
-*Chacko Poothicote (Business)<br>
-*Nihar Bobba (Business)<br>
+* Clayton Gentry (Business)<br>
+* Salil Gupta (Developer)<br>
+* Ryan Madden (Developer)<br>
+* Henry Spindell (Developer)<br>
+* Chacko Poothicote (Business)<br>
+* Nihar Bobba (Business)<br>
 
 ##Trouble Shooting
 Contact Salil Gupta at salil.gupta323@gmail.com
