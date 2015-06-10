@@ -3,7 +3,7 @@ Bridging the gap between budding fashion designers and small boutiques.
 
 ##Logo
 
-![Thimble]
+![Thimble] (thimble/apps/landingpage/static/landingpage/img/thimble_logo.png)
 
 ##Summary
 
