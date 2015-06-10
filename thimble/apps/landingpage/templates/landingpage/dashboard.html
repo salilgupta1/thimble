@@ -3,9 +3,179 @@
 {% load cloudinary %}
 
 {%block app_css%}
+<link rel="stylesheet" href="{%static 'landingpage/css/dashboard.css' %}"/>
+<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/profile.css'%}"/>
 {%endblock%}
 
 {%block content%}
+<div class="sidebar">
+	<a href="#">
+		<div class="browse-header">
+			<p class="text-center">Browse Designs</p>
+		</div>
+	</a>
+	<div class="browse-list">
+		{%csrf_token%}
+		<form method='post' action="{%url 'landingpage:dashboard' request.user.username%}">
+			<h5>Filter By Tags</h5>
+			{%for tag in all_tags%}
+			<input class='tag-filter' name="tag-filters" type="checkbox" value="{{tag}}"/> {{tag}}<br/>
+			{%endfor%}
+		</form>
+	</div>
+	<!-- <a href="#">
+		<div class="feed">
+			<p class="text-center">News Feed</p>
+		</div>
+	</a> -->
+	<a href="#">
+		<div class="favorites">
+			<p class="text-center">Favorites</p>
+		</div>
+	</a>
+	<div class="messages-header">
+		<p class="text-center">Messages</p>
+	</div>
+	<div class="messages-list">
+		<a href="#">
+			<p>Marissa Cohate<span class="badge">5</span></p>
+		</a>
+		<a href="#">
+			<p>Eugena Kim<span class="badge">2</span></p>
+		</a>
+		<a href="#">
+			<p>Emily Morris</p>
+		</a>
+	</div>
+	<div class="following-header">
+		<p class="text-center">Following</p>
+	</div>
+	<div class="following-list">
+		<a href="#">
+			<div class="following-item">
+				<img class="img-responsive img-circle img-profile" src="https://d13yacurqjgara.cloudfront.net/users/161353/avatars/normal/Danielle-2014-twitter.jpg?1399058122">
+				<h5>Marissa Cohate</h5>
+			</div>
+		</a>
+		<a href="#">
+			<div class="following-item">
+				<img class="img-responsive img-circle img-profile" src="https://d13yacurqjgara.cloudfront.net/users/61597/avatars/normal/portrait-spring.jpg?1398105662">
+				<h5>Eugena Kim</h5>
+			</div>
+		</a>
+		<a href="#">
+			<div class="following-item">
+				<img class="img-responsive img-circle img-profile" src="https://d13yacurqjgara.cloudfront.net/users/67/avatars/normal/sarah.png?1367242539">
+				<h5>Sarah Parmenter</h5>
+			</div>
+		</a>
+	</div>
+</div>
+<!--RYAN -- I used this container for the search interface because it wasn't showing up otherwise-->
+<div class="collection-container" id="results-box">
+    <!-- {%csrf_token%}
+    <form method='post' action="{%url 'landingpage:dashboard' request.user.username%}">
+        <h3>Filter By Tags</h3>
+        {%for tag in all_tags%}
+            <input class='tag-filter' name="tag-filters" type="checkbox" value="{{tag}}"/> {{tag}}<br/>
+        {%endfor%}
+    </form>
+ -->
+    <h3>Collections Matching Your Filters</h3>
+     <div id="results">
+        {%for collection in collections%}
+            <a href="{%url 'Portfolios:render_collection' collection.designer.user collection.id collection.title|slugify%}">{{collection.title}}</a><br/>
+        {%endfor%}
+
+     </div>
+</div>
+
+
+
+
+<!--<div class="collection-container">-->
+	<!--<div class="det-container">-->
+		<!--<h3>Collection Title</h3>-->
+		<!--<h3>Spring 2015</h3>-->
+		<!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>-->
+	<!--</div>-->
+	<!--<div class="thumb-container">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+	<!--</div>-->
+
+<!--</div>-->
+<!--<div class="collection-container">-->
+	<!--<div class="det-container">-->
+		<!--<h3>Collection Title</h3>-->
+		<!--<h3>Spring 2015</h3>-->
+		<!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>-->
+	<!--</div>-->
+	<!--<div class="thumb-container">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+	<!--</div>-->
+
+<!--</div>-->
+<!--<div class="collection-container">-->
+	<!--<div class="det-container">-->
+		<!--<h3>Collection Title</h3>-->
+		<!--<h3>Spring 2015</h3>-->
+		<!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>-->
+	<!--</div>-->
+	<!--<div class="thumb-container">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+	<!--</div>-->
+
+<!--</div>-->
+<!--<div class="collection-container">-->
+	<!--<div class="det-container">-->
+		<!--<h3>Collection Title</h3>-->
+		<!--<h3>Spring 2015</h3>-->
+		<!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere odio ut vehicula mollis. Suspendisse nulla ipsum, ultrices at purus quis, pellentesque rutrum magna. </p>-->
+	<!--</div>-->
+	<!--<div class="thumb-container">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+		<!--<img class="img-responsive thumb-img" src="http://placemi.com/300x400">-->
+	<!--</div>-->
+
+<!--</div>-->
+
 {%endblock%} 
+
 {%block scripts%}
+<script src="{%static 'Portfolios/js/profile.js' %}"></script>
+    <script type='text/javascript' src="{%static 'Portfolios/js/TagSearch.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+            TagSearch.csrftoken = $.cookie('csrftoken');
+            TagSearch.username = "{{request.user.username}}";
+            TagSearch.init();
+        });
+    </script>
 {%endblock%}

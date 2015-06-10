@@ -62,8 +62,8 @@ def edit_account(request, user_type):
             # rename avatar link to a folder
             if request.POST.get("avatar") is not None:
                 avatar_link = request.user.username
-                old_name = photo_rename(avatar_link, [request.POST.get("avatar")])
-                abstract_user.avatar = "%s/%s" % (avatar_link, old_name)
+                avatar_link = photo_rename(avatar_link, [request.POST.get("avatar")])[0]
+                abstract_user.avatar = avatar_link
 
             abstract_user.save()
 
@@ -75,6 +75,3 @@ def edit_account(request, user_type):
     cl_init_js_callbacks(context['abstract_user_form'], request)
 
     return render(request, "Users/edit_account.html", context)
-
-def delete_account(request):
-    pass

@@ -31,12 +31,21 @@
 	font-size: 15px;
 }
 
-@media(max-width:767px){}
+.btn-sheet {
+	margin-top: 10px;
+}
+
+@media(max-width:767px){
+		.btn-sheet {
+		margin-left: 10px;
+	}
+}
 @media(min-width:768px){}
 @media(min-width:992px){
-	.like-btn {
+	.like-btn, .unlike-btn {
 		margin-top: 30px;
 	}
+
 }
 @media(min-width:1200px){}
 

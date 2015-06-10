@@ -7,3 +7,18 @@ body {
 	padding-top: 50px;
 }
 
+#navbar a:link{
+	color: white;
+}
+
+#navbar a:visited{
+	color: white;
+}
+
+#navbar a:hover{
+	color: white;
+}
+
+#navbar a:active{
+	color: white;
+}

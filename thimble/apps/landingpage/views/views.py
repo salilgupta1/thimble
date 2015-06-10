@@ -1,9 +1,17 @@
 from django.shortcuts import render
 from django.core.context_processors import csrf
 import os, chimpy
+
+from thimble.apps.Portfolios.models.schemas.Collection import Collection
+from taggit.models import Tag
+from django.template.defaultfilters import slugify
+import json
+from django.http import HttpResponse
+
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+
 
 def home(request):
     try:
@@ -14,8 +22,32 @@ def home(request):
 
 @login_required
 def dashboard(request, username):
-    if request.user.username== username:
-        return render(request, "landingpage/dashboard.html")
+    if request.user.username == username:
+        context = {}
+        all_tags = Tag.objects.all()
+        context["all_tags"] = all_tags
+
+        if request.method == 'POST' and request.is_ajax():
+            print "make ajax call"
+            selected_tags = request.POST.getlist('tag-filters[]')
+            if len(selected_tags) == 0:
+                collections = Collection.objects.all()
+            else:
+                collections = Collection.objects.filter(tags__name__in=selected_tags).distinct()
+
+            # I couldn't figure out how to construct the URL cleanly and give it to the ajax response
+            collection_urls = []
+            for collection in collections:
+                #collection['urls'] = reverse("Portfolios:render_collection", args=(collection.designer.user.username, collection.id, slugify(collection.title)))
+                collection_urls.append("/" + collection.designer.user.username + "/collection/" +
+                                       str(collection.id) + "-" + slugify(collection.title))
+           # print collections
+            response = {'collections': list(collections.values('title', 'designer')), 'collection_urls':collection_urls}
+            return HttpResponse(json.dumps(response))
+
+        collections = Collection.objects.all()
+        context["collections"] = collections
+        return render(request, "landingpage/dashboard.html", context)
     else:
         raise Http404
 
@@ -29,7 +61,7 @@ def landingpage(request):
             chimp.list_subscribe(os.environ['MAILCHIMP_LIST_ID'], email, {},
                                  double_optin=False, send_welcome=True)
         except:
-            context['error'] = "We're sorry, it seems there was an error. This may be because you haves already signed up."
+            context['error'] = "We're sorry, it seems there was an error. This may be because you have already signed up."
         else:
             context['success'] = "Thank you for your interest in Thimble!"
 

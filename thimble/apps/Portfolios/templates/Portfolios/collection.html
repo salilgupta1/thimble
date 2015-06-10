@@ -9,109 +9,71 @@
 	<link rel='stylesheet' type='text/css' href ="{%static 'Portfolios/css/bootstrap-tagsinput.css'%}"/>
 {%endblock%}
 
-
 {%block content%}
-	<div class="social-wrapper">
-		<span class="icon-facebook"></span>
-		<a class="twitter popup" href="http://twitter.com/share?text={{collection.title}} by {{designer.user.get_full_name}} on @ThimbleApp">
-			<span class="icon-twitter"></span>
-		</a>
-		<a class="tumblr" href="#">
-			<span class="icon-tumblr"></span>
-		</a>
-		<a class="pinterest" href="javascript:pinIt();">
-			<span class="icon-pinterest"></span>
-		</a>
-	</div>
-	<div class="row">
-		<div class="col-xs-12 col-sm-6 col-md-6">
-			<div class="collection-header">
-				<h3>{{collection.title}}</h3>
-				<h5>by <a href="{% url 'Portfolios:render_portfolio' designer.user.get_username %}">{{designer.user.get_full_name}}</a></h5>
-				<p>{{collection.description}}</p>
-			</div>	
+	{%block social_media%}
+		<div class="social-wrapper">
+			<span class="icon-facebook"></span>
+			<a class="twitter popup" href="http://twitter.com/share?text={{collection.title}} by {{designer.user.get_full_name}} on @ThimbleApp">
+				<span class="icon-twitter"></span>
+			</a>
+			<a class="tumblr" href="#">
+				<span class="icon-tumblr"></span>
+			</a>
+			<a class="pinterest" href="javascript:pinIt();">
+				<span class="icon-pinterest"></span>
+			</a>
 		</div>
-		<div class="col-xs-12 col-sm-6 col-md-4">
-			<h3>Tags</h3>
-			<div class="tags-box">
-				{%for tag in tags%}
-				<span class="label label-default label-tag">{{tag}}</span>
-				{%endfor%}
+	{%endblock%}
+	<div class="row">
+		{%block editable_info%}
+			<div class="col-xs-12 col-sm-6 col-md-6">
+				<div class="collection-header">
+					<h3>{{collection.title}}</h3>
+					<h5>By <a href="{% url 'Portfolios:render_portfolio' designer.user.get_username %}">{{designer.user.get_full_name}}</a></h5>
+					<p>{{collection.description}}</p>
+				</div>	
 			</div>
-		</div>
-			{%if user.is_authenticated%}
-                {% if collection.id in likes %}
-                  <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{collection.id}}"
-                    data-username="{{portfolio_data.user}}">
-                    <span class='text'>Favorited</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                  </button>
-                {%else%}
-                  <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{collection.id}}"
-                    data-username="{{designer.user}}">
-                    <span class='text'>Favorite</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-                  </button>
-                {%endif%}
-			{%endif%}
-
-
-		<div class="col-xs-12 col-sm-12 col-md-2">
-			<button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{collection.id }}" data-username="{{designer.user}}"><span class='text'>Favorite</span> <span class="glyphicon glyphicon-heart" aria-hidden="true"></span>
-			</button>
-		</div>
-	</div>
-	<div class="row">
-		{%for piece in pieces%}
-			<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-				<div class="tile-container">
-					<div class="front-img-container">
-						<img class="front-img img-responsive" src="{%cloudinary_url piece.front_view width='400' height='550'%}">
-					</div>
-					<div class="title-container">
-						<h4>{{pieces.title}}</h4>
-					</div>	
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				<h3>Tags</h3>
+				<div class="tags-box">
+					{%for tag in tags%}
+						<span class="label label-default label-tag">{{tag}}</span>
+					{%endfor%}
 				</div>
 			</div>
-		{%endfor%}
+		{%endblock%}
+		{%block liking%}
+			<div class="col-xs-12 col-sm-12 col-md-2">
+	            {% if is_liked %}
+	              <button type="button" class="btn btn-default btn-lg unlike-btn" data-collectionid="{{collection_id}}"
+	                data-username="{{designer.user}}">
+	                <span class='text'>Favorited</span> (<span class='likes-count'>{{collection.likes}}</span>)<span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button> 
+	              </button>
+	            {%else%}
+	              <button type="button" class="btn btn-default btn-lg like-btn" data-collectionid="{{collection_id}}"
+	                data-username="{{designer.user}}">
+	                <span class='text'>Favorite</span> (<span class='likes-count'>{{collection.likes}}</span>)<span class="glyphicon glyphicon-heart" aria-hidden="true"></span></button> 
+	              </button>
+	            {%endif%}
+	            <button class="btn-default btn btn-sheet">View Line Sheet</button>
+	        </div>
+        {%endblock%}
 	</div>
-	<!-- <div class="story-header">
-		<div id="by-wrapper">
-			{%if not avatar%}
-			<img src="{%static 'Users/img/user-default.png' %}" class="img-responsive img-circle"/>
-	        {%else%}
-	          <img src="{%cloudinary_url portfolio_data.avatar width='200' height='200'%}" class="img-responsive img-circle"/>
-	        {%endif%}
-			<p class="">By <a href="{%url 'Portfolios:render_portfolio' username%}">{{request.user.get_full_name}}</a></p>
-		</div>
-		<div class="like-box">
-			<div class="like-text-wrapper">
-				<p><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> LIKES ({{collection.likes}})</p>
-			</div>
-		</div>
-		<div class="comment-box">
-			<div class="comment-text-wrapper">
-				<p><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> COMMENTS (<span id="num-comments">{{collection.comments}}</span>)</p>
-			</div>
-			<div class="comment-bin">
-				{%for comment in comments%}
-					<div class="commenter-wrapper">
-						<img src="http://placemi.com/100x100" class="img-responsive img-circle">
-						<p class="commenter-name">{{comment.commenter}}</p>
-						<p class="comment">{{comment.comment}}</p>
+	<div class="row">
+		{%block pieces%}
+			{%for piece in pieces%}
+				<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+					<div class="tile-container">
+						<div class="front-img-container">
+							<img class="front-img img-responsive" src="{%cloudinary_url piece.front_view width='400' height='550'%}">
+						</div>
+						<div class="title-container">
+							<h4>{{piece.piece_title}}</h4>
+						</div>	
 					</div>
-				{%endfor%}
-			</div>
-			{%if user.is_authenticated%}
-				<form class="comment-form" action="" method='POST' data-username="{{username}}" data-collectionid="{{collection_id}}" data-commenter="{{user.username}}">
-					{%csrf_token%}
-	                <div class = 'form-group'>
-	                    <div></div>
-	                    <input class="form-control"  id="id_comment" name="comment" required></input>
-	                </div>
-	            	<button class="comment-btn" type = 'submit' class = 'btn btn-primary'>Post</button>
-	        	</form>
-        	{%endif%}
-		</div>
-	</div> -->
+				</div>
+			{%endfor%}
+		{%endblock%}
 	</div>
 {%endblock%}
 
@@ -128,66 +90,65 @@
 		}
 	</script>
 	<script>
-	$(document).ready(function(){
-		CommunityActivities.csrftoken = $.cookie('csrftoken');
-		CommunityActivities.init();   
+		$(document).ready(function(){
+			CommunityActivities.csrftoken = $.cookie('csrftoken');
+			CommunityActivities.init();   
 
-		// function fbShare(url, title, descr, image, winWidth, winHeight) {
-		// 	var winTop = (screen.height / 2) - (winHeight / 2);
-		// 	var winLeft = (screen.width / 2) - (winWidth / 2);
-		// 	window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
-		// }
-		// $('.icon-facebook').click(function() {
-		// 	fbShare(window.location.href, '{{collection.title}}', '{{collection.description}}', 'http://goo.gl/dS52U', 520, 350);
-		// });   
+			// function fbShare(url, title, descr, image, winWidth, winHeight) {
+			// 	var winTop = (screen.height / 2) - (winHeight / 2);
+			// 	var winLeft = (screen.width / 2) - (winWidth / 2);
+			// 	window.open('http://www.facebook.com/sharer.php?s=100&p[title]=' + title + '&p[summary]=' + descr + '&p[url]=' + url + '&p[images][0]=' + image, 'sharer', 'top=' + winTop + ',left=' + winLeft + ',toolbar=0,status=0,width='+winWidth+',height='+winHeight);
+			// }
+			// $('.icon-facebook').click(function() {
+			// 	fbShare(window.location.href, '{{collection.title}}', '{{collection.description}}', 'http://goo.gl/dS52U', 520, 350);
+			// });   
 
-		// $('.popup').click(function(event) {
-		// 	var width  = 575,
-		// 	height = 400,
-		// 	left   = ($(window).width()  - width)  / 2,
-		// 	top    = ($(window).height() - height) / 2,
-		// 	url    = this.href,
-		// 	opts   = 'status=1' +
-		// 	',width='  + width  +
-		// 	',height=' + height +
-		// 	',top='    + top    +
-		// 	',left='   + left;
+			// $('.popup').click(function(event) {
+			// 	var width  = 575,
+			// 	height = 400,
+			// 	left   = ($(window).width()  - width)  / 2,
+			// 	top    = ($(window).height() - height) / 2,
+			// 	url    = this.href,
+			// 	opts   = 'status=1' +
+			// 	',width='  + width  +
+			// 	',height=' + height +
+			// 	',top='    + top    +
+			// 	',left='   + left;
 
-		// 	window.open(url, 'twitter', opts);
+			// 	window.open(url, 'twitter', opts);
 
-		// 	return false;
-		// });
+			// 	return false;
+			// });
 
-		// $('.tumblr').click(function(event) {
-		// 	var width  = 575,
-		// 	height = 400,
-		// 	left   = ($(window).width()  - width)  / 2,
-		// 	top    = ($(window).height() - height) / 2,
-		// 	url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
-		// 	opts   = 'status=1' +
-		// 	',width='  + width  +
-		// 	',height=' + height +
-		// 	',top='    + top    +
-		// 	',left='   + left;
-		// 	var now = window.location.href;
-		// 	url += '?shareSource=legacy&canonicalUrl=&posttype=link'
-		// 	// url += '&content=';
-		// 	// url += now;
-		// 	url += '&title=';
-		// 	url += '&caption={{collection.title}} by {{portfolio_data.user__first_name}} on Thimble';
-		// 	url += '&content=';
-		// 	url += window.location.host;
-		// 	url += window.location.pathname;
-		// 	// url += encodeURIComponent('{{collection.title}} by {{portfolio_data.user__first_name}} on Thimble');
+			// $('.tumblr').click(function(event) {
+			// 	var width  = 575,
+			// 	height = 400,
+			// 	left   = ($(window).width()  - width)  / 2,
+			// 	top    = ($(window).height() - height) / 2,
+			// 	url    = 'https://www.tumblr.com/widgets/share/tool?title=hello',
+			// 	opts   = 'status=1' +
+			// 	',width='  + width  +
+			// 	',height=' + height +
+			// 	',top='    + top    +
+			// 	',left='   + left;
+			// 	var now = window.location.href;
+			// 	url += '?shareSource=legacy&canonicalUrl=&posttype=link'
+			// 	// url += '&content=';
+			// 	// url += now;
+			// 	url += '&title=';
+			// 	url += '&caption={{collection.title}} by {{portfolio_data.user__first_name}} on Thimble';
+			// 	url += '&content=';
+			// 	url += window.location.host;
+			// 	url += window.location.pathname;
+			// 	// url += encodeURIComponent('{{collection.title}} by {{portfolio_data.user__first_name}} on Thimble');
 
-		// 	window.open(url, 'tumblr', opts);
+			// 	window.open(url, 'tumblr', opts);
 
-		// 	return false;
-		// });
+			// 	return false;
+			// });
 
-	});
+		});
 	</script>
-	<script type='text/javascript' src="{%static 'Portfolios/js/social.js' %}"></script>
 	<script type='text/javascript' src="{%static 'Portfolios/js/bootstrap-tagsinput.min.js' %}"></script>
     <!-- Please call pinit.js only once per page -->
     <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
