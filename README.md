@@ -35,7 +35,7 @@ Features that facilitate this relationship include e-lookbooks for designers to 
 
 ##Operating System
 
-Go to www.thimbleapp.co/accounts/login <br>
+Go to thimbleapp.herokuapp.com/accounts/login <br>
 <b>Login as a buyer:</b>
 <br>
 username: rhea
